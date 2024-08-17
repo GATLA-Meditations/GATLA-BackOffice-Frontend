@@ -15,6 +15,13 @@ export const module1Mock = {
   progress: null,
 };
 
+
+export const activityMock = {
+  title:'Meditando',
+  description:'Esta es una nueva actividad',
+  videoUrl: 'www.example.com'
+}
+
 export const module2Mock = {
   type: "MEDITATION",
   id: "treatmentId",

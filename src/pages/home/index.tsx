@@ -3,8 +3,7 @@ import "./styles.css";
 import { Box } from "@mui/material";
 import { RightArrowIcon } from "../../assets/Icons/RightArrowIcon";
 import { LeftArrowIcon } from "../../assets/Icons/LeftArrowIcon";
-import Questionnaire from "../../components/questionnaire";
-import { questionnaireMock } from "../../mocks";
+
 
 const Home = () => {
   const options = [
@@ -47,7 +46,6 @@ const Home = () => {
           <LeftArrowIcon width="16" height="16" onClick={handleBackClick} />
           <h6>{route}</h6>
         </Box>
-        <Questionnaire questionnaire={questionnaireMock} />
       </Box>
     </Box>
   );
