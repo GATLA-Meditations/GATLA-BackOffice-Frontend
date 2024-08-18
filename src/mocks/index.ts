@@ -15,6 +15,12 @@ export const module1Mock = {
   progress: null,
 };
 
+export const userMock = {
+  id: "userId",
+  code: "GTL-705",
+  password: "fake_user"
+};
+
 
 export const activityMock = {
   title:'Meditando',
