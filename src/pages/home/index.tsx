@@ -40,7 +40,7 @@ const Home = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Deleted user: ", mock)
+    console.log("Deleted user: ", mockUser)
   }
 
   return (
