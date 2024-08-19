@@ -1,0 +1,25 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    background-color: #eae9e9;
+    border-radius: 20px;
+    padding: 12px;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.arrowContainer{
+    display: flex;
+    margin-right: 8px;
+    align-items: center;
+    position: absolute;
+    right: 0;
+}
+

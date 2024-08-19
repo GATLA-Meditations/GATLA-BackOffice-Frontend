@@ -4,7 +4,6 @@
   justify-content: flex-start;
   height: 100vh;
   width: calc(100vw - 20vh);
-  margin-left: 20vh;
 }
 
 .home-menu {
@@ -20,6 +19,7 @@
 
 .menu-option {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
