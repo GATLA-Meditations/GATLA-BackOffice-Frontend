@@ -65,7 +65,7 @@ const DeleteUser = () => {
 
         <Box className={styles.activityContainer}>
           <EditableInput title={'Codigo de usuario:'} text={mockUser.code} placeholder={'afeaf'} type={'text'} name={'UserCode'} handleChange={(e) => handleChange('code', e.target.value)}/>
-          <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Guardar</Button>
+          <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Eliminar</Button>
         </Box>
 
       </Box>
