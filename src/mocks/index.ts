@@ -22,6 +22,12 @@ export const userMock = {
   meditation_type: "Cristiana",
 };
 
+export const emptyUserMock = {
+    id: "",
+    code: "",
+    password: "",
+    meditation_type: "",
+};
 
 export const activityMock = {
   title:'Meditando',
