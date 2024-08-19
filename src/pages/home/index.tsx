@@ -4,7 +4,6 @@ import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {LeftArrowIcon} from "../../assets/Icons/LeftArrowIcon";
 
-
 const Home = () => {
     const options = [
         {
@@ -23,11 +22,9 @@ const Home = () => {
         setRoute(option);
     };
 
-
     const handleBackClick = () => {
         setRoute("");
     };
-
 
     return (
         <Box className={"home-display"}>
