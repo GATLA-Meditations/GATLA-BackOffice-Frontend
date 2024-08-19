@@ -23,10 +23,10 @@ export const userMock = {
 };
 
 export const emptyUserMock = {
-  id: "",
-  code: "",
-  password: "",
-  meditation_type: "",
+    id: "",
+    code: "",
+    password: "",
+    meditation_type: "",
 };
 
 export const activityMock = {
