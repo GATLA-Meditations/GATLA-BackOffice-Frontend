@@ -19,6 +19,7 @@ const ActivityEdit = () => {
     const handleSubmit = () => {
         // First would be the post to the backend then the dispatch
         console.log(mockActivity)
+
     }
 
     return (
