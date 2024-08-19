@@ -1,11 +1,11 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface Route {
-    path: string;
+    path: string[];
 }
 
 const initialState: Route = {
-    path:''
+    path:['Tratamiento', 'Cristiano', 'Semana 1', 'Actividad 1']
 }
 
 const routeSlice = createSlice({
@@ -13,15 +13,14 @@ const routeSlice = createSlice({
     initialState,
     reducers: {
         updateRoutePath: (
-            state, action: PayloadAction<{ path: string }>
+            state, action
         ) => {
-            state.path.concat(action.payload.path)
+            state.path.push(action.payload)
         },
         removeRoutePath: (
-            state, action: PayloadAction<{ path: string }>
+            state
         ) => {
-            const lengthWithoutPath = state.path.length - action.payload.path.length
-            state.path.slice(0, lengthWithoutPath)
+            state.path.pop()
         }
     }
 })

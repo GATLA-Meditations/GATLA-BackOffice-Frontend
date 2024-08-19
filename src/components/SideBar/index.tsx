@@ -2,7 +2,6 @@ import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useState} from "react";
 import styles from './styles.module.css'
-import {useNavigate} from "react-router-dom";
 import React from "react";
 
 export type OptionsType = {
@@ -19,7 +18,7 @@ export const SideBar = () => {
         {
             name: "Usuarios",
             isOpen: false,
-            redirect:'/'
+            redirect: '/'
         },
         {
             name: "Tratamientos",
@@ -28,7 +27,7 @@ export const SideBar = () => {
                 {
                     name: "Cristianos",
                     isOpen: false,
-                    redirect:'/'
+                    redirect: '/'
                 },
                 {
                     name: "No Cristianos",
@@ -55,28 +54,18 @@ export const SideBar = () => {
         <Box className={styles.homeMenu}>
             {options.map((option, index) => (
                 <>
-                <Box
-                    key={index}
-                    className={styles.menuOption}
-                    onClick={() => handleSelectItem(index)}
-                >
-                    <Box className={styles.menuTextContainer}>
+                    <Box className={styles.menuTextContainer} onClick={() => handleSelectItem(index)}>
                         <h5>{option.name}</h5>
                         <RightArrowIcon width="16" height="16"/>
                     </Box>
-                </Box>
-                <Box>
-                    {option.isOpen && (
-                        <Box className={styles.subMenuOption}>
-                            {option.children?.map((child, childIndex) => (
-                                <Box key={childIndex} className={styles.menuTextContainer}>
-                                    <h5>{child.name}</h5>
-                                    <RightArrowIcon width="16" height="16"/>
-                                </Box>
-                            ))}
-                        </Box>
-                    )}
-                </Box>
+                    {option.isOpen &&
+                        option.children?.map((child, childIndex) => (
+                            <Box key={childIndex} className={styles.menuTextContainer}>
+                                <h5>{child.name}</h5>
+                                <RightArrowIcon width="16" height="16"/>
+                            </Box>
+                        ))
+                    }
                 </>
             ))}
         </Box>
