@@ -1,7 +1,6 @@
 import {useAppSelector} from "../../redux/hooks.ts";
 import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
-import React from "react";
 import styles from './styles.module.css'
 import {LeftArrowIcon} from "../../assets/Icons/LeftArrowIcon";
 

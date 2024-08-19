@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import "./styles.css";
 import {Box, FormControl, MenuItem, Select} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {LeftArrowIcon} from "../../assets/Icons/LeftArrowIcon";
@@ -10,28 +9,12 @@ import InputField from "../../components/InputField";
 
 type attributeType = keyof typeof emptyUserMock;
 
-const Home = () => {
-    const options = [
-        {
-            name: "Usuarios",
-        },
-        {
-            name: "Tratamientos",
-        },
-    ];
+const CreateUser = () => {
 
-    const [route, setRoute] = React.useState("");
     const [mockUser, setMockUser] = useState(emptyUserMock);
 
     //orden: tratamientos, modulo, actividades
 
-    const handleClick = (option: string) => {
-        setRoute(option);
-    };
-
-    const handleBackClick = () => {
-        setRoute("");
-    };
 
     const handleSubmit = () => {
         if (mockUser.code === "" || mockUser.password === "" || mockUser.meditation_type === "") {
@@ -47,25 +30,6 @@ const Home = () => {
 
     return (
         <Box className={"home-display"}>
-            <Box className={"home-menu"}>
-                {options.map((option, index) => (
-                    <Box
-                        key={index}
-                        className={"menu-option"}
-                        onClick={() => handleClick(option.name)}
-                    >
-                        <h5>{option.name}</h5>
-                        <RightArrowIcon width="16" height="16"/>
-                    </Box>
-                ))}
-            </Box>
-            <Box className={"module"}>
-                <Box className={"route"}>
-                    <LeftArrowIcon width="16" height="16" onClick={handleBackClick}/>
-                    <h6>{route}</h6>
-                </Box>
-            </Box>
-
             <Box className={styles.activityContainer}>
                 <InputField title={'Código de usuario'} text={mockUser.code} placeholder={'codigo de usuario'}
                             name={'UserCode'}
@@ -92,4 +56,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default CreateUser;
