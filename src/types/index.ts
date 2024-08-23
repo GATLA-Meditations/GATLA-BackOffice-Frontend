@@ -45,3 +45,16 @@ export interface Question {
     metadata: string;
     questionnaireId: string;
 }
+
+export interface User {
+    id: string;
+    patientCode: string;
+    password: string;
+    meditationType: string;
+}
+
+export interface UpdateUserInput {
+    patientCode: string;
+    password: string;
+    meditationType: string;
+}
