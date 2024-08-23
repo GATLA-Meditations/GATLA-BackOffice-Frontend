@@ -1,9 +1,11 @@
 import axios from "axios";
 import { UpdateUserInput } from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import {ADMIN_TOKEN} from "../util/constants.ts";
+
 
 const baseUrl = "http://localhost:3001";
-const adminToken = process.env.ADMIN_TOKEN;
+const adminToken = ADMIN_TOKEN
 
 const api = axios.create({
   baseURL: baseUrl,

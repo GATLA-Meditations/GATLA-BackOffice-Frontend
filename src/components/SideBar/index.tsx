@@ -4,7 +4,7 @@ import {useState} from "react";
 import styles from './styles.module.css'
 import React from "react";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {Route, updateRoutePath} from "../../redux/routeSlice.ts";
+import {Route, sliceRoutePath, updateRoutePath} from "../../redux/routeSlice.ts";
 import {useNavigate} from "react-router-dom";
 
 export type OptionsType = {
@@ -26,6 +26,7 @@ export const SideBar = () => {
         {
             name: "Tratamientos",
             isOpen: false,
+            redirect:'/',
             children: [
                 {
                     name: "Cristianos",
@@ -50,11 +51,18 @@ export const SideBar = () => {
         const updatedOptions = options.map((option, i) =>
             i === index ? {...option, isOpen: !option.isOpen} : option
         );
-        // falta el set de la route cuando se hace un select
+        setOptions(updatedOptions)
         const optionSelected = options[index]
-        dispatch(updateRoutePath({id:'', name:optionSelected.name, route:optionSelected.redirect, position: route.path.length}))
-        navigate(optionSelected.redirect ? optionSelected.redirect : '')
-        setOptions(updatedOptions);
+        dispatch(sliceRoutePath(-1));
+        dispatch(updateRoutePath({
+            id: '',
+            name: optionSelected.name,
+            route: optionSelected.redirect,
+            position: route.path.length
+        }));
+        if (optionSelected.redirect) {
+            navigate(optionSelected.redirect);
+        }
     }
 
     return (

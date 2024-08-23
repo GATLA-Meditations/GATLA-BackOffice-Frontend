@@ -7,6 +7,7 @@ import {Box} from "@mui/material";
 import DeleteUser from "../../pages/deleteUser";
 import CreateUser from "../../pages/createUser";
 import ModifyUser from "../../pages/modifyUser";
+import UsersPage from "../../pages/users";
 
 
 const WithSideBarAndStepper = () => {
@@ -33,6 +34,10 @@ export const Router = createBrowserRouter([
                 {
                     path: '/activity/:id',
                     element: <Activity/>
+                },
+                {
+                    path:'/users/',
+                    element: <UsersPage/>
                 },
                 {
                     path: '/user/delete',

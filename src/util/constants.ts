@@ -1,0 +1,1 @@
+export const ADMIN_TOKEN = import.meta.env.ADMIN_TOKEN;

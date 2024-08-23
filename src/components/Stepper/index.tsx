@@ -7,6 +7,7 @@ import {LeftArrowIcon} from "../../assets/Icons/LeftArrowIcon";
 import {useNavigate} from "react-router-dom";
 import {removeRoutePath, Route, sliceRoutePath} from "../../redux/routeSlice.ts";
 import {StepperItem} from "../../types";
+import {useEffect} from "react";
 
 
 export const Stepper = () => {
@@ -24,6 +25,18 @@ export const Stepper = () => {
         dispatch(removeRoutePath());
         navigate(-1)
     }
+
+    useEffect(() => {
+        const handlePopState = () => {
+            dispatch(removeRoutePath());
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [dispatch]);
 
     return (
         <Box className={styles.routeContainer}>
