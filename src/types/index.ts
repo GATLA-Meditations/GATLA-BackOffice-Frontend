@@ -51,3 +51,9 @@ export interface UpdateUserInput {
     password: string;
     meditationType: string;
 }
+
+export interface ActivityInput {
+    name:string;
+    description:string;
+    videoUrl:string;
+}

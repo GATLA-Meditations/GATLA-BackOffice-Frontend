@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UpdateUserInput } from "../types";
+import {ActivityInput, UpdateUserInput} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const baseUrl = "http://localhost:3001";
@@ -26,6 +26,21 @@ export const useGetUsers = () => {
   return useQuery("users", getUsers);
 };
 
+
+const getActivity = async (activityId:string) => {
+  const response = await api.get(`admin/modules/activity/${activityId}`)
+  return response.data
+}
+
+const updateActivity = async(id:string, data: ActivityInput) => {
+  const response =  await api.put(`/admin/module/update/activities/${id}`, data)
+  return response.data
+}
+
+export const useGetActivity = (activityId:string) => {
+  return useQuery(["activities", activityId], () => getActivity(activityId));
+}
+
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
 
@@ -37,3 +52,16 @@ export const useUpdateUser = () => {
     },
   });
 };
+
+export const useUpdateActivity = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { id: string; data: ActivityInput }) =>
+        updateActivity(data.id, data.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries("activities");
+    },
+  });
+
+}
+
