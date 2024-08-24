@@ -7,7 +7,7 @@ const UsersPage = () => {
   console.log(users);
 
   return (
-    <Box>
+    <Box display={'flex'} height={'100%'} width={'100%'}>
       <Box>
         {users && users.length > 0 ? (
           users.map((user: User) => (

@@ -3,6 +3,9 @@ import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useState} from "react";
 import styles from './styles.module.css'
 import React from "react";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
+import {Route, sliceRoutePath, updateRoutePath} from "../../redux/routeSlice.ts";
+import {useNavigate} from "react-router-dom";
 
 export type OptionsType = {
     name: string;
@@ -18,11 +21,12 @@ export const SideBar = () => {
         {
             name: "Usuarios",
             isOpen: false,
-            redirect: '/'
+            redirect: '/users/'
         },
         {
             name: "Tratamientos",
             isOpen: false,
+            redirect:'/',
             children: [
                 {
                     name: "Cristianos",
@@ -39,15 +43,26 @@ export const SideBar = () => {
     ];
 
     const [options, setOptions] = useState(optionsMock);
+    const dispatch = useAppDispatch();
+    const route: Route = useAppSelector((store) => store.route)
+    const navigate = useNavigate()
 
     const handleSelectItem = (index: number) => {
         const updatedOptions = options.map((option, i) =>
             i === index ? {...option, isOpen: !option.isOpen} : option
         );
-        // falta el set de la route cuando se hace un select
-
-        setOptions(updatedOptions);
-
+        setOptions(updatedOptions)
+        const optionSelected = options[index]
+        dispatch(sliceRoutePath(-1));
+        dispatch(updateRoutePath({
+            id: '',
+            name: optionSelected.name,
+            route: optionSelected.redirect,
+            position: route.path.length
+        }));
+        if (optionSelected.redirect) {
+            navigate(optionSelected.redirect);
+        }
     }
 
     return (

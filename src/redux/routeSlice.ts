@@ -1,11 +1,15 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {StepperItem} from "../types";
 
-interface Route {
-    path: string[];
+
+
+
+export interface Route {
+    path: StepperItem[];
 }
 
 const initialState: Route = {
-    path:['Tratamiento', 'Cristiano', 'Semana 1', 'Actividad 1']
+    path:[],
 }
 
 const routeSlice = createSlice({
@@ -17,7 +21,12 @@ const routeSlice = createSlice({
         ) => {
             state.path.push(action.payload)
         },
-        removeRoutePath: (
+        sliceRoutePath: (
+            state, action
+        ) => {
+            state.path =  state.path.slice(0, action.payload + 1)
+        },
+        removeRoutePath:(
             state
         ) => {
             state.path.pop()
@@ -25,6 +34,6 @@ const routeSlice = createSlice({
     }
 })
 
-export const {updateRoutePath, removeRoutePath} = routeSlice.actions
+export const {updateRoutePath, sliceRoutePath, removeRoutePath} = routeSlice.actions
 
 export default routeSlice.reducer
