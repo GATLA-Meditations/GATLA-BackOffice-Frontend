@@ -1,1 +1,1 @@
-export const ADMIN_TOKEN = import.meta.env.ADMIN_TOKEN;
+export const ADMIN_TOKEN = import.meta.env.VITE_ADMIN_TOKEN;

@@ -12,14 +12,14 @@ const Module = () => {
     const moduleId = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { data, isLoading, error } = useGetModule(moduleId.id as string);
+    const { data, isLoading } = useGetModule(moduleId.id as string);
 
     if(isLoading){
         return <h1>Loading</h1>
     }
 
     const handleActivityOnClick = (activity: ActivityPreview) => {
-        dispatch(updateRoutePath())
+        dispatch(updateRoutePath({id: activity.id, name:activity.name, route: `/activity/${activity.id}`}))
         navigate(`/activity/${activity.id}`)
     }
 
