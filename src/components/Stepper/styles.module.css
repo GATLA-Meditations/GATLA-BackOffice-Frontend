@@ -6,10 +6,20 @@
 }
 
 .routeContainer{
+    height: 100px;
+    width: 100%;
     gap: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+}
+
+.routeItemText{
+    &:hover{
+        text-decoration: underline blue;
+        cursor: pointer;
+        color: blue;
+    }
+
 }
 

@@ -1,3 +1,10 @@
+export interface StepperItem {
+    id:string;
+    name: string;
+    route:string;
+    position: number;
+}
+
 export interface User {
     patientId: string;
     password: string;
