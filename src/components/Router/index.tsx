@@ -7,13 +7,14 @@ import {Box} from "@mui/material";
 import DeleteUser from "../../pages/deleteUser";
 import CreateUser from "../../pages/createUser";
 import ModifyUser from "../../pages/modifyUser";
+import Module from "../../pages/module";
 
 
 const WithSideBarAndStepper = () => {
     return (
         <Box display={'flex'} flexDirection={'row'} height={'100vh'} width={'100%'}>
             <SideBar/>
-            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} marginLeft={'16px'}>
+            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'}>
                     <Stepper/>
                     <Outlet/>
             </Box>
@@ -29,6 +30,10 @@ export const Router = createBrowserRouter([
                 {
                     path: '/',
                     element: <Home/>
+                },
+                {
+                    path:'/module/:id',
+                    element: <Module/>
                 },
                 {
                     path: '/activity/:id',

@@ -51,3 +51,17 @@ export interface UpdateUserInput {
     password: string;
     meditationType: string;
 }
+
+export interface ModuleAux {
+    id: string;
+    name: string;
+    description: string;
+    activities: ActivityPreview[];
+    progress: number;
+}
+
+export interface ActivityPreview {
+    id: string;
+    unlocked: boolean;
+    name: string;
+}
