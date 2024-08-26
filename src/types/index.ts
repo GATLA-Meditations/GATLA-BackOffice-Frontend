@@ -5,11 +5,6 @@ export interface StepperItem {
     position: number;
 }
 
-export interface User {
-    patientId: string;
-    password: string;
-}
-
 export interface Treatment {
     id: string;
     name: string;
@@ -48,13 +43,13 @@ export interface Question {
 
 export interface User {
     id: string;
-    patientCode: string;
+    patient_code: string;
     password: string;
     meditationType: string;
 }
 
 export interface UpdateUserInput {
-    patientCode: string;
+    patient_code: string;
     password: string;
     meditationType: string;
 }
