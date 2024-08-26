@@ -26,7 +26,6 @@ export const SideBar = () => {
         {
             name: "Tratamientos",
             isOpen: false,
-            redirect:'/',
             children: [
                 {
                     name: "Cristianos",
@@ -53,6 +52,7 @@ export const SideBar = () => {
         );
         setOptions(updatedOptions)
         const optionSelected = options[index]
+        if (optionSelected.redirect) {
         dispatch(sliceRoutePath(-1));
         dispatch(updateRoutePath({
             id: '',
@@ -60,8 +60,7 @@ export const SideBar = () => {
             route: optionSelected.redirect,
             position: route.path.length
         }));
-        if (optionSelected.redirect) {
-            navigate(optionSelected.redirect);
+        navigate(optionSelected.redirect);
         }
     }
 

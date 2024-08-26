@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import moduleSlice from './moduleSlice';
 import routeSlice from "./routeSlice.ts";
+import userSlice from './userSlice.ts';
 
 const store = configureStore({
     reducer: {
         module: moduleSlice,
-        route: routeSlice
+        route: routeSlice,
+        user: userSlice
         // Add other slices here if needed
     },
 });
