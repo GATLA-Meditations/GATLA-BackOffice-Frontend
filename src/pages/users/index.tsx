@@ -8,21 +8,15 @@ import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 
 const UsersPage = () => {
-  const { data: users } = useGetUsers();
-  // const users = [
-  //   {
-  //     id: "1",
-  //     patient_code: "gtl-222",
-  //     password: "1234",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "2",
-  //     patient_code: "gtl-501",
-  //     password: "12345",
-  //     meditationType: "No cristiana",
-  //   },
-  // ];
+  // const { data: users } = useGetUsers();
+  const users = [
+    {
+      id: "1",
+      patient_code: "gtl-135",
+      password: "fake_user",
+      meditationType: "Cristiana",
+    },
+  ];
   const nav = useNavigate();
   const dispatch = useAppDispatch();
 
