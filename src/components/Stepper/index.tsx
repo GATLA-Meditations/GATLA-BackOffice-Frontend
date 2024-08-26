@@ -18,7 +18,7 @@ export const Stepper = () => {
 
     const handleItemOnClick = (item: StepperItem) => {
         dispatch(sliceRoutePath(item.position));
-        navigate(item.route + item.id)
+        navigate(item.route)
     }
 
     const handleGoBackOnClick = async () => {
@@ -40,7 +40,7 @@ export const Stepper = () => {
 
     return (
         <Box className={styles.routeContainer}>
-            <LeftArrowIcon width='24' height='24' onClick={() => handleGoBackOnClick()}/>
+            {/*<LeftArrowIcon width='24' height='24' onClick={() => handleGoBackOnClick()}/>*/}
             {route.path.map((item) =>
                 (
                     <Box className={styles.routeItem}>

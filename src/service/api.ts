@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UpdateUserInput } from "../types";
+import {ModuleAux, UpdateUserInput} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {ADMIN_TOKEN} from "../util/constants.ts";
 
@@ -19,6 +19,13 @@ const getUsers = async () => {
   return response.data;
 };
 
+
+const getModule = async (id:string): Promise<ModuleAux> => {
+  const response = await api.get(`/module/${id}`)
+  return response.data
+}
+
+
 const updateUser = async (id: string, data: UpdateUserInput) => {
   const response = await api.put(`/admin/user/${id}`, data);
   return response.data;
@@ -27,6 +34,12 @@ const updateUser = async (id: string, data: UpdateUserInput) => {
 export const useGetUsers = () => {
   return useQuery("users", getUsers);
 };
+
+
+export const useGetModule = (moduleId: string) => {
+  return useQuery<ModuleAux, Error>(["module", moduleId] , () => getModule(moduleId) )
+}
+
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
