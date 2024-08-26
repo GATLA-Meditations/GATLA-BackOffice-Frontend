@@ -68,8 +68,14 @@ export interface ActivityPreview {
     name: string;
 }
 
-export interface ActivityInput {
+export interface ActivityContent {
+    id:string;
+    type: string;
+    content:string;
+}
+
+export interface Activity {
+    id:string;
     name:string;
-    description:string;
-    videoUrl:string;
+    contents: ActivityContent[]
 }

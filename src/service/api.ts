@@ -1,18 +1,16 @@
 import axios from "axios";
-import {ModuleAux, UpdateUserInput} from "../types";
-import {ActivityInput, UpdateUserInput} from "../types";
+import {ModuleAux, UpdateUserInput, Activity} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {ADMIN_TOKEN} from "../util/constants.ts";
 
 
 const baseUrl = "http://localhost:3001";
-const adminToken = ADMIN_TOKEN
 
 const api = axios.create({
   baseURL: baseUrl,
   headers: {
-    Authorization: `Bearer ${adminToken}`,
-  },
+    Authorization: `Bearer ${ADMIN_TOKEN}`,
+  }
 });
 
 const getUsers = async () => {
@@ -37,18 +35,18 @@ export const useGetUsers = () => {
 };
 
 
-const getActivity = async (activityId:string) => {
-  const response = await api.get(`admin/modules/activity/${activityId}`)
+const getActivity = async (activityId:string): Promise<Activity> => {
+  const response = await api.get(`activity/${activityId}`)
   return response.data
 }
 
-const updateActivity = async(id:string, data: ActivityInput) => {
-  const response =  await api.put(`/admin/module/update/activities/${id}`, data)
+const updateActivity = async(id:string, data: Activity) => {
+  const response =  await api.put(`/activity/modify/${id}`, data)
   return response.data
 }
 
 export const useGetActivity = (activityId:string) => {
-  return useQuery(["activities", activityId], () => getActivity(activityId));
+  return useQuery<Activity, Error>(["activities", activityId], () => getActivity(activityId));
 }
 
 
@@ -72,7 +70,7 @@ export const useUpdateUser = () => {
 export const useUpdateActivity = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { id: string; data: ActivityInput }) =>
+    mutationFn: (data: { id: string; data: Activity }) =>
         updateActivity(data.id, data.data),
     onSuccess: () => {
       queryClient.invalidateQueries("activities");
