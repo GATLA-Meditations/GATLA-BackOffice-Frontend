@@ -12,7 +12,7 @@ export interface OptionsComponentProps {
 const OptionComponent = ({title, onClick}: OptionsComponentProps) => {
 
     return (
-        <Box className={styles.container} onClick={() => onClick()}>
+        <Box className={styles.container} onClick={onClick}>
             <Typography fontSize={'18px'}>
                 {title}
             </Typography>

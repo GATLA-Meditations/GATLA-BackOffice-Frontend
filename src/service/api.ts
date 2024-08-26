@@ -1,9 +1,12 @@
 import axios from "axios";
+import {ModuleAux, UpdateUserInput} from "../types";
 import {ActivityInput, UpdateUserInput} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import {ADMIN_TOKEN} from "../util/constants.ts";
+
 
 const baseUrl = "http://localhost:3001";
-const adminToken = process.env.ADMIN_TOKEN;
+const adminToken = ADMIN_TOKEN
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -16,6 +19,13 @@ const getUsers = async () => {
   const response = await api.get("/admin/user/");
   return response.data;
 };
+
+
+const getModule = async (id:string): Promise<ModuleAux> => {
+  const response = await api.get(`/module/${id}`)
+  return response.data
+}
+
 
 const updateUser = async (id: string, data: UpdateUserInput) => {
   const response = await api.put(`/admin/user/${id}`, data);
@@ -40,6 +50,12 @@ const updateActivity = async(id:string, data: ActivityInput) => {
 export const useGetActivity = (activityId:string) => {
   return useQuery(["activities", activityId], () => getActivity(activityId));
 }
+
+
+export const useGetModule = (moduleId: string) => {
+  return useQuery<ModuleAux, Error>(["module", moduleId] , () => getModule(moduleId) )
+}
+
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();

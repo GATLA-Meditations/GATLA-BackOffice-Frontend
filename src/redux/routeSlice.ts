@@ -1,11 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {StepperItem} from "../types";
 
-interface Route {
-    path: string[];
+export interface Route {
+    path: StepperItem[];
+    size: number;
 }
 
 const initialState: Route = {
-    path:['Tratamiento', 'Cristiano', 'Semana 1', 'Actividad 1']
+    path:[],
+    size:0
 }
 
 const routeSlice = createSlice({
@@ -15,16 +18,24 @@ const routeSlice = createSlice({
         updateRoutePath: (
             state, action
         ) => {
-            state.path.push(action.payload)
+            state.path.push({...action.payload, position:state.size})
+            state.size += 1
         },
-        removeRoutePath: (
+        sliceRoutePath: (
+            state, action
+        ) => {
+            state.path =  state.path.slice(0, action.payload + 1)
+            state.size = state.path.length
+        },
+        removeRoutePath:(
             state
         ) => {
             state.path.pop()
+            state.size -= 1
         }
     }
 })
 
-export const {updateRoutePath, removeRoutePath} = routeSlice.actions
+export const {updateRoutePath, sliceRoutePath, removeRoutePath} = routeSlice.actions
 
 export default routeSlice.reducer

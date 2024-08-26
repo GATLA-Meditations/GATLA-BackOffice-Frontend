@@ -1,6 +1,8 @@
-export interface User {
-    patientId: string;
-    password: string;
+export interface StepperItem {
+    id:string;
+    name: string;
+    route:string;
+    position: number;
 }
 
 export interface Treatment {
@@ -41,15 +43,29 @@ export interface Question {
 
 export interface User {
     id: string;
-    patientCode: string;
+    patient_code: string;
     password: string;
     meditationType: string;
 }
 
 export interface UpdateUserInput {
-    patientCode: string;
+    patient_code: string;
     password: string;
     meditationType: string;
+}
+
+export interface ModuleAux {
+    id: string;
+    name: string;
+    description: string;
+    activities: ActivityPreview[];
+    progress: number;
+}
+
+export interface ActivityPreview {
+    id: string;
+    unlocked: boolean;
+    name: string;
 }
 
 export interface ActivityInput {
