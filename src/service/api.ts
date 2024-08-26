@@ -5,6 +5,7 @@ import {ADMIN_TOKEN} from "../util/constants.ts";
 
 
 const baseUrl = "http://localhost:3001";
+const adminToken = ADMIN_TOKEN
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -65,6 +66,11 @@ export const useUpdateUser = () => {
       queryClient.invalidateQueries("users");
     },
   });
+};
+
+export const createUser = async (data: any) => {
+  const response = await api.post("/admin/user/create", data);
+  return response.data;
 };
 
 export const useUpdateActivity = () => {
