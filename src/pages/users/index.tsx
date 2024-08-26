@@ -12,13 +12,13 @@ const UsersPage = () => {
   // const users = [
   //   {
   //     id: "1",
-  //     patientCode: "gtl-222",
+  //     patient_code: "gtl-222",
   //     password: "1234",
   //     meditationType: "Cristiana",
   //   },
   //   {
   //     id: "2",
-  //     patientCode: "gtl-501",
+  //     patient_code: "gtl-501",
   //     password: "12345",
   //     meditationType: "No cristiana",
   //   },
@@ -41,7 +41,7 @@ const UsersPage = () => {
               className={"user"}
               onClick={() => handleClickUser(user)}
             >
-              <h4>{user.patientCode}</h4>
+              <h4>{user.patient_code}</h4>
               <RightArrowIcon />
             </Box>
           ))

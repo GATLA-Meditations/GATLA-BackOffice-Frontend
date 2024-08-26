@@ -17,7 +17,7 @@ export const module1Mock = {
 
 export const userMock = {
   id: "userId",
-  patientCode: "GTL-705",
+  patient_code: "GTL-705",
   password: "fake_user",
   meditationType: "Cristiana",
 };
