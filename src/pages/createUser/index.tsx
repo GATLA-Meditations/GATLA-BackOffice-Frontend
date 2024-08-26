@@ -1,27 +1,29 @@
-import React, {useState} from "react";
 import {Box, FormControl, MenuItem, Select} from "@mui/material";
-import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
-import {LeftArrowIcon} from "../../assets/Icons/LeftArrowIcon";
 import styles from "../activity/styles.module.css";
 import Button from "../../components/Button";
 import {emptyUserMock} from "../../mocks";
 import InputField from "../../components/InputField";
+import {useState} from "react";
+import { createUser } from "../../service/api";
 
 type attributeType = keyof typeof emptyUserMock;
 
 const CreateUser = () => {
 
-    const [mockUser, setMockUser] = useState(emptyUserMock);
+    const [mockUser, setMockUser] = useState({patient_code: " ", password: " "});
 
-    //orden: tratamientos, modulo, actividades
-
-
-    const handleSubmit = () => {
-        if (mockUser.code === "" || mockUser.password === "" || mockUser.meditation_type === "") {
+    const handleSubmit = async () => {
+        if (mockUser.patient_code === "" || mockUser.password === "") {
             alert("Por favor llena todos los campos");
             return;
         }
-        console.log(mockUser)
+
+        try {
+            const response = createUser(mockUser)
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const handleChange = (attribute: attributeType, newValue: string) => {
@@ -31,9 +33,9 @@ const CreateUser = () => {
     return (
         <Box className={"home-display"}>
             <Box className={styles.activityContainer}>
-                <InputField title={'Código de usuario'} text={mockUser.code} placeholder={'codigo de usuario'}
+                <InputField title={'Código de usuario'} text={mockUser.patient_code} placeholder={'codigo de usuario'}
                             name={'UserCode'}
-                            handleChange={(e) => handleChange('code', e.target.value)}/>
+                            handleChange={(e) => handleChange('patient_code', e.target.value)}/>
                 <InputField title={'Contraseña de usuario'} text={mockUser.password}
                             placeholder={'contraseña de usuario'}
                             name={'UserPass'} handleChange={(e) => handleChange('password', e.target.value)}/>
@@ -41,8 +43,8 @@ const CreateUser = () => {
                 <h3>Tipo de meditación</h3>
                 <FormControl>
                     <Select
-                        value={mockUser.meditation_type}
-                        onChange={(e) => handleChange('meditation_type', e.target.value)}
+                        value=""
+                        // onChange={(e) => handleChange('meditation_type', e.target.value)}
                     >
                         <MenuItem value={"Cristiana"}>Cristiana</MenuItem>
                         <MenuItem value={"No cristiana"}>No cristiana</MenuItem>
