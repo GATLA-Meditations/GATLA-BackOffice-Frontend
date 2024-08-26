@@ -52,3 +52,8 @@ export const useUpdateUser = () => {
     },
   });
 };
+
+export const createUser = async (data: any) => {
+  const response = await api.post("/admin/user/create", data);
+  return response.data;
+};

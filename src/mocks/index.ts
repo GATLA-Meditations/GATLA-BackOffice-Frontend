@@ -23,10 +23,8 @@ export const userMock = {
 };
 
 export const emptyUserMock = {
-    id: "",
-    code: "",
+    patient_code: "",
     password: "",
-    meditation_type: "",
 };
 
 export const activityMock = {
