@@ -67,3 +67,15 @@ export interface ActivityPreview {
     unlocked: boolean;
     name: string;
 }
+
+export interface ActivityContent {
+    id:string;
+    type: string;
+    content:string;
+}
+
+export interface Activity {
+    id:string;
+    name:string;
+    contents: ActivityContent[]
+}
