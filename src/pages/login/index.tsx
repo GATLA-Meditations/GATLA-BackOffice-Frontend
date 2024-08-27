@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './styles.css';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import { emptyAdminMock } from "../../mocks";
 import { Form } from "react-router-dom";
@@ -26,14 +25,15 @@ const LoginPage = () => {
             <Box className="headerContainer">
                 <img src={logo} alt="logo" width={100} height={150}/>
                 <Typography variant="h3" className="title">Renacentia</Typography>
-                <Typography variant="subtitle1" className="subtitle">Administración</Typography>
+                <Typography variant="h5" className="subtitle">Administración</Typography>
             </Box>
             <Form className="inputContainer">
-                <InputField
-                    text={adminData.email}
+                <input
+                    className={"input"}
+                    value={adminData.email}
                     placeholder="Ingrese su email"
                     name="adminEmail"
-                    handleChange={(e) => handleChange('email', e.target.value)}
+                    onChange={(e) => handleChange('email', e.target.value)}
                 />
                 <input
                     className={"input"}
