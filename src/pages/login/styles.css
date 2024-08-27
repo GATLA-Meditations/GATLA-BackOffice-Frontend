@@ -3,8 +3,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
-    padding: 0 20px; /* Para asegurar que el contenido no se salga en pantallas pequeñas */
+    width: 100%;
 }
 
 .headerContainer {
@@ -15,6 +14,21 @@
     gap: 10px;
     padding: 21px 33px;
     margin-bottom: 22px;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 4px;
+    height: 100%;
 }
 
 .title {
