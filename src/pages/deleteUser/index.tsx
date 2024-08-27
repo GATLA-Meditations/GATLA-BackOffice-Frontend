@@ -30,11 +30,11 @@ const DeleteUser = () => {
       <Box className={styles.activityContainer}>
         <EditableInput
           title={"Codigo de usuario:"}
-          text={mockUser.code}
+          text={mockUser.patient_code}
           placeholder={"afeaf"}
           type={"text"}
           name={"UserCode"}
-          handleChange={(e) => handleChange("code", e.target.value)}
+          handleChange={(e) => handleChange("patient_code", e.target.value)}
         />
         <Button
           onClick={() => handleSubmit()}
@@ -48,7 +48,7 @@ const DeleteUser = () => {
         <GenericModal
           open={isDeleteModalOpen}
           title={"Eliminar usuario"}
-          description={`¿Estás seguro que deseas eliminar al usuario ${userMock.code}?`}
+          description={`¿Estás seguro que deseas eliminar al usuario ${userMock.patient_code}?`}
           topButtonAction={handleDelete}
           onClose={() => setIsDeleteModalOpen(false)}
           topButtonText={"Confirmar"}

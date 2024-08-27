@@ -1,0 +1,43 @@
+.loginPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    padding: 0 20px; /* Para asegurar que el contenido no se salga en pantallas pequeñas */
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 21px 33px;
+    margin-bottom: 22px;
+}
+
+.title {
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: #444;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+}
+
+.buttonContainer {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.forgotPassword {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
