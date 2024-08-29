@@ -21,7 +21,7 @@ const DeleteUser = () => {
 
     const handleDelete = () => {
         try {
-            const response = deleteUser(userCode)
+            const response = deleteUser(userCode.trim())
             console.log(response);
         } catch (error) {
             console.error(error);
