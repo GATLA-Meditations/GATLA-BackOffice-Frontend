@@ -7,6 +7,7 @@ import { emptyAdminMock } from "../../mocks";
 import {Form, useNavigate} from "react-router-dom";
 import logo from '../../assets/Logo/logo.png';
 import {login} from "../../service/api.ts";
+import {setToken} from "../../service/store.ts";
 
 type attributeType = keyof typeof emptyAdminMock;
 
@@ -21,7 +22,7 @@ const LoginPage = () => {
     const handleSubmit = async () => {
         try {
             const token = await login(adminData);
-            // setToken(token);
+            setToken(token);
             console.log(token)
             navigate('/');
         } catch (error) {

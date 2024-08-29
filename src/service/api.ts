@@ -1,16 +1,16 @@
 import axios from "axios";
 import {ModuleAux, UpdateUserInput, Activity} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import {ADMIN_TOKEN} from "../util/constants.ts";
+import {getToken} from "./store.ts";
 
 
 const baseUrl = "http://localhost:3001";
-const adminToken = ADMIN_TOKEN
+const adminToken = getToken();
 
 const api = axios.create({
   baseURL: baseUrl,
   headers: {
-    Authorization: `Bearer ${ADMIN_TOKEN}`,
+    Authorization: `Bearer ${adminToken}`,
   }
 });
 
