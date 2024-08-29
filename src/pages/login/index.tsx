@@ -4,20 +4,29 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "../../components/Button";
 import { emptyAdminMock } from "../../mocks";
-import { Form } from "react-router-dom";
+import {Form, useNavigate} from "react-router-dom";
 import logo from '../../assets/Logo/logo.png';
+import {login} from "../../service/api.ts";
 
 type attributeType = keyof typeof emptyAdminMock;
 
 const LoginPage = () => {
     const [adminData, setAdminData] = useState({ email: '', password: '' });
+    const navigate = useNavigate();
 
     const handleChange = (attribute: attributeType, newValue: string) => {
         setAdminData({ ...adminData, [attribute]: newValue });
     }
 
     const handleSubmit = async () => {
-        console.log(adminData);
+        try {
+            const token = await login(adminData);
+            // setToken(token);
+            console.log(token)
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

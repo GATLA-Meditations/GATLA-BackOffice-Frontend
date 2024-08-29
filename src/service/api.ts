@@ -73,6 +73,16 @@ export const createUser = async (data: any) => {
   return response.data;
 };
 
+export const login = async (data: any) => {
+  try {
+    const response = await api.post('/auth/admin/login', data);
+    return response.data.token;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const useUpdateActivity = () => {
   const queryClient = useQueryClient();
   return useMutation({
