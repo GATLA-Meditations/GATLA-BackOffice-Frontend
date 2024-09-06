@@ -2,8 +2,6 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import styles from './styles.module.css'
-import {LeftArrowIcon} from "../../assets/Icons/LeftArrowIcon";
-
 import {useNavigate} from "react-router-dom";
 import {removeRoutePath, Route, sliceRoutePath} from "../../redux/routeSlice.ts";
 import {StepperItem} from "../../types";
@@ -21,10 +19,6 @@ export const Stepper = () => {
         navigate(item.route)
     }
 
-    const handleGoBackOnClick = async () => {
-        dispatch(removeRoutePath());
-        navigate(-1)
-    }
 
     useEffect(() => {
         const handlePopState = () => {
@@ -40,7 +34,6 @@ export const Stepper = () => {
 
     return (
         <Box className={styles.routeContainer}>
-            {/*<LeftArrowIcon width='24' height='24' onClick={() => handleGoBackOnClick()}/>*/}
             {route.path.map((item) =>
                 (
                     <Box className={styles.routeItem}>

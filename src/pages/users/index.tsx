@@ -1,5 +1,4 @@
 import { User } from "../../types";
-import { useGetUsers } from "../../service/api";
 import { Box } from "@mui/material";
 import "./styles.css";
 import { RightArrowIcon } from "../../assets/Icons/RightArrowIcon";
