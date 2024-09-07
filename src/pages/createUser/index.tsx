@@ -5,11 +5,12 @@ import {emptyUserMock} from "../../mocks";
 import InputField from "../../components/InputField";
 import {useState} from "react";
 import { createUser } from "../../service/api";
+import {useNavigate} from "react-router-dom";
 
 type attributeType = keyof typeof emptyUserMock;
 
 const CreateUser = () => {
-
+    const navigate = useNavigate();
     const [mockUser, setMockUser] = useState({patient_code: " ", password: " "});
 
     const handleSubmit = async () => {
@@ -17,9 +18,9 @@ const CreateUser = () => {
             alert("Por favor llena todos los campos");
             return;
         }
-
         try {
             const response = createUser(mockUser)
+            navigate('/users/')
             console.log(response);
         } catch (error) {
             console.error(error);
@@ -43,9 +44,10 @@ const CreateUser = () => {
                 <h3>Tipo de meditación</h3>
                 <FormControl>
                     <Select
-                        value=""
-                        // onChange={(e) => handleChange('meditation_type', e.target.value)}
-                    >
+                        value="Cristiana"
+                        defaultValue={'Cristiana'}
+                        onChange={(e) => handleChange('patient_code', e.target.value)}
+                     variant={'outlined'}>
                         <MenuItem value={"Cristiana"}>Cristiana</MenuItem>
                         <MenuItem value={"No cristiana"}>No cristiana</MenuItem>
                     </Select>
