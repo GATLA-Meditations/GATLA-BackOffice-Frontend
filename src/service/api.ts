@@ -84,3 +84,8 @@ export const useUpdateActivity = () => {
 
 }
 
+export const getAllTreatments = async () => {
+  const response = await api.get("/treatment");
+  return response.data;
+};
+
