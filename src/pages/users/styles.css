@@ -5,6 +5,14 @@
     gap: 20px;
 }
 
+.users-screen-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px;
+}
+
 .users {
     display: flex;
     align-items: center;

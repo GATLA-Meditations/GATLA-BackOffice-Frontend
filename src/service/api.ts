@@ -20,7 +20,7 @@ const getUsers = async () => {
 
 
 const getModule = async (id:string): Promise<ModuleAux> => {
-  const response = await api.get(`/module/${id}`)
+  const response = await api.get(`/admin/module/${id}`)
   return response.data
 }
 

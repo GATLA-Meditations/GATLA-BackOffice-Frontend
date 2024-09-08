@@ -7,35 +7,12 @@ import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 import SearchBar from "../../components/SearchBar";
 import { useState } from "react";
+import {useGetUsers} from "../../service/api.ts";
+import Button from "../../components/Button";
+import {updateRoutePath} from "../../redux/routeSlice.ts";
 
 const UsersPage = () => {
   const { data: users } = useGetUsers();
-  // const users = [
-  //   {
-  //     id: "1",
-  //     patient_code: "gtl-135",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "2",
-  //     patient_code: "gtl-136",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "3",
-  //     patient_code: "gtl-137",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "4",
-  //     patient_code: "gtl-138",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  // ];
   const [userSearch, setUserSearch] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
   const nav = useNavigate();
@@ -59,14 +36,25 @@ const UsersPage = () => {
     setFilteredUsers(users);
   };
 
+  const handleAddUserButton = () => {
+    dispatch(updateRoutePath({name:'Agregar usuario', route:'/user/create'}))
+    nav("/user/create")
+
+  }
+
   return (
     <Box className={"users-screen"}>
+      <Box className={'users-screen-buttons'}>
       <SearchBar
         placeholder={"Buscar usuario"}
         onChange={handleSearch}
         value={userSearch}
         onDeleteInput={handleDeleteInput}
       />
+        <Button onClick={() => handleAddUserButton()} variant={'green'} size={'medium'}>
+          <h3>Agregar</h3>
+        </Button>
+      </Box>
       <Box className={"users"}>
         {filteredUsers && filteredUsers.length > 0 ? (
           filteredUsers.map((user: User) => (
