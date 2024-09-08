@@ -7,35 +7,10 @@ import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 import SearchBar from "../../components/SearchBar";
 import { useState } from "react";
+import {useGetUsers} from "../../service/api.ts";
 
 const UsersPage = () => {
   const { data: users } = useGetUsers();
-  // const users = [
-  //   {
-  //     id: "1",
-  //     patient_code: "gtl-135",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "2",
-  //     patient_code: "gtl-136",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "3",
-  //     patient_code: "gtl-137",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  //   {
-  //     id: "4",
-  //     patient_code: "gtl-138",
-  //     password: "fake_user",
-  //     meditationType: "Cristiana",
-  //   },
-  // ];
   const [userSearch, setUserSearch] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
   const nav = useNavigate();

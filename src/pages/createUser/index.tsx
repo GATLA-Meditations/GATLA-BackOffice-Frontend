@@ -5,20 +5,21 @@ import {emptyUserMock} from "../../mocks";
 import InputField from "../../components/InputField";
 import {useEffect, useState} from "react";
 import {createUser, getAllTreatments} from "../../service/api";
+import {useNavigate} from "react-router-dom";
 
 type attributeType = keyof typeof emptyUserMock;
 
 const CreateUser = () => {
 
-    const [mockUser, setMockUser] = useState({patient_code: "", password: "", treatment: {id: "", delayed: false}});
+    const [user, setUser] = useState({patient_code: "", password: "", treatment: {id: "", delayed: false}});
     const [treatments, setTreatments] = useState([{id: "", name: ""}]);
+    const nav = useNavigate()
 
 
     useEffect(() => {
         const fetchTreatments = async () => {
             try {
                 const response = await getAllTreatments();
-                console.log(response)
                 setTreatments(response);
             } catch (error) {
                 console.error("Error fetching treatments:", error);
@@ -29,32 +30,31 @@ const CreateUser = () => {
     }, []);
 
     const handleSubmit = async () => {
-        if (mockUser.patient_code === "" || mockUser.password === "") {
+        if (user.patient_code === "" || user.password === "") {
             alert("Por favor llena todos los campos");
             return;
         }
 
         const userToSubmit = {
-            ...mockUser,
-            treatment: mockUser.treatment.id === "" ? null : mockUser.treatment
+            ...user,
+            treatment: user.treatment.id === "" ? null : user.treatment
         };
 
-        console.log(userToSubmit);
-
         try {
-            const response = await createUser(userToSubmit);
-            console.log(response);
+            await createUser(userToSubmit);
+            alert('El usuario fue creado correctamente')
+            nav('/users')
         } catch (error) {
             console.error(error);
         }
     };
 
     const handleChange = (attribute: attributeType, newValue: string) => {
-        setMockUser({...mockUser, [attribute]: newValue})
+        setUser((prevState) => ({...prevState , [attribute]: newValue}))
     }
 
     const handleDelayedChange = (newValue: boolean) => {
-        setMockUser((prevState) => ({
+        setUser((prevState) => ({
             ...prevState,
             treatment: {
                 ...prevState.treatment,
@@ -64,7 +64,7 @@ const CreateUser = () => {
     };
 
     const handleTreatmentIdChange = (newId: string) => {
-        setMockUser((prevState) => ({
+        setUser((prevState) => ({
             ...prevState,
             treatment: {
                 ...prevState.treatment,
@@ -76,17 +76,17 @@ const CreateUser = () => {
     return (
         <Box className={"home-display"}>
             <Box className={styles.activityContainer}>
-                <InputField title={'Código de usuario'} text={mockUser.patient_code} placeholder={'codigo de usuario'}
+                <InputField title={'Código de usuario'} text={user.patient_code} placeholder={'codigo de usuario'}
                             name={'UserCode'}
                             handleChange={(e) => handleChange('patient_code', e.target.value)}/>
-                <InputField title={'Contraseña de usuario'} text={mockUser.password}
+                <InputField title={'Contraseña de usuario'} text={user.password}
                             placeholder={'contraseña de usuario'}
                             name={'UserPass'} handleChange={(e) => handleChange('password', e.target.value)}/>
 
                 <h3>Tratamiento</h3>
                 <FormControl>
                     <Select
-                        value={mockUser.treatment.id}
+                        value={user.treatment.id}
                         onChange={(e) => handleTreatmentIdChange(e.target.value)}
                     >
                         {treatments.map((treatment) => (
@@ -99,7 +99,7 @@ const CreateUser = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                     <h3>Paciente control</h3>
                     <Checkbox
-                        checked={mockUser.treatment.delayed}
+                        checked={user.treatment.delayed}
                         onChange={(e) => handleDelayedChange(e.target.checked)}
                         sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
                     />
