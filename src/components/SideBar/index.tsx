@@ -2,7 +2,6 @@ import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useState} from "react";
 import styles from './styles.module.css'
-import React from "react";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {Route, sliceRoutePath, updateRoutePath} from "../../redux/routeSlice.ts";
 import {useNavigate} from "react-router-dom";

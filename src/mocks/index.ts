@@ -1,4 +1,4 @@
-import { Treatment } from "../types";
+import {Module, Treatment} from "../types";
 
 export const module1Mock = {
   type: "QUESTIONNAIRES",
@@ -10,6 +10,7 @@ export const module1Mock = {
       id: "questionnaireId",
       name: "Escala de satisfacción con la vida",
       completed: false,
+      contents: []
     },
   ],
   progress: null,
@@ -34,7 +35,7 @@ export const activityMock = {
   videoUrl: 'www.example.com'
 }
 
-export const module2Mock = {
+export const module2Mock: Module = {
   type: "MEDITATION",
   id: "treatmentId",
   name: "Semana 1",
@@ -44,16 +45,19 @@ export const module2Mock = {
       id: "week1Activity1",
       name: "Actividad 1",
       completed: false,
+      contents: []
     },
     {
       id: "week1Activity2",
       name: "Actividad 2",
       completed: false,
+      contents: []
     },
     {
       id: "week1Activity3",
       name: "Actividad 3",
       completed: false,
+      contents: []
     },
   ],
   progress: null,

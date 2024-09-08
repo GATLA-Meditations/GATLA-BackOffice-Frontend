@@ -5,7 +5,6 @@ import {ADMIN_TOKEN} from "../util/constants.ts";
 
 
 const baseUrl = "http://localhost:3001";
-const adminToken = ADMIN_TOKEN
 
 const api = axios.create({
   baseURL: baseUrl,
