@@ -5,7 +5,6 @@ import {ADMIN_TOKEN} from "../util/constants.ts";
 
 
 const baseUrl = "http://localhost:3001";
-const adminToken = ADMIN_TOKEN
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -89,4 +88,9 @@ export const useUpdateActivity = () => {
   });
 
 }
+
+export const getAllTreatments = async () => {
+  const response = await api.get("/treatment");
+  return response.data;
+};
 
