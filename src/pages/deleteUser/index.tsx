@@ -19,10 +19,9 @@ const DeleteUser = () => {
         setIsDeleteModalOpen(true);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         try {
-            const response = deleteUser(userCode.trim())
-            console.log(response);
+            await deleteUser(userCode.trim())
         } catch (error) {
             console.error(error);
         }
