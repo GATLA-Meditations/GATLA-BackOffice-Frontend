@@ -72,6 +72,11 @@ export const createUser = async (data: any) => {
   return response.data;
 };
 
+export const deleteUser = async (patient_code: string) => {
+  const response = await api.delete(`admin/user/delete/${patient_code}`);
+  return response.data;
+};
+
 export const useUpdateActivity = () => {
   const queryClient = useQueryClient();
   return useMutation({

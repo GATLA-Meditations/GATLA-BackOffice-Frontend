@@ -1,63 +1,65 @@
-import { useState } from "react";
-import { Box } from "@mui/material";
-import { userMock } from "../../mocks";
-import EditableInput from "../../components/EditableInput";
+import {useState} from "react";
+import {Box} from "@mui/material";
 import Button from "../../components/Button";
 import styles from "../activity/styles.module.css";
 import GenericModal from "../../components/GenericModal";
+import {deleteUser} from "../../service/api.ts";
+import InputField from "../../components/InputField";
 
-type attributeType = keyof typeof userMock;
 
 const DeleteUser = () => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [mockUser, setMockUser] = useState(userMock);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [userCode, setUserCode] = useState("");
 
-  const handleChange = (attribute: attributeType, newValue: string) => {
-    setMockUser({ ...mockUser, [attribute]: newValue });
-  };
+    const handleChange = (newValue: string) => {
+        setUserCode(newValue);
+    };
 
-  const handleSubmit = () => {
-    setIsDeleteModalOpen(true);
-  };
+    const handleSubmit = () => {
+        setIsDeleteModalOpen(true);
+    };
 
-  const handleDelete = () => {
-    console.log("Eliminado");
-    setIsDeleteModalOpen(false);
-  };
+    const handleDelete = async () => {
+        try {
+            await deleteUser(userCode.trim())
+        } catch (error) {
+            console.error(error);
+        }
+        setIsDeleteModalOpen(false);
+    };
 
-  return (
-    <Box className={"home-display"}>
-      <Box className={styles.activityContainer}>
-        <EditableInput
-          title={"Codigo de usuario:"}
-          text={mockUser.patient_code}
-          placeholder={"afeaf"}
-          type={"text"}
-          name={"UserCode"}
-          handleChange={(e) => handleChange("patient_code", e.target.value)}
-        />
-        <Button
-          onClick={() => handleSubmit()}
-          variant={"primary"}
-          size={"medium"}
-        >
-          Eliminar
-        </Button>
-      </Box>
-      {isDeleteModalOpen && (
-        <GenericModal
-          open={isDeleteModalOpen}
-          title={"Eliminar usuario"}
-          description={`¿Estás seguro que deseas eliminar al usuario ${userMock.patient_code}?`}
-          topButtonAction={handleDelete}
-          onClose={() => setIsDeleteModalOpen(false)}
-          topButtonText={"Confirmar"}
-          bottomButton={true}
-          bottomButtonText={"Cancelar"}
-        />
-      )}
-    </Box>
-  );
+    return (
+        <Box className={"home-display"}>
+            <Box className={styles.activityContainer}>
+                <InputField
+                    title={"Codigo de usuario:"}
+                    text={userCode}
+                    placeholder={"Ingrese el codigo del usuario a eliminar"}
+                    name={"UserCode"}
+                    handleChange={(e) => handleChange(e.target.value)}
+                />
+                <Button
+                    onClick={() => handleSubmit()}
+                    variant={"primary"}
+                    size={"medium"}
+                >
+                    Eliminar
+                </Button>
+            </Box>
+            {isDeleteModalOpen && (
+                <GenericModal
+                    open={isDeleteModalOpen}
+                    title={"Eliminar usuario"}
+                    description={`¿Estás seguro que deseas eliminar al usuario ${userCode}?`}
+                    topButtonAction={handleDelete}
+                    onClose={() => setIsDeleteModalOpen(false)}
+                    topButtonText={"Confirmar"}
+                    bottomButton={true}
+                    bottomButtonText={"Cancelar"}
+                />
+            )}
+        </Box>
+    );
 };
 
 export default DeleteUser;
