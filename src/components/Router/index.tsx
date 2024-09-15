@@ -9,6 +9,7 @@ import CreateUser from "../../pages/createUser";
 import ModifyUser from "../../pages/modifyUser";
 import Module from "../../pages/module";
 import UsersPage from "../../pages/users";
+import TreatmentPage from "../../pages/treatment";
 
 
 const WithSideBarAndStepper = () => {
@@ -55,6 +56,10 @@ export const Router = createBrowserRouter([
                 {
                     path: '/user/modify',
                     element: <ModifyUser/>
+                },
+                {
+                    path: '/treatment',
+                    element: <TreatmentPage/>
                 }
             ]
         }
