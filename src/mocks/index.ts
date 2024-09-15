@@ -26,7 +26,7 @@ export const userMock = {
 export const emptyUserMock = {
     patient_code: "",
     password: "",
-    patient_email: "",
+    email: "",
     treatments: { id: "", delayed: false }
 };
 
