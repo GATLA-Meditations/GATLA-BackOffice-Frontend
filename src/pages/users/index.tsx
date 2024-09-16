@@ -1,12 +1,12 @@
 import { User } from "../../types";
 import { Box } from "@mui/material";
-import "./styles.css";
+import "../../common/globals.css";
 import { RightArrowIcon } from "../../assets/Icons/RightArrowIcon";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 import SearchBar from "../../components/SearchBar";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {useGetUsers} from "../../service/api.ts";
 import Button from "../../components/Button";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
@@ -31,6 +31,12 @@ const UsersPage = () => {
     setFilteredUsers(filtered);
   };
 
+  useEffect(() => {
+    if (users) {
+      setFilteredUsers(users);
+    }
+  }, [users]);
+
   const handleDeleteInput = () => {
     setUserSearch("");
     setFilteredUsers(users);
@@ -43,8 +49,7 @@ const UsersPage = () => {
   }
 
   return (
-    <Box className={"users-screen"}>
-      <Box className={'users-screen-buttons'}>
+    <Box className={"display-items-page"}>
       <SearchBar
         placeholder={"Buscar usuario"}
         onChange={handleSearch}
@@ -54,13 +59,13 @@ const UsersPage = () => {
         <Button onClick={() => handleAddUserButton()} variant={'green'} size={'medium'}>
           <h3>Agregar</h3>
         </Button>
-      </Box>
-      <Box className={"users"}>
+
+      <Box className={"items"}>
         {filteredUsers && filteredUsers.length > 0 ? (
           filteredUsers.map((user: User) => (
             <Box
               key={user.id}
-              className={"user"}
+              className={"item"}
               onClick={() => handleClickUser(user)}
             >
               <h4>{user.patient_code}</h4>
