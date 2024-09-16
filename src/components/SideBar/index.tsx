@@ -2,7 +2,6 @@ import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useState} from "react";
 import styles from './styles.module.css'
-import React from "react";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {Route, sliceRoutePath, updateRoutePath} from "../../redux/routeSlice.ts";
 import {useNavigate} from "react-router-dom";
@@ -46,23 +45,35 @@ export const SideBar = () => {
     const route: Route = useAppSelector((store) => store.route)
     const navigate = useNavigate()
 
+
+    const handleSelectChildItem = (parentIndex:number, index:number) => {
+        const optionSelected = options[parentIndex].children?.[index];
+        dispatchRoute(optionSelected!!)
+    }
+
+
     const handleSelectItem = (index: number) => {
         const updatedOptions = options.map((option, i) =>
             i === index ? {...option, isOpen: !option.isOpen} : option
         );
         setOptions(updatedOptions)
-        const optionSelected = options[index]
-        if (optionSelected.redirect) {
-        dispatch(sliceRoutePath(-1));
-        dispatch(updateRoutePath({
-            id: '',
-            name: optionSelected.name,
-            route: optionSelected.redirect,
-            position: route.path.length
-        }));
-        navigate(optionSelected.redirect);
-        }
+        dispatchRoute(options[index])
     }
+
+    const dispatchRoute = (option: OptionsType) => {
+        if (option.redirect) {
+            dispatch(sliceRoutePath(-1));
+            dispatch(updateRoutePath({
+                id: '',
+                name: option.name,
+                route: option.redirect,
+                position: route.path.length
+            }));
+            navigate(option.redirect);
+        }
+
+    }
+
 
     return (
         <Box className={styles.homeMenu}>
@@ -74,7 +85,7 @@ export const SideBar = () => {
                     </Box>
                     {option.isOpen &&
                         option.children?.map((child, childIndex) => (
-                            <Box key={childIndex} className={styles.menuTextContainer}>
+                            <Box key={childIndex} className={styles.menuTextContainer} onClick={() => handleSelectChildItem(index, childIndex)}>
                                 <h5>{child.name}</h5>
                                 <RightArrowIcon width="16" height="16"/>
                             </Box>

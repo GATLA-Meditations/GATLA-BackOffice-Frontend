@@ -1,30 +1,32 @@
-import {Treatment} from "../types";
+import {Module, Treatment} from "../types";
 
 export const module1Mock = {
-    type: "QUESTIONNAIRES",
-    id: "treatmentId",
-    name: "Questionnaires",
-    description: "Escala de satisfacción con la vida",
-    activities: [
-        {
-            id: "questionnaireId",
-            name: "Escala de satisfacción con la vida",
-            completed: false,
-        },
-    ],
-    progress: null,
+  type: "QUESTIONNAIRES",
+  id: "treatmentId",
+  name: "Questionnaires",
+  description: "Escala de satisfacción con la vida",
+  activities: [
+    {
+      id: "questionnaireId",
+      name: "Escala de satisfacción con la vida",
+      completed: false,
+      contents: []
+    },
+  ],
+  progress: null,
 };
 
 export const userMock = {
-    id: "userId",
-    patient_code: "GTL-705",
-    password: "fake_user",
-    meditationType: "Cristiana",
+  id: "userId",
+  patient_code: "GTL-705",
+  password: "fake_user",
+  meditationType: "Cristiana",
 };
 
 export const emptyUserMock = {
     patient_code: "",
     password: "",
+    treatments: { id: "", delayed: false }
 };
 
 export const emptyAdminMock = {
@@ -38,29 +40,32 @@ export const activityMock = {
     videoUrl: 'www.example.com'
 }
 
-export const module2Mock = {
-    type: "MEDITATION",
-    id: "treatmentId",
-    name: "Semana 1",
-    description: "Meditación semana 1",
-    activities: [
-        {
-            id: "week1Activity1",
-            name: "Actividad 1",
-            completed: false,
-        },
-        {
-            id: "week1Activity2",
-            name: "Actividad 2",
-            completed: false,
-        },
-        {
-            id: "week1Activity3",
-            name: "Actividad 3",
-            completed: false,
-        },
-    ],
-    progress: null,
+export const module2Mock: Module = {
+  type: "MEDITATION",
+  id: "treatmentId",
+  name: "Semana 1",
+  description: "Meditación semana 1",
+  activities: [
+    {
+      id: "week1Activity1",
+      name: "Actividad 1",
+      completed: false,
+      contents: []
+    },
+    {
+      id: "week1Activity2",
+      name: "Actividad 2",
+      completed: false,
+      contents: []
+    },
+    {
+      id: "week1Activity3",
+      name: "Actividad 3",
+      completed: false,
+      contents: []
+    },
+  ],
+  progress: null,
 };
 
 export const treatmentMock: Treatment = {

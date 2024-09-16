@@ -73,6 +73,11 @@ export const createUser = async (data: any) => {
   return response.data;
 };
 
+export const deleteUser = async (patient_code: string) => {
+  const response = await api.delete(`admin/user/delete/${patient_code}`);
+  return response.data;
+};
+
 export const login = async (data: any) => {
   try {
     const response = await api.post('/auth/admin/login', data);
@@ -94,4 +99,9 @@ export const useUpdateActivity = () => {
   });
 
 }
+
+export const getAllTreatments = async () => {
+  const response = await api.get("/treatment");
+  return response.data;
+};
 

@@ -1,0 +1,24 @@
+.custom-search-bar .MuiOutlinedInput-root {
+  border-radius: 30px;
+  width: 65vh;
+}
+
+.custom-search-bar .MuiOutlinedInput-notchedOutline {
+  border-color: black !important;
+}
+
+.custom-search-bar
+  .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
+  border-color: black !important;
+}
+
+.custom-search-bar
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: black !important;
+}
+
+.custom-search-bar .MuiInputBase-input {
+  padding-left: 12px;
+}
