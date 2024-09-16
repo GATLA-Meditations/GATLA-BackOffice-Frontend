@@ -9,6 +9,7 @@ import CreateUser from "../../pages/createUser";
 import ModifyUser from "../../pages/modifyUser";
 import Module from "../../pages/module";
 import UsersPage from "../../pages/users";
+import Login from "../../pages/login";
 import TreatmentPage from "../../pages/treatment";
 
 
@@ -17,8 +18,8 @@ const WithSideBarAndStepper = () => {
         <Box display={'flex'} flexDirection={'row'} height={'100vh'} width={'100%'}>
             <SideBar/>
             <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'}>
-                    <Stepper/>
-                    <Outlet/>
+                <Stepper/>
+                <Outlet/>
             </Box>
         </Box>
 
@@ -27,6 +28,10 @@ const WithSideBarAndStepper = () => {
 
 export const Router = createBrowserRouter([
         {
+            path: '/login',
+            element: <Login/>
+        },
+        {
             element: <WithSideBarAndStepper/>,
             children: [
                 {
@@ -34,7 +39,7 @@ export const Router = createBrowserRouter([
                     element: <Home/>
                 },
                 {
-                    path:'/module/:id',
+                    path: '/module/:id',
                     element: <Module/>
                 },
                 {
@@ -42,7 +47,7 @@ export const Router = createBrowserRouter([
                     element: <Activity/>
                 },
                 {
-                    path:'/users/',
+                    path: '/users/',
                     element: <UsersPage/>
                 },
                 {

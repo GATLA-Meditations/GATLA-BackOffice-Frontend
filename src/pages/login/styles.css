@@ -1,0 +1,58 @@
+.loginPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 21px 33px;
+    margin-bottom: 22px;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 18px;
+    padding: 4px;
+    height: 35px;
+    width: 500px;
+}
+
+.title {
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: #444;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+}
+
+.buttonContainer {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.forgotPassword {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
