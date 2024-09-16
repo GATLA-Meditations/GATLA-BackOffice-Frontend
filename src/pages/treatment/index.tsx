@@ -5,6 +5,7 @@ import {Treatment} from "../../types";
 import SearchBar from "../../components/SearchBar";
 import '../../common/globals.css';
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
+import {useNavigate} from "react-router-dom";
 
 const TreatmentPage = () => {
     const {data: treatments} = useGetAllTreatments();
@@ -19,6 +20,11 @@ const TreatmentPage = () => {
         setFilteredTreatments(filtered);
     }
 
+    const handleOnClick = (id:string) => {
+        // TODO redirect /treatment/:id
+
+    }
+
     useEffect(() => {
         if (treatments) {
             setFilteredTreatments(treatments);
@@ -31,7 +37,7 @@ const TreatmentPage = () => {
             <Box className='items'>
                 {filteredTreatments && filteredTreatments.length > 0 ? (
                     filteredTreatments.map((treatment: Treatment) => (
-                        <Box key={treatment.id} className='item'>
+                        <Box key={treatment.id} className='item' onClick={() => handleOnClick(treatment.id)}>
                             <h4>{treatment.name}</h4>
                             <RightArrowIcon />
                         </Box>
