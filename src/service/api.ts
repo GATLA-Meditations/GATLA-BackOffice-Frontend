@@ -1,15 +1,16 @@
 import axios from "axios";
 import {ModuleAux, UpdateUserInput, Activity} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import {ADMIN_TOKEN} from "../util/constants.ts";
+import {getToken} from "./store.ts";
 
 
 const baseUrl = "http://localhost:3001";
+const adminToken = getToken();
 
 const api = axios.create({
   baseURL: baseUrl,
   headers: {
-    Authorization: `Bearer ${ADMIN_TOKEN}`,
+    Authorization: `Bearer ${adminToken}`,
   }
 });
 
@@ -77,6 +78,16 @@ export const deleteUser = async (patient_code: string) => {
   return response.data;
 };
 
+export const login = async (data: any) => {
+  try {
+    const response = await api.post('/auth/admin/login', data);
+    return response.data.token;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const useUpdateActivity = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -89,6 +100,10 @@ export const useUpdateActivity = () => {
 
 }
 
+export const useLogOut = async () => {
+    localStorage.removeItem('token');
+    console.log('Token removed');
+}
 export const getAllTreatments = async () => {
   const response = await api.get("/treatment");
   return response.data;
