@@ -25,18 +25,7 @@ export const SideBar = () => {
         {
             name: "Tratamientos",
             isOpen: false,
-            children: [
-                {
-                    name: "Cristianos",
-                    isOpen: false,
-                    redirect: '/treatment'
-                },
-                {
-                    name: "No Cristianos",
-                    isOpen: false,
-                    redirect: '/treatment',
-                }
-            ]
+            redirect:'/treatment',
         },
     ];
 
@@ -48,7 +37,7 @@ export const SideBar = () => {
 
     const handleSelectChildItem = (parentIndex:number, index:number) => {
         const optionSelected = options[parentIndex].children?.[index];
-        dispatchRoute(optionSelected!!)
+        dispatchRoute(optionSelected)
     }
 
 
@@ -60,8 +49,8 @@ export const SideBar = () => {
         dispatchRoute(options[index])
     }
 
-    const dispatchRoute = (option: OptionsType) => {
-        if (option.redirect) {
+    const dispatchRoute = (option: OptionsType | undefined) => {
+        if (option?.redirect) {
             dispatch(sliceRoutePath(-1));
             dispatch(updateRoutePath({
                 id: '',

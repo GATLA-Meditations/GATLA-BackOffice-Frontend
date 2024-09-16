@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {Box, FormControl, MenuItem, Select} from "@mui/material";
 import styles from "../activity/styles.module.css";
 import EditableInput from "../../components/EditableInput";
