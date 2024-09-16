@@ -11,7 +11,7 @@ type attributeType = keyof typeof emptyUserMock;
 
 const CreateUser = () => {
 
-    const [user, setUser] = useState({patient_code: "", password: "", treatment: {id: "", delayed: false}});
+    const [user, setUser] = useState({patient_code: "", password: "", email:"",treatment: {id: "", delayed: false}});
     const [treatments, setTreatments] = useState([{id: "", name: ""}]);
     const nav = useNavigate()
 
@@ -32,6 +32,12 @@ const CreateUser = () => {
     const handleSubmit = async () => {
         if (user.patient_code === "" || user.password === "") {
             alert("Por favor llena todos los campos");
+            return;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(user.email)) {
+            alert("Por favor ingresa un email válido");
             return;
         }
 
@@ -104,6 +110,9 @@ const CreateUser = () => {
                         sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
                     />
                 </Box>
+                <InputField title={'Email de usuario'} text={user.email} placeholder={'Email de usuario'}
+                            name={'UserEmail'}
+                            handleChange={(e) => handleChange('email', e.target.value)}/>
                 <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Crear</Button>
             </Box>
 
