@@ -7,59 +7,31 @@ import {deleteUser} from "../../service/api.ts";
 import InputField from "../../components/InputField";
 
 
-const DeleteUser = () => {
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [userCode, setUserCode] = useState("");
+interface DeleteUserModalProps {
+    deleteUserFunction:  () => void
+    closeModal: () => void
+    userCode: string
+    open:boolean
+}
 
-    const handleChange = (newValue: string) => {
-        setUserCode(newValue);
-    };
 
-    const handleSubmit = () => {
-        setIsDeleteModalOpen(true);
-    };
+const DeleteUserModal = ({open, deleteUserFunction, closeModal, userCode}: DeleteUserModalProps) => {
 
-    const handleDelete = async () => {
-        try {
-            await deleteUser(userCode.trim())
-        } catch (error) {
-            console.error(error);
-        }
-        setIsDeleteModalOpen(false);
-    };
 
     return (
         <Box className={"home-display"}>
-            <Box className={styles.activityContainer}>
-                <InputField
-                    title={"Codigo de usuario:"}
-                    text={userCode}
-                    placeholder={"Ingrese el codigo del usuario a eliminar"}
-                    name={"UserCode"}
-                    handleChange={(e) => handleChange(e.target.value)}
-                />
-                <Button
-                    onClick={() => handleSubmit()}
-                    variant={"primary"}
-                    size={"medium"}
-                >
-                    Eliminar
-                </Button>
-            </Box>
-            {isDeleteModalOpen && (
-                <GenericModal
-                    open={isDeleteModalOpen}
-                    title={"Eliminar usuario"}
-                    description={`¿Estás seguro que deseas eliminar al usuario ${userCode}?`}
-                    topButtonAction={handleDelete}
-                    onClose={() => setIsDeleteModalOpen(false)}
-                    topButtonText={"Confirmar"}
-                    bottomButton={true}
-                    bottomButtonText={"Cancelar"}
-                />
-            )}
+            <GenericModal
+                open={open}
+                title={"Eliminar usuario"}
+                description={`¿Estás seguro que deseas eliminar al usuario ${userCode}?`}
+                topButtonAction={deleteUserFunction}
+                onClose={closeModal}
+                topButtonText={"Confirmar"}
+                bottomButton={true}
+                bottomButtonText={"Cancelar"}
+            />
         </Box>
     );
 };
 
-export default DeleteUser;
+export default DeleteUserModal;
