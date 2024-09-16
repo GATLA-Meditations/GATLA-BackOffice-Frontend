@@ -29,12 +29,12 @@ export const SideBar = () => {
                 {
                     name: "Cristianos",
                     isOpen: false,
-                    redirect: '/'
+                    redirect: '/treatment'
                 },
                 {
                     name: "No Cristianos",
                     isOpen: false,
-                    redirect: '/',
+                    redirect: '/treatment',
                 }
             ]
         },

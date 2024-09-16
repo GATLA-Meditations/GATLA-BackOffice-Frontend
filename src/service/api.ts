@@ -109,3 +109,6 @@ export const getAllTreatments = async () => {
   return response.data;
 };
 
+export const useGetAllTreatments = () => {
+    return useQuery("treatments", getAllTreatments);
+}
