@@ -100,6 +100,10 @@ export const useUpdateActivity = () => {
 
 }
 
+export const useLogOut = async () => {
+    localStorage.removeItem('token');
+    console.log('Token removed');
+}
 export const getAllTreatments = async () => {
   const response = await api.get("/treatment");
   return response.data;
