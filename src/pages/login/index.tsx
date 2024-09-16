@@ -8,10 +8,11 @@ import {Form, useNavigate} from "react-router-dom";
 import logo from '../../assets/Logo/logo.png';
 import {login} from "../../service/api.ts";
 import {setToken} from "../../service/store.ts";
+import withToast, {WithToastProps} from "../../hoc/withToast.tsx";
 
 type attributeType = keyof typeof emptyAdminMock;
 
-const LoginPage = () => {
+const LoginPage = ({showToast}: WithToastProps) => {
     const [adminData, setAdminData] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ const LoginPage = () => {
             navigate('/');
         } catch (error) {
             console.log(error);
+            showToast('Error al iniciar sesión', 'error');
         }
     }
 
@@ -63,4 +65,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default withToast(LoginPage);
