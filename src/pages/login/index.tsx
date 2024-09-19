@@ -9,12 +9,15 @@ import logo from '../../assets/Logo/logo.png';
 import {login} from "../../service/api.ts";
 import {setToken} from "../../service/store.ts";
 import withToast, {WithToastProps} from "../../hoc/withToast.tsx";
+import {EyeClosedIcon} from "../../assets/Icons/EyeClosedIcon";
+import {EyeIcon} from "../../assets/Icons/EyeIcon";
 
 type attributeType = keyof typeof emptyAdminMock;
 
 const LoginPage = ({showToast}: WithToastProps) => {
     const [adminData, setAdminData] = useState({ email: '', password: '' });
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (attribute: attributeType, newValue: string) => {
         setAdminData({ ...adminData, [attribute]: newValue });
@@ -32,6 +35,10 @@ const LoginPage = ({showToast}: WithToastProps) => {
         }
     }
 
+    const togglePasswordVisibility = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+
     return (
         <Box className="loginPageContainer">
             <Box className="headerContainer">
@@ -47,14 +54,19 @@ const LoginPage = ({showToast}: WithToastProps) => {
                     name="adminEmail"
                     onChange={(e) => handleChange('email', e.target.value)}
                 />
-                <input
-                    className={"input"}
-                    value={adminData.password}
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    name="adminPassword"
-                    onChange={(e) => handleChange('password', e.target.value)}
-                />
+                <Box className="passwordContainer">
+                    <input
+                        className={"input"}
+                        value={adminData.password}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Ingrese su contraseña"
+                        name="adminPassword"
+                        onChange={(e) => handleChange('password', e.target.value)}
+                    />
+                    <button type="button" className="togglePasswordButton" onClick={togglePasswordVisibility}>
+                        {showPassword ? <EyeClosedIcon /> : <EyeIcon />}
+                    </button>
+                </Box>
                 <Box className="buttonContainer">
                     <Button onClick={handleSubmit} variant="green">
                         Iniciar Sesión
