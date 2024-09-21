@@ -56,3 +56,24 @@
     flex-direction: row;
     gap: 5px;
 }
+
+.passwordContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+.togglePasswordButton {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.togglePasswordButton:focus {
+    outline: none;
+    box-shadow: none;
+}
