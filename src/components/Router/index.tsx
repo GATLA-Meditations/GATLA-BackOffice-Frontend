@@ -11,6 +11,7 @@ import Module from "../../pages/module";
 import UsersPage from "../../pages/users";
 import Login from "../../pages/login";
 import TreatmentPage from "../../pages/treatment";
+import UploadContent from "../../pages/uploadContent";
 
 
 const WithSideBarAndStepper = () => {
@@ -65,6 +66,10 @@ export const Router = createBrowserRouter([
                 {
                     path: '/treatment',
                     element: <TreatmentPage/>
+                },
+                {
+                    path: '/upload/content',
+                    element: <UploadContent/>
                 }
             ]
         }
