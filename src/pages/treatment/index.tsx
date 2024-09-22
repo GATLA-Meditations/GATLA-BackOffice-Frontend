@@ -62,10 +62,8 @@ const Treatment = () => {
     const [treatment, setTreatment] = useState(treatmentMok); // set will be used to fetch the treatment from the backend
     const [treatmentName, setTreatmentName] = useState<string>(''); // treatment name will be used in case of update treatment integration
     const [treatmentDescription, setTreatmentDescription] = useState<string>(''); // same as treatment name
-    console.log(id);
 
     const handleClickModule = (module: Module) => {
-        console.log(module);
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
         nav(`/module/${module.id}`);
     }
