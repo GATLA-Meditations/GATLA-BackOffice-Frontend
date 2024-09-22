@@ -25,7 +25,7 @@ export const SideBar = () => {
         {
             name: "Tratamientos",
             isOpen: false,
-            redirect:'/treatment',
+            redirect:'/treatments',
         },
     ];
 

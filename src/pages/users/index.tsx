@@ -76,7 +76,7 @@ const UsersPage = () => {
                         </Box>
                     ))
                 ) : (
-                    <p>No se encontraron usuarios</p>
+                    <h4>No se encontraron usuarios</h4>
                 )}
             </Box>
         </Box>
