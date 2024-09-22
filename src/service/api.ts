@@ -138,3 +138,12 @@ export const getAllTreatments = async () => {
 export const useGetAllTreatments = () => {
     return useQuery("treatments", getAllTreatments);
 }
+
+export const getTreatmentById = async (id: string) => {
+    const response = await api.get(`/treatment/${id}`);
+    return response.data;
+}
+
+export const useGetTreatmentById = (id: string) => {
+    return useQuery("treatment", () => getTreatmentById(id));
+}

@@ -27,7 +27,6 @@ const LoginPage = ({showToast}: WithToastProps) => {
         try {
             const token = await login(adminData);
             setToken(token);
-            console.log(token)
             navigate('/');
         } catch (error) {
             console.log(error);
