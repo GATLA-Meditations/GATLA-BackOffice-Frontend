@@ -4,13 +4,13 @@ import Activity from "../../pages/activity";
 import SideBar from "../SideBar";
 import Stepper from "../Stepper";
 import {Box} from "@mui/material";
-import DeleteUser from "../../pages/deleteUser";
 import CreateUser from "../../pages/createUser";
 import ModifyUser from "../../pages/modifyUser";
 import Module from "../../pages/module";
 import UsersPage from "../../pages/users";
 import Login from "../../pages/login";
-import TreatmentPage from "../../pages/treatment";
+import TreatmentsPage from "../../pages/treatments";
+import Treatment from "../../pages/treatment";
 import UploadContent from "../../pages/uploadContent";
 
 
@@ -52,10 +52,6 @@ export const Router = createBrowserRouter([
                     element: <UsersPage/>
                 },
                 {
-                    path: '/user/delete',
-                    element: <DeleteUser/>
-                },
-                {
                     path: '/user/create',
                     element: <CreateUser/>
                 },
@@ -64,8 +60,12 @@ export const Router = createBrowserRouter([
                     element: <ModifyUser/>
                 },
                 {
-                    path: '/treatment',
-                    element: <TreatmentPage/>
+                    path: '/treatments',
+                    element: <TreatmentsPage/>
+                },
+                {
+                    path: '/treatments/:id',
+                    element: <Treatment/>
                 },
                 {
                     path: '/upload/content',
