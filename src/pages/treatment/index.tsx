@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {Module} from "../../types";
+import {Module, Questionnaire} from "../../types";
 import '../../common/globals.css';
 import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
@@ -20,6 +20,11 @@ const Treatment = () => {
     const handleClickModule = (module: Module) => {
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
         nav(`/module/${module.id}`);
+    }
+
+    const handleClickQuestionnaire = (questionnaire: Questionnaire) => {
+        dispatch(updateRoutePath({name: questionnaire.name, route: `/questionnaire/${questionnaire.id}`}));
+        // nav(`/questionnaire/${questionnaire.id}`);
     }
 
     if (isLoading) {
@@ -45,6 +50,19 @@ const Treatment = () => {
                     handleChange={(e) => setTreatmentDescription(e.target.value)}
                     title={'Descripción del tratamiento:'}
                 />
+            </Box>
+            <Box>
+                <h3>Cuestionarios:</h3>
+                <Box className='items'>
+                    {treatment.questionnaires.length > 0 ? treatment.questionnaires.map((questionnaire: Questionnaire) => (
+                        <Box key={questionnaire.id} className='item' onClick={() => handleClickQuestionnaire(questionnaire)}>
+                            <h4>{questionnaire.name}</h4>
+                            <RightArrowIcon/>
+                        </Box>
+                    ))
+                        : <h4>No hay cuestionarios</h4>
+                    }
+                </Box>
             </Box>
             <Box>
                 <h3>Módulos:</h3>
