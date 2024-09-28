@@ -18,7 +18,7 @@ const WithSideBarAndStepper = () => {
     return (
         <Box display={'flex'} flexDirection={'row'} height={'100vh'} width={'100%'}>
             <SideBar/>
-            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'}>
+            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'} style={{overflowX:'scroll'}}>
                 <Stepper/>
                 <Outlet/>
             </Box>

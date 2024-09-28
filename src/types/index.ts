@@ -10,6 +10,7 @@ export interface Treatment {
     name: string;
     description: string;
     modules: Module[];
+    questionnaires: Questionnaire[];
 }
 
 export interface Module {
@@ -27,7 +28,12 @@ export interface Activity {
     completed: boolean;
 }
 
-export interface Questionaire {
+export interface Questionnaire {
+    id: string;
+    name: string;
+}
+
+export interface QuestionnaireInfo {
     id: string;
     name: string;
     questions: Question[];
