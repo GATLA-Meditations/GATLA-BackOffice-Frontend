@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-import { Question, Questionaire } from "../../types";
+import { Question } from "../../types";
 import { Box } from "@mui/material";
 import Button from "../Button";
 import EditableInput from "../EditableInput";
@@ -8,11 +8,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { generateRandomId } from "../../util";
 import EditableQuestionOptions from "../EditableQuestionOptions";
 
-interface QuestionnaireProps {
-  questionnaire: Questionaire;
-}
-
-const Questionnaire = ({ questionnaire }: QuestionnaireProps) => {
+const Questionnaire = () => {
+  const questionnaire = { id: "", name: "", questions: [] };
   const [name, setName] = React.useState(questionnaire.name);
   const [questions, setQuestions] = React.useState<Question[]>(
     questionnaire.questions
