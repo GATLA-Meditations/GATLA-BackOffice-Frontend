@@ -22,11 +22,15 @@ export const SideBar = () => {
         },
         {
             name: "Tratamientos",
-            redirect: '/treatments',
+            redirect: '/treatments'
         },
         {
             name: "Fondos y Perfiles",
             redirect: '/upload/content'
+        },
+        {
+            name: "Cuestionarios",
+            redirect: '/questionnaire'
         }
     ];
 
@@ -39,7 +43,7 @@ export const SideBar = () => {
 
     const handleSelectItem = (index: number) => {
         const updatedOptions = options.map((option, i) =>
-            i === index ? {...option, isOpen: !option.isOpen} : option
+            i === index ? {...option} : option
         );
         setOptions(updatedOptions)
         dispatchRoute(options[index])

@@ -1,13 +1,13 @@
 import {Box} from "@mui/material";
-import {useGetAllTreatments} from "../../service/api.ts";
+import {useGetAllTreatments} from "../../../service/api.ts";
 import {useEffect, useState} from "react";
-import {Treatment} from "../../types";
-import SearchBar from "../../components/SearchBar";
-import '../../common/globals.css';
-import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
+import {Treatment} from "../../../types";
+import SearchBar from "../../../components/SearchBar";
+import '../../../common/globals.css';
+import {RightArrowIcon} from "../../../assets/Icons/RightArrowIcon";
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../redux/hooks.ts";
-import {updateRoutePath} from "../../redux/routeSlice.ts";
+import {useAppDispatch} from "../../../redux/hooks.ts";
+import {updateRoutePath} from "../../../redux/routeSlice.ts";
 // import {useNavigate} from "react-router-dom";
 
 const TreatmentsPage = () => {
