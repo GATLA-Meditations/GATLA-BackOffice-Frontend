@@ -1,6 +1,5 @@
 import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
-import {useState} from "react";
 import styles from './styles.module.css'
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {Route, sliceRoutePath, updateRoutePath} from "../../redux/routeSlice.ts";
@@ -9,13 +8,12 @@ import {useNavigate} from "react-router-dom";
 export type OptionsType = {
     name: string;
     redirect?: string; // Mark as optional since it's not required in all cases
-    children?: OptionsType[];
 }
 
 export const SideBar = () => {
 
 
-    const optionsMock: OptionsType[] = [
+    const options: OptionsType[] = [
         {
             name: "Usuarios",
             redirect: '/users/'
@@ -27,10 +25,13 @@ export const SideBar = () => {
         {
             name: "Fondos y Perfiles",
             redirect: '/upload/content'
+        },
+        {
+            name: "Diario",
+            redirect: '/journalReview'
         }
     ];
 
-    const [options, setOptions] = useState(optionsMock);
     const dispatch = useAppDispatch();
     const route: Route = useAppSelector((store) => store.route)
     const navigate = useNavigate()
@@ -38,10 +39,6 @@ export const SideBar = () => {
 
 
     const handleSelectItem = (index: number) => {
-        const updatedOptions = options.map((option, i) =>
-            i === index ? {...option, isOpen: !option.isOpen} : option
-        );
-        setOptions(updatedOptions)
         dispatchRoute(options[index])
     }
 

@@ -12,6 +12,7 @@ import Login from "../../pages/login";
 import TreatmentsPage from "../../pages/treatments";
 import Treatment from "../../pages/treatment";
 import UploadContent from "../../pages/uploadContent";
+import JournalReview from "../../pages/journal";
 
 
 const WithSideBarAndStepper = () => {
@@ -72,6 +73,10 @@ export const Router = createBrowserRouter([
                 {
                     path: '/upload/content',
                     element: <UploadContent/>
+                },
+                {
+                    path:'/journalReview',
+                    element:<JournalReview/>
                 }
             ]
         }

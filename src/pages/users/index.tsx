@@ -1,7 +1,6 @@
 import {User} from "../../types";
 import {Box} from "@mui/material";
 import "../../common/globals.css";
-import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../redux/hooks";
 import {setUser} from "../../redux/userSlice";
@@ -10,6 +9,7 @@ import {useEffect, useState} from "react";
 import {useGetUsers} from "../../service/api.ts";
 import Button from "../../components/Button";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
+import UsersList from "../../components/UsersList";
 
 const UsersPage = () => {
     const {data: users} = useGetUsers();
@@ -62,23 +62,7 @@ const UsersPage = () => {
                     <h3>Agregar</h3>
                 </Button>
             </Box>
-
-            <Box className={"items"}>
-                {filteredUsers && filteredUsers.length > 0 ? (
-                    filteredUsers.map((user: User) => (
-                        <Box
-                            key={user.id}
-                            className={"item"}
-                            onClick={() => handleClickUser(user)}
-                        >
-                            <h4>{user.patient_code}</h4>
-                            <RightArrowIcon/>
-                        </Box>
-                    ))
-                ) : (
-                    <h4>No se encontraron usuarios</h4>
-                )}
-            </Box>
+            <UsersList users={filteredUsers} handleClickUser={handleClickUser}/>
         </Box>
     );
 };
