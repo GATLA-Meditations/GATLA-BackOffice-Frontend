@@ -13,6 +13,7 @@ import TreatmentsPage from "../../pages/treatment/list-treatments";
 import EditTreatment from "../../pages/treatment/edit-treatment";
 import EditQuestionnaire from '../../pages/questionnaire/edit-questionnaire';
 import QuestionnairesPage from '../../pages/questionnaire/list-questionnaires';
+import UploadContent from "../../pages/uploadContent";
 
 
 const WithSideBarAndStepper = () => {
@@ -20,7 +21,9 @@ const WithSideBarAndStepper = () => {
         <Box display={'flex'} flexDirection={'row'} height={'100vh'} width={'100%'}>
             <SideBar/>
             <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'} style={{overflowX:'scroll'}}>
-                <Stepper/>
+                <Box height={'100px'} width={'100%'}>
+                    <Stepper/>
+                </Box>
                 <Outlet/>
             </Box>
         </Box>
@@ -75,6 +78,10 @@ export const Router = createBrowserRouter([
                 {
                     path: '/questionnaire/:id',
                     element: <EditQuestionnaire/>
+                },
+                {
+                    path: '/upload/content',
+                    element: <UploadContent/>
                 }
             ]
         }
