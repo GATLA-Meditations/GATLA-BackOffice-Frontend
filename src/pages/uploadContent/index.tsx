@@ -25,6 +25,13 @@ const UploadContent = () => {
 
     return (
         <Box className={"home-display"}>
+            <FormControl>
+                <Select value={content.type} onChange={(e) => handleChange('type', e.target.value)}>
+                    <MenuItem value="FONDO">Fondo</MenuItem>
+                    <MenuItem value="ICONO">Icono</MenuItem>
+                </Select>
+            </FormControl>
+            <h3>{disclaimerText}</h3>
             <Box className={styles.activityContainer}>
                 <InputField title={'Nombre de contenido'} text={content.label}
                             placeholder={'Nombre de contenido'}
@@ -34,13 +41,6 @@ const UploadContent = () => {
                             placeholder={'Link del contenido'}
                             name={'UserPass'} handleChange={(e) => handleChange('url', e.target.value)}/>
                 <h3>Tipo de contenido</h3>
-                <FormControl>
-                    <Select value={content.type} onChange={(e) => handleChange('type', e.target.value)}>
-                        <MenuItem value="FONDO">Fondo</MenuItem>
-                        <MenuItem value="ICONO">Icono</MenuItem>
-                    </Select>
-                </FormControl>
-                <h3>{disclaimerText}</h3>
                 <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Crear</Button>
             </Box>
         </Box>
