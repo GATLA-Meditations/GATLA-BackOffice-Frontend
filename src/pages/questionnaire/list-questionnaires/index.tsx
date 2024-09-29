@@ -40,7 +40,7 @@ const QuestionnairesPage = () => {
 
     return (
         <Box className='display-items-page'>
-            <SearchBar placeholder={"Buscar tratamiento"} value={search} onChange={(value) => handleSearch(value)} />
+            <SearchBar placeholder={"Buscar cuestionario"} value={search} onChange={(value) => handleSearch(value)} />
             <Box className='items'>
                 {filteredQuestionnaires && filteredQuestionnaires.length > 0 ? (
                     filteredQuestionnaires.map((questionnaire: Questionnaire) => (
