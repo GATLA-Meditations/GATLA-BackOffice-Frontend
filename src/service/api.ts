@@ -147,3 +147,21 @@ export const getTreatmentById = async (id: string) => {
 export const useGetTreatmentById = (id: string) => {
     return useQuery("treatment", () => getTreatmentById(id));
 }
+
+const getAllQuestionnaires = async () => {
+    const response = await api.get("/questionnaire");
+    return response.data;
+}
+
+export const useGetAllQuestionnaires = () => {
+    return useQuery("questionnaires", getAllQuestionnaires);
+}
+
+const getQuestionnaireById = async (id: string) => {
+    const response = await api.get(`/questionnaire/${id}`);
+    return response.data;
+}
+
+export const useGetQuestionnaireById = (id: string) => {
+    return useQuery("questionnaire", () => getQuestionnaireById(id));
+}

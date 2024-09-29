@@ -27,6 +27,11 @@ export const SideBar = () => {
             isOpen: false,
             redirect:'/treatments',
         },
+        {
+            name: "Cuestionarios",
+            isOpen: false,
+            redirect: '/questionnaire'
+        }
     ];
 
     const [options, setOptions] = useState(optionsMock);

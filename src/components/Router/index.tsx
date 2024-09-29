@@ -9,8 +9,10 @@ import ModifyUser from "../../pages/modifyUser";
 import Module from "../../pages/module";
 import UsersPage from "../../pages/users";
 import Login from "../../pages/login";
-import TreatmentsPage from "../../pages/treatments";
-import Treatment from "../../pages/treatment";
+import TreatmentsPage from "../../pages/treatment/list-treatments";
+import EditTreatment from "../../pages/treatment/edit-treatment";
+import EditQuestionnaire from '../../pages/questionnaire/edit-questionnaire';
+import QuestionnairesPage from '../../pages/questionnaire/list-questionnaires';
 
 
 const WithSideBarAndStepper = () => {
@@ -64,7 +66,15 @@ export const Router = createBrowserRouter([
                 },
                 {
                     path: '/treatments/:id',
-                    element: <Treatment/>
+                    element: <EditTreatment/>
+                },
+                {
+                    path: '/questionnaire',
+                    element: <QuestionnairesPage/>
+                },
+                {
+                    path: '/questionnaire/:id',
+                    element: <EditQuestionnaire/>
                 }
             ]
         }

@@ -59,7 +59,7 @@ const UsersPage = () => {
                     onDeleteInput={handleDeleteInput}
                 />
                 <Button onClick={() => handleAddUserButton()} variant={'green'} size={'medium'}>
-                    <h3>Agregar</h3>
+                    <h3>Crear</h3>
                 </Button>
             </Box>
 

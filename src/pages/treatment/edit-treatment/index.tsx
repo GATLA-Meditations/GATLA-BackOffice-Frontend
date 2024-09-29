@@ -1,15 +1,15 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {Module, Questionnaire} from "../../types";
-import '../../common/globals.css';
+import {Module, Questionnaire} from "../../../types";
+import '../../../common/globals.css';
 import {Box} from "@mui/material";
-import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
-import EditableInput from "../../components/EditableInput";
+import {RightArrowIcon} from "../../../assets/Icons/RightArrowIcon";
+import EditableInput from "../../../components/EditableInput";
 import {useState} from "react";
-import {useAppDispatch} from "../../redux/hooks.ts";
-import {updateRoutePath} from "../../redux/routeSlice.ts";
-import {useGetTreatmentById} from "../../service/api.ts";
+import {useAppDispatch} from "../../../redux/hooks.ts";
+import {updateRoutePath} from "../../../redux/routeSlice.ts";
+import {useGetTreatmentById} from "../../../service/api.ts";
 
-const Treatment = () => {
+const EditTreatment = () => {
     const id = useParams().id;
     const nav = useNavigate();
     const dispatch = useAppDispatch();
@@ -20,11 +20,6 @@ const Treatment = () => {
     const handleClickModule = (module: Module) => {
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
         nav(`/module/${module.id}`);
-    }
-
-    const handleClickQuestionnaire = (questionnaire: Questionnaire) => {
-        dispatch(updateRoutePath({name: questionnaire.name, route: `/questionnaire/${questionnaire.id}`}));
-        // nav(`/questionnaire/${questionnaire.id}`);
     }
 
     if (isLoading) {
@@ -53,16 +48,13 @@ const Treatment = () => {
             </Box>
             <Box>
                 <h3>Cuestionarios:</h3>
-                <Box className='items'>
-                    {treatment.questionnaires.length > 0 ? treatment.questionnaires.map((questionnaire: Questionnaire) => (
-                        <Box key={questionnaire.id} className='item' onClick={() => handleClickQuestionnaire(questionnaire)}>
-                            <h4>{questionnaire.name}</h4>
-                            <RightArrowIcon/>
-                        </Box>
+                {treatment.questionnaires.length > 0 ? treatment.questionnaires.map((questionnaire: Questionnaire) => (
+                    <Box key={questionnaire.id}>
+                        <h4>- {questionnaire.name}</h4>
+                    </Box>
                     ))
-                        : <h4>No hay cuestionarios</h4>
-                    }
-                </Box>
+                    : <h4>No hay cuestionarios asignados a este tratamiento</h4>
+                }
             </Box>
             <Box>
                 <h3>Módulos:</h3>
@@ -84,4 +76,4 @@ const Treatment = () => {
     );
 };
 
-export default Treatment;
+export default EditTreatment;

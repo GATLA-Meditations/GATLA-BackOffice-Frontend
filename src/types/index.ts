@@ -41,10 +41,17 @@ export interface QuestionnaireInfo {
 
 export interface Question {
     id: string;
-    type: string;
+    type: QuestionType;
     name: string;
     metadata: string;
     questionnaireId: string;
+}
+
+export enum QuestionType {
+    NUMERIC = "NUMERIC",
+    NOT_A_QUESTION = "NOT_A_QUESTION",
+    SINGLE_CHOICE = "SINGLE_CHOICE",
+    MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
 }
 
 export interface User {

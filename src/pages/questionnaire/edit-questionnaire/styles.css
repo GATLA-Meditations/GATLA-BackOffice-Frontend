@@ -17,11 +17,19 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  gap: 4px;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-type-selector {
+  max-width: 200px;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: white;
 }
