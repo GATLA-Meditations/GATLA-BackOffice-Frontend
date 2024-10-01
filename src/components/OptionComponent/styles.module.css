@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -15,11 +15,10 @@
     }
 }
 
-.arrowContainer{
+.arrowContainer {
     display: flex;
     margin-right: 8px;
     align-items: center;
     position: absolute;
     right: 0;
 }
-

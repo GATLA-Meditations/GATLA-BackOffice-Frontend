@@ -1,7 +1,7 @@
 export interface StepperItem {
-    id:string;
+    id: string;
     name: string;
-    route:string;
+    route: string;
     position: number;
 }
 
@@ -48,10 +48,10 @@ export interface Question {
 }
 
 export enum QuestionType {
-    NUMERIC = "NUMERIC",
-    NOT_A_QUESTION = "NOT_A_QUESTION",
-    SINGLE_CHOICE = "SINGLE_CHOICE",
-    MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+    NUMERIC = 'NUMERIC',
+    NOT_A_QUESTION = 'NOT_A_QUESTION',
+    SINGLE_CHOICE = 'SINGLE_CHOICE',
+    MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
 }
 
 export interface User {
@@ -82,13 +82,13 @@ export interface ActivityPreview {
 }
 
 export interface ActivityContent {
-    id:string;
+    id: string;
     type: string;
-    content:string;
+    content: string;
 }
 
 export interface Activity {
-    id:string;
-    name:string;
-    contents: ActivityContent[]
+    id: string;
+    name: string;
+    contents: ActivityContent[];
 }

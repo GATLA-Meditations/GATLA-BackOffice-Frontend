@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import moduleSlice from './moduleSlice';
-import routeSlice from "./routeSlice.ts";
+import routeSlice from './routeSlice.ts';
 import userSlice from './userSlice.ts';
 import {
     persistStore,
@@ -25,19 +25,26 @@ const store = configureStore({
     reducer: {
         module: moduleSlice,
         route: persistedRouteReducer,
-        user: userSlice
+        user: userSlice,
     },
-    middleware: getDefaultMiddleware =>
+    middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+                ignoredActions: [
+                    FLUSH,
+                    REHYDRATE,
+                    PAUSE,
+                    PERSIST,
+                    PURGE,
+                    REGISTER,
+                ],
             },
         }),
 });
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export type StoreType = typeof store
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type StoreType = typeof store;
 const persistor = persistStore(store);
 
-export {store, persistor};
+export { store, persistor };

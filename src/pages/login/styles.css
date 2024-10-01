@@ -16,7 +16,7 @@
     margin-bottom: 22px;
 }
 
-.inputContainer{
+.inputContainer {
     display: flex;
     flex-direction: column;
     gap: 16px;
