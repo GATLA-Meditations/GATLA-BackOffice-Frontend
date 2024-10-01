@@ -1,50 +1,50 @@
 .home-display {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 .home-menu {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 0;
-  border-right: 1px solid #888;
-  height: 100vh;
-  width: 20vh;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 1px solid #888;
+    height: 100vh;
+    width: 20vh;
 }
 
 .menu-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  cursor: pointer;
-  padding: 4px;
-  border-bottom: 1px solid #888;
-  &:hover {
-    background-color: #f0f0f0;
-  }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    cursor: pointer;
+    padding: 4px;
+    border-bottom: 1px solid #888;
+    &:hover {
+        background-color: #f0f0f0;
+    }
 }
 
 .module {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
 }
 
 .route {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .top-right-corner {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }

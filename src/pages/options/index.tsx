@@ -1,19 +1,7 @@
-import {Box} from "@mui/material";
-
+import { Box } from '@mui/material';
 
 const Options = () => {
-
-    return(
-        <Box>
-
-
-
-        </Box>
-    )
-
-
-
-
-}
+    return <Box></Box>;
+};
 
 export default Options;

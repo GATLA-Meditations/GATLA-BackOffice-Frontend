@@ -60,17 +60,11 @@ const GenericModal = ({
                 )}
 
                 <Box className="button-box">
-                    <Button
-                        onClick={handleConfirm}
-                        variant='primary'
-                    >
+                    <Button onClick={handleConfirm} variant="primary">
                         {topButtonText}
                     </Button>
                     {bottomButton && (
-                        <Button
-                            onClick={handleClose}
-                            variant='red'
-                        >
+                        <Button onClick={handleClose} variant="red">
                             {bottomButtonText}
                         </Button>
                     )}

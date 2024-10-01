@@ -1,47 +1,47 @@
 .edit-circles-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .edit-circles {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .circles {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  border: 1px solid black;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: 1px solid black;
 }
 
 .manage-circles {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .circle-function {
-  cursor: pointer;
-  border: 1px solid #888;
-  border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #888;
+    border-radius: 50%;
 }
 
 .options-title {
-  display: flex;
-  align-items: center;
-  gap: 10px
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .add-option {
-  width: 90px;
-  height: 45px;
+    width: 90px;
+    height: 45px;
 }
