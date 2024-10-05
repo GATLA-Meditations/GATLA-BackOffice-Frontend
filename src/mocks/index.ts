@@ -1,4 +1,4 @@
-import {Module, Treatment} from "../types";
+import {Module} from "../types";
 
 export const module1Mock = {
   type: "QUESTIONNAIRES",
@@ -69,12 +69,12 @@ export const module2Mock: Module = {
   progress: null,
 };
 
-export const treatmentMock: Treatment = {
-    id: "treatmentId",
-    name: "Tratamiento de depresión",
-    description: "Tratamiento para la depresión",
-    modules: [module1Mock, module2Mock],
-};
+// export const treatmentMock: Treatment = {
+//     id: "treatmentId",
+//     name: "Tratamiento de depresión",
+//     description: "Tratamiento para la depresión",
+//     modules: [module1Mock, module2Mock],
+// };
 
 export const questionnaireMock = {
     id: "questionnaireId",
