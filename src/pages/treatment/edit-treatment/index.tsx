@@ -20,6 +20,8 @@ const EditTreatment = () => {
     const handleClickModule = (module: Module) => {
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
         nav(`/module/${module.id}`);
+        console.log(treatmentName);
+        console.log(treatmentDescription);
     }
 
     if (isLoading) {
