@@ -4,11 +4,12 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
 
-const baseUrl = "http://localhost:3001";
+const baseURL =
+    import.meta.env.VITE_PUBLIC_BASE_URL|| 'https://api.renacentia.org';
 const adminToken = getToken();
 
 const api = axios.create({
-  baseURL: baseUrl,
+  baseURL: baseURL,
   headers: {
     Authorization: `Bearer ${adminToken}`,
   }
