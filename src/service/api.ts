@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ModuleAux, UpdateUserInput, Activity, ShopItem} from "../types";
+import { ModuleAux, UpdateUserInput, Activity, ShopItem, ActivityContent } from '../types';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
@@ -68,9 +68,20 @@ const getActivity = async (activityId:string): Promise<Activity> => {
   return response.data
 }
 
-const updateActivity = async(id:string, data: Activity) => {
-  const response =  await api.put(`/activity/modify/${id}`, data)
+const updateActivity = async(data: {content: ActivityContent[], activity: {id: string, title: string}}) => {
+  const response =  await api.put(`/activity/modify`, data)
   return response.data
+}
+
+export const useUpdateActivity = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: {content: ActivityContent[], activity: {id: string, title: string}}) =>
+            updateActivity(data),
+        onSuccess: () => {
+        queryClient.invalidateQueries("activities");
+        },
+    });
 }
 
 export const useGetActivity = (activityId:string) => {
@@ -114,18 +125,6 @@ export const login = async (data: any) => {
     throw error;
   }
 };
-
-export const useUpdateActivity = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: { id: string; data: Activity }) =>
-        updateActivity(data.id, data.data),
-    onSuccess: () => {
-      queryClient.invalidateQueries("activities");
-    },
-  });
-
-}
 
 export const useLogOut = async () => {
     localStorage.removeItem('token');
