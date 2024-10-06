@@ -92,3 +92,9 @@ export interface Activity {
     name:string;
     contents: ActivityContent[]
 }
+
+export interface ShopItem {
+    type:string,
+    price:number,
+    content_url: string
+}

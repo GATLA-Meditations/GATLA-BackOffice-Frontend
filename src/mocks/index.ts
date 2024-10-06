@@ -118,8 +118,3 @@ export const questionnaireMock = {
     ],
 };
 
-export const contentMock = {
-    label: "",
-    type: "",
-    url: "",
-};

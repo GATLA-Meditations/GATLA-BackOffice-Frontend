@@ -3,7 +3,7 @@ import React from "react";
 import "./styles.css";
 
 interface InputFieldProps {
-  text: string;
+  text: string | number;
   title?: string;
   placeholder: string;
   name: string;

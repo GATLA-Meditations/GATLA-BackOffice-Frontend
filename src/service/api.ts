@@ -1,11 +1,11 @@
 import axios from "axios";
-import {ModuleAux, UpdateUserInput, Activity} from "../types";
+import {ModuleAux, UpdateUserInput, Activity, ShopItem} from "../types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
 
 const baseURL =
-    import.meta.env.VITE_PUBLIC_BASE_URL|| 'https://api.renacentia.org';
+    import.meta.env.VITE_PUBLIC_BASE_URL || 'https://api.renacentia.org';
 const adminToken = getToken();
 
 const api = axios.create({
@@ -165,4 +165,9 @@ const getQuestionnaireById = async (id: string) => {
 
 export const useGetQuestionnaireById = (id: string) => {
     return useQuery("questionnaire", () => getQuestionnaireById(id));
+}
+
+export const uploadContent = async (data: ShopItem) => {
+    const response = await api.post('/shop/create-item', data)
+    return response.status;
 }
