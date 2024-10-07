@@ -8,6 +8,7 @@ import {useState} from "react";
 import {useAppDispatch} from "../../../redux/hooks.ts";
 import {updateRoutePath} from "../../../redux/routeSlice.ts";
 import {useGetTreatmentById} from "../../../service/api.ts";
+import Loader from '../../../components/Loader';
 
 const EditTreatment = () => {
     const id = useParams().id;
@@ -25,7 +26,7 @@ const EditTreatment = () => {
     }
 
     if (isLoading) {
-        return <h1>Loading</h1>
+        return <Loader />;
     }
 
     return (

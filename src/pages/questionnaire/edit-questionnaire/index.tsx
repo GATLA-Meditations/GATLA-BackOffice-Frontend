@@ -8,6 +8,7 @@ import { generateRandomId } from '../../../util';
 import { useParams } from 'react-router-dom';
 import { useGetQuestionnaireById } from '../../../service/api.ts';
 import EditableQuestionOptions from '../../../components/EditableQuestionOptions';
+import Loader from '../../../components/Loader';
 
 const EditQuestionnaire = () => {
   const questionnaireId = useParams().id;
@@ -85,7 +86,7 @@ const EditQuestionnaire = () => {
   };
 
   if (isLoading) {
-    return <h1>Loading</h1>
+    return <Loader />;
   }
 
   return (

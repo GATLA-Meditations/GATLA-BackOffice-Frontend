@@ -6,6 +6,7 @@ import styles from './styles.module.css'
 import {useAppDispatch} from "../../redux/hooks.ts";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
 import {ActivityPreview} from "../../types";
+import Loader from '../../components/Loader';
 
 
 const Module = () => {
@@ -15,7 +16,7 @@ const Module = () => {
     const { data, isLoading } = useGetModule(moduleId.id as string);
 
     if(isLoading){
-        return <h1>Loading</h1>
+        return <Loader/>;
     }
 
     const handleActivityOnClick = (activity: ActivityPreview) => {

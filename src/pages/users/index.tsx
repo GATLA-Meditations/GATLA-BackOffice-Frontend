@@ -10,9 +10,10 @@ import {useEffect, useState} from "react";
 import {useGetUsers} from "../../service/api.ts";
 import Button from "../../components/Button";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
+import Loader from '../../components/Loader';
 
 const UsersPage = () => {
-    const {data: users} = useGetUsers();
+    const {data: users, isLoading} = useGetUsers();
     const [userSearch, setUserSearch] = useState<string>("");
     const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
     const nav = useNavigate();
@@ -47,6 +48,10 @@ const UsersPage = () => {
         dispatch(updateRoutePath({name: 'Agregar usuario', route: '/user/create'}))
         nav("/user/create")
 
+    }
+
+    if (isLoading) {
+        return <Loader/>;
     }
 
     return (
