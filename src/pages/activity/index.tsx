@@ -22,10 +22,13 @@ const ActivityEdit = ({showToast}: WithToastProps) => {
             setActivity(data);
             setContents(data.contents)
         }
-        if (isSuccess) {
-            showToast('Actividad actualizada correctamente', 'success');
+    }, [data]);
+
+    useEffect(() => {
+        if(isSuccess){
+            showToast('Actividad actualizada', 'success')
         }
-    }, [data, isSuccess]);
+    }, [isSuccess]);
 
     const handleChange = (key: string, value: string, contentId?: string) => {
         if(activity){
