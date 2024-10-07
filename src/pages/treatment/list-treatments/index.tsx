@@ -8,10 +8,11 @@ import {RightArrowIcon} from "../../../assets/Icons/RightArrowIcon";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../../redux/hooks.ts";
 import {updateRoutePath} from "../../../redux/routeSlice.ts";
+import Loader from '../../../components/Loader';
 // import {useNavigate} from "react-router-dom";
 
 const TreatmentsPage = () => {
-    const {data: treatments} = useGetAllTreatments();
+    const {data: treatments, isLoading} = useGetAllTreatments();
     const [filteredTreatments, setFilteredTreatments] = useState<Treatment[]>(treatments);
     const [search, setSearch] = useState<string>('');
     const nav = useNavigate();
@@ -35,6 +36,10 @@ const TreatmentsPage = () => {
             setFilteredTreatments(treatments);
         }
     }, [treatments]);
+
+    if (isLoading) {
+        return <Loader/>;
+    }
 
     return (
         <Box className='display-items-page'>

@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import {useParams} from "react-router-dom";
 import { useGetActivity, useUpdateActivity } from '../../service/api.ts';
 import { Activity, ActivityContent } from '../../types';
+import Loader from '../../components/Loader';
 
 const ActivityEdit = () => {
 
@@ -67,7 +68,7 @@ const ActivityEdit = () => {
     }
 
     if(isLoading){
-        return <h1>Is loading</h1>
+        return <Loader />;
     }
 
     if (activity && contents) {

@@ -7,6 +7,7 @@ import { updateRoutePath } from '../../../redux/routeSlice.ts';
 import SearchBar from '../../../components/SearchBar';
 import { Box } from '@mui/material';
 import { RightArrowIcon } from '../../../assets/Icons/RightArrowIcon';
+import Loader from '../../../components/Loader';
 
 const QuestionnairesPage = () => {
     const {data: questionnaires, isLoading} = useGetAllQuestionnaires();
@@ -35,7 +36,7 @@ const QuestionnairesPage = () => {
     }, [questionnaires]);
 
     if (isLoading) {
-        return <h1>Loading</h1>
+        return <Loader />;
     }
 
     return (
