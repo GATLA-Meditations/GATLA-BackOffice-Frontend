@@ -3,25 +3,29 @@ import {Box} from "@mui/material";
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css'
 import Button from "../../components/Button";
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import { useGetActivity, useUpdateActivity } from '../../service/api.ts';
 import { Activity, ActivityContent } from '../../types';
 import Loader from '../../components/Loader';
+import withToast, { WithToastProps } from '../../hoc/withToast.tsx';
 
-const ActivityEdit = () => {
+const ActivityEdit = ({showToast}: WithToastProps) => {
 
     const activityId = useParams().id;
     const {data, isLoading} = useGetActivity(activityId as string);
     const [activity, setActivity] = useState<Activity>();
     const [contents, setContents] = useState<ActivityContent[]>([]);
-    const {mutate: updateActivity} = useUpdateActivity();
+    const {mutate: updateActivity, isSuccess} = useUpdateActivity();
 
     useEffect(() => {
         if(data){
             setActivity(data);
             setContents(data.contents)
         }
-    }, [data]);
+        if (isSuccess) {
+            showToast('Actividad actualizada correctamente', 'success');
+        }
+    }, [data, isSuccess]);
 
     const handleChange = (key: string, value: string, contentId?: string) => {
         if(activity){
@@ -91,4 +95,4 @@ const ActivityEdit = () => {
         )
     }
 }
-export default ActivityEdit
+export default withToast(ActivityEdit)
