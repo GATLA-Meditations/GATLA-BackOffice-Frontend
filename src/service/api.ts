@@ -79,7 +79,7 @@ export const useUpdateActivity = () => {
         mutationFn: (data: {content: ActivityContent[], activity: {id: string, title: string}}) =>
             updateActivity(data),
         onSuccess: () => {
-        queryClient.invalidateQueries("activities");
+        queryClient.invalidateQueries("activities").then();
         },
     });
 }
@@ -101,7 +101,7 @@ export const useUpdateUser = () => {
     mutationFn: (data: { id: string; data: UpdateUserInput }) =>
       updateUser(data.id, data.data),
     onSuccess: () => {
-      queryClient.invalidateQueries("users");
+      queryClient.invalidateQueries("users").then();
     },
   });
 };
@@ -169,4 +169,21 @@ export const useGetQuestionnaireById = (id: string) => {
 export const uploadContent = async (data: ShopItem) => {
     const response = await api.post('/shop/create-item', data)
     return response.status;
+}
+
+const updateTreatment = async (id: string, data: {name: string, description: string}) => {
+    const response = await api.put(`/admin/treatment/update/${id}`, data);
+    return response.data;
+}
+
+export const useUpdateTreatment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: {id: string, data: {name: string, description: string}}) =>
+            updateTreatment(data.id, data.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["treatments", "treatment"]).then();
+        },
+    });
 }

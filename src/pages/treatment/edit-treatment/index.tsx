@@ -1,14 +1,15 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {Module, Questionnaire} from "../../../types";
 import '../../../common/globals.css';
-import {Box} from "@mui/material";
+import { Box } from '@mui/material';
 import {RightArrowIcon} from "../../../assets/Icons/RightArrowIcon";
 import EditableInput from "../../../components/EditableInput";
-import {useState} from "react";
+import { useEffect, useState } from 'react';
 import {useAppDispatch} from "../../../redux/hooks.ts";
 import {updateRoutePath} from "../../../redux/routeSlice.ts";
-import {useGetTreatmentById} from "../../../service/api.ts";
+import { useGetTreatmentById, useUpdateTreatment } from '../../../service/api.ts';
 import Loader from '../../../components/Loader';
+import Button from '../../../components/Button';
 
 const EditTreatment = () => {
     const id = useParams().id;
@@ -17,6 +18,9 @@ const EditTreatment = () => {
     const {data: treatment, isLoading} = useGetTreatmentById(id as string);
     const [treatmentName, setTreatmentName] = useState<string>(''); // treatment name will be used in case of update treatment integration
     const [treatmentDescription, setTreatmentDescription] = useState<string>(''); // same as treatment name
+    const [treatmentQuestionnaires, setTreatmentQuestionnaires] = useState<Questionnaire[]>([]);
+    const [treatmentModules, setTreatmentModules] = useState<Module[]>([]);
+    const {mutate: updateTreatment} = useUpdateTreatment();
 
     const handleClickModule = (module: Module) => {
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
@@ -24,6 +28,26 @@ const EditTreatment = () => {
         console.log(treatmentName);
         console.log(treatmentDescription);
     }
+
+    const handleAddModule = () => {
+        setTreatmentModules([
+            ...treatmentModules,
+            { id: '', progress: 0, type: '', name: 'Nuevo módulo', description: 'Nueva descripción', activities: []}
+        ]);
+    }
+
+    const handleSave = () => {
+        updateTreatment({id: id as string, data: {name: treatmentName, description: treatmentDescription}});
+    }
+
+    useEffect(() => {
+        if (treatment) {
+            setTreatmentName(treatment.name);
+            setTreatmentDescription(treatment.description);
+            setTreatmentModules(treatment.modules);
+            setTreatmentQuestionnaires(treatment.questionnaires);
+        }
+    }, [treatment]);
 
     if (isLoading) {
         return <Loader />;
@@ -33,7 +57,7 @@ const EditTreatment = () => {
         <Box className='display-items-page'>
             <Box>
                 <EditableInput
-                    text={treatment.name}
+                    text={treatmentName}
                     placeholder={'Nombre'}
                     type={'text'}
                     name='treatmentName'
@@ -41,7 +65,7 @@ const EditTreatment = () => {
                     title={'Nombre del tratamiento:'}
                 />
                 <EditableInput
-                    text={treatment.description}
+                    text={treatmentDescription}
                     placeholder={'Descripción'}
                     type={'text'}
                     name={'treatmentDescription'}
@@ -51,18 +75,19 @@ const EditTreatment = () => {
             </Box>
             <Box>
                 <h3>Cuestionarios:</h3>
-                {treatment.questionnaires.length > 0 ? treatment.questionnaires.map((questionnaire: Questionnaire) => (
+                {treatmentQuestionnaires.length > 0 ? treatmentQuestionnaires.map((questionnaire: Questionnaire) => (
                     <Box key={questionnaire.id}>
                         <h4>- {questionnaire.name}</h4>
                     </Box>
                     ))
                     : <h4>No hay cuestionarios asignados a este tratamiento</h4>
                 }
+                <Button onClick={() => {}} variant={'green'}>Agregar cuestionario</Button>
             </Box>
             <Box>
                 <h3>Módulos:</h3>
                 <Box className='items'>
-                    {treatment.modules.length > 0 ? treatment.modules.map((module: Module) => (
+                    {treatmentModules.length > 0 ? treatmentModules.map((module: Module) => (
                         <Box key={module.id} className='item' onClick={() => handleClickModule(module)}>
                             <Box>
                                 <h4>{module.name}</h4>
@@ -74,7 +99,11 @@ const EditTreatment = () => {
                         : <h4>No hay módulos</h4>
                     }
                 </Box>
+                <Button onClick={handleAddModule} variant={'green'}>Agregar módulo</Button>
             </Box>
+            <Button variant="primary" onClick={handleSave}>
+                Guardar
+            </Button>
         </Box>
     );
 };
