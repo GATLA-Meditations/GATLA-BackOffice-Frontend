@@ -204,3 +204,20 @@ export const useCreateNewModule = () => {
         },
     });
 }
+
+const addQuestionnaireToTreatment = async (treatmentId: string, questionnaireId: string) => {
+    const response = await api.put(`/admin/treatment/${treatmentId}/questionnaire/${questionnaireId}`);
+    return response.data;
+}
+
+export const useAddQuestionnaireToTreatment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: {treatmentId: string, questionnaireId: string}) =>
+            addQuestionnaireToTreatment(data.treatmentId, data.questionnaireId),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["treatments", "treatment"]).then();
+        },
+    });
+}

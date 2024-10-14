@@ -1,16 +1,23 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {Module, Questionnaire} from "../../../types";
+import { Module, Questionnaire } from '../../../types';
 import '../../../common/globals.css';
-import { Box } from '@mui/material';
+import { Box, FormControl, MenuItem, Select } from '@mui/material';
 import {RightArrowIcon} from "../../../assets/Icons/RightArrowIcon";
 import EditableInput from "../../../components/EditableInput";
 import { useEffect, useState } from 'react';
 import {useAppDispatch} from "../../../redux/hooks.ts";
 import {updateRoutePath} from "../../../redux/routeSlice.ts";
-import { useCreateNewModule, useGetTreatmentById, useUpdateTreatment } from '../../../service/api.ts';
+import {
+    useAddQuestionnaireToTreatment,
+    useCreateNewModule,
+    useGetAllQuestionnaires,
+    useGetTreatmentById,
+    useUpdateTreatment,
+} from '../../../service/api.ts';
 import Loader from '../../../components/Loader';
 import Button from '../../../components/Button';
 import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
+import GenericModal from '../../../components/GenericModal';
 
 const EditTreatment = ({showToast}: WithToastProps) => {
     const id = useParams().id;
@@ -23,6 +30,26 @@ const EditTreatment = ({showToast}: WithToastProps) => {
     const [treatmentModules, setTreatmentModules] = useState<Module[]>([]);
     const {mutate: updateTreatment, isSuccess: updateTreatmentSuccess} = useUpdateTreatment();
     const {mutate: createNewModule, data: newModule, isSuccess: createNewModuleSuccess} = useCreateNewModule();
+    const [isEditingQuestionnaire, setIsEditingQuestionnaire] = useState<boolean>(false);
+    const {data: questionnaires} = useGetAllQuestionnaires();
+    const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<string>('');
+    const {mutate: addQuestionnaire, isSuccess: questionnaireAdded} = useAddQuestionnaireToTreatment();
+
+    const handleSelectQuestionnaire = (questionnaireId: string) => {
+        setSelectedQuestionnaire(questionnaireId);
+    }
+
+    const handleAddQuestionnaire = () => {
+        if (selectedQuestionnaire) {
+            addQuestionnaire({ treatmentId: id as string, questionnaireId: selectedQuestionnaire });
+            setIsEditingQuestionnaire(false);
+        }
+    }
+
+    const handleCancelAddQuestionnaire = () => {
+        setSelectedQuestionnaire('');
+        setIsEditingQuestionnaire(false);
+    }
 
     const handleClickModule = (module: Module) => {
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
@@ -67,6 +94,12 @@ const EditTreatment = ({showToast}: WithToastProps) => {
         }
     }, [updateTreatmentSuccess]);
 
+    useEffect(() => {
+        if (questionnaireAdded) {
+            showToast('Cuestionario añadido', 'success');
+        }
+    }, [questionnaireAdded]);
+
     if (isLoading) {
         return <Loader />;
     }
@@ -92,7 +125,7 @@ const EditTreatment = ({showToast}: WithToastProps) => {
                 />
             </Box>
             <Box>
-                <h3>Cuestionarios:</h3>
+                <h3>Cuestionario:</h3>
                 {treatmentQuestionnaires.length > 0 ? treatmentQuestionnaires.map((questionnaire: Questionnaire) => (
                     <Box key={questionnaire.id}>
                         <h4>- {questionnaire.name}</h4>
@@ -100,7 +133,37 @@ const EditTreatment = ({showToast}: WithToastProps) => {
                     ))
                     : <h4>No hay cuestionarios asignados a este tratamiento</h4>
                 }
-                <Button onClick={() => {}} variant={'green'}>Agregar cuestionario</Button>
+                <Button onClick={() => {setIsEditingQuestionnaire(true)}} variant={'green'}>Agregar cuestionario</Button>
+                {isEditingQuestionnaire && (
+                    <GenericModal
+                        open={isEditingQuestionnaire}
+                        onClose={handleCancelAddQuestionnaire}
+                        topButtonAction={handleAddQuestionnaire}
+                        title={'Seleccionar un cuestionario'}
+                        description={'Los cuestionarios se mostrarán al principio y al final del tratamiento.'}
+                        topButtonText={'Agregar'}
+                        disabled={!selectedQuestionnaire}
+                    >
+                        <FormControl>
+                            <Select
+                                variant={'outlined'}
+                                className={'questionnaire-selector'}
+                                value={selectedQuestionnaire || ''}
+                                onChange={(event) => handleSelectQuestionnaire(event.target.value)}
+                                displayEmpty
+                            >
+                                <MenuItem key={0} value={''} disabled>
+                                    Elige un cuestionario
+                                </MenuItem>
+                                {questionnaires?.map((questionnaire: Questionnaire) => (
+                                    <MenuItem key={questionnaire.id} value={questionnaire.id}>
+                                        {questionnaire.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </GenericModal>
+                )}
             </Box>
             <Box>
                 <h3>Módulos:</h3>

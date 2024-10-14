@@ -13,6 +13,8 @@ interface GenericModalProps {
     topButtonAction: () => void;
     bottomButton?: boolean;
     bottomButtonText?: string;
+    children?: React.ReactNode;
+    disabled?: boolean;
 }
 
 const GenericModal = ({
@@ -24,6 +26,8 @@ const GenericModal = ({
     topButtonText = 'Confirmar',
     bottomButton = true,
     bottomButtonText = 'Cancelar',
+    children,
+    disabled,
 }: GenericModalProps) => {
     const handleConfirm = () => {
         topButtonAction();
@@ -59,10 +63,13 @@ const GenericModal = ({
                     </Typography>
                 )}
 
+                {children}
+
                 <Box className="button-box">
                     <Button
                         onClick={handleConfirm}
                         variant='primary'
+                        disabled={disabled}
                     >
                         {topButtonText}
                     </Button>
