@@ -7,11 +7,12 @@ import EditableInput from "../../../components/EditableInput";
 import { useEffect, useState } from 'react';
 import {useAppDispatch} from "../../../redux/hooks.ts";
 import {updateRoutePath} from "../../../redux/routeSlice.ts";
-import { useGetTreatmentById, useUpdateTreatment } from '../../../service/api.ts';
+import { useCreateNewModule, useGetTreatmentById, useUpdateTreatment } from '../../../service/api.ts';
 import Loader from '../../../components/Loader';
 import Button from '../../../components/Button';
+import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
 
-const EditTreatment = () => {
+const EditTreatment = ({showToast}: WithToastProps) => {
     const id = useParams().id;
     const nav = useNavigate();
     const dispatch = useAppDispatch();
@@ -20,7 +21,8 @@ const EditTreatment = () => {
     const [treatmentDescription, setTreatmentDescription] = useState<string>(''); // same as treatment name
     const [treatmentQuestionnaires, setTreatmentQuestionnaires] = useState<Questionnaire[]>([]);
     const [treatmentModules, setTreatmentModules] = useState<Module[]>([]);
-    const {mutate: updateTreatment} = useUpdateTreatment();
+    const {mutate: updateTreatment, isSuccess: updateTreatmentSuccess} = useUpdateTreatment();
+    const {mutate: createNewModule, data: newModule, isSuccess: createNewModuleSuccess} = useCreateNewModule();
 
     const handleClickModule = (module: Module) => {
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
@@ -30,10 +32,7 @@ const EditTreatment = () => {
     }
 
     const handleAddModule = () => {
-        setTreatmentModules([
-            ...treatmentModules,
-            { id: '', progress: 0, type: '', name: 'Nuevo módulo', description: 'Nueva descripción', activities: []}
-        ]);
+        createNewModule(id as string);
     }
 
     const handleSave = () => {
@@ -48,6 +47,25 @@ const EditTreatment = () => {
             setTreatmentQuestionnaires(treatment.questionnaires);
         }
     }, [treatment]);
+
+    useEffect(() => {
+        if (createNewModuleSuccess) {
+            showToast('Módulo creado', 'success');
+            setTreatmentModules([...treatmentModules, newModule]);
+        }
+    }, [createNewModuleSuccess]);
+
+    useEffect(() => {
+        if (newModule) {
+            setTreatmentModules([...treatmentModules, newModule]);
+        }
+    }, [newModule]);
+
+    useEffect(() => {
+        if (updateTreatmentSuccess) {
+            showToast('Tratamiento actualizado', 'success');
+        }
+    }, [updateTreatmentSuccess]);
 
     if (isLoading) {
         return <Loader />;
@@ -108,4 +126,4 @@ const EditTreatment = () => {
     );
 };
 
-export default EditTreatment;
+export default withToast(EditTreatment);

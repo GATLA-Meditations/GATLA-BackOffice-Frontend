@@ -187,3 +187,20 @@ export const useUpdateTreatment = () => {
         },
     });
 }
+
+const createNewModule = async (id: string) => {
+    const response = await api.put(`/admin/treatment/${id}/create-module`);
+    return response.data;
+}
+
+export const useCreateNewModule = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            createNewModule(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["treatments", "treatment"]).then();
+        },
+    });
+}
