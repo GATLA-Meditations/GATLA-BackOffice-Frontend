@@ -97,6 +97,7 @@ const EditTreatment = ({showToast}: WithToastProps) => {
     useEffect(() => {
         if (questionnaireAdded) {
             showToast('Cuestionario añadido', 'success');
+            setTreatmentQuestionnaires([...treatmentQuestionnaires, questionnaires.find((questionnaire: Questionnaire) => questionnaire.id === selectedQuestionnaire)]);
         }
     }, [questionnaireAdded]);
 
@@ -124,6 +125,9 @@ const EditTreatment = ({showToast}: WithToastProps) => {
                     title={'Descripción del tratamiento:'}
                 />
             </Box>
+            <Button variant="primary" onClick={handleSave}>
+                Guardar
+            </Button>
             <Box>
                 <h3>Cuestionario:</h3>
                 {treatmentQuestionnaires.length > 0 ? treatmentQuestionnaires.map((questionnaire: Questionnaire) => (
@@ -182,9 +186,6 @@ const EditTreatment = ({showToast}: WithToastProps) => {
                 </Box>
                 <Button onClick={handleAddModule} variant={'green'}>Agregar módulo</Button>
             </Box>
-            <Button variant="primary" onClick={handleSave}>
-                Guardar
-            </Button>
         </Box>
     );
 };
