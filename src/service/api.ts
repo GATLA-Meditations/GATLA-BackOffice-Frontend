@@ -170,3 +170,20 @@ export const uploadContent = async (data: ShopItem) => {
     const response = await api.post('/shop/create-item', data)
     return response.status;
 }
+
+const updateModule = async (id: string, data: { name: string; description: string }) => {
+    const response = await api.put(`/admin/module/update/${id}`, data);
+    return response.data;
+}
+
+export const useUpdateModule = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { id: string; data: { name: string; description: string } }) =>
+            updateModule(data.id, data.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["modules", "module"]);
+        },
+    });
+};
