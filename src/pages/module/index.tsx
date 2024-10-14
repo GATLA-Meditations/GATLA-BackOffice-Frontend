@@ -1,4 +1,4 @@
-import { useGetModule, useUpdateModule } from '../../service/api.ts';
+import { useCreateNewActivity, useGetModule, useUpdateModule } from '../../service/api.ts';
 import {useNavigate, useParams} from "react-router-dom";
 import {Box} from "@mui/material";
 import OptionComponent from "../../components/OptionComponent";
@@ -21,6 +21,7 @@ const Module = ({showToast}: WithToastProps) => {
     const [moduleDescription, setModuleDescription] = useState('');
     const [activities, setActivities] = useState<ActivityPreview[]>([]);
     const {mutate: updateModule, isSuccess: updateModuleSuccess} = useUpdateModule();
+    const {mutate: createActivity, data: newActivity , isSuccess: createActivitySuccess} = useCreateNewActivity();
 
     useEffect(() => {
         if(data){
@@ -36,12 +37,15 @@ const Module = ({showToast}: WithToastProps) => {
         }
     }, [updateModuleSuccess]);
 
+    useEffect(() => {
+        if(createActivitySuccess){
+            showToast('Actividad creada', 'success')
+            setActivities([...activities, newActivity]);
+        }
+    }, [createActivitySuccess]);
+
     const handleAddActivity = () => {
-        setActivities([...activities, {
-            id: '',
-            name: 'Nueva actividad',
-            unlocked: false,
-        }]);
+        createActivity(moduleId as string);
     }
 
     const handleSave = () => {

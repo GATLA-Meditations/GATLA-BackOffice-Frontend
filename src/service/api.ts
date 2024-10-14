@@ -183,7 +183,24 @@ export const useUpdateModule = () => {
         mutationFn: (data: { id: string; data: { name: string; description: string } }) =>
             updateModule(data.id, data.data),
         onSuccess: () => {
-            queryClient.invalidateQueries(["modules", "module"]);
+            queryClient.invalidateQueries(["modules", "module"]).then();
+        },
+    });
+};
+
+const createNewActivity = async (id: string) => {
+    const response = await api.post(`/activity/module/${id}/`);
+    return response.data;
+}
+
+export const useCreateNewActivity = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            createNewActivity(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["activities", "module"]).then();
         },
     });
 };
