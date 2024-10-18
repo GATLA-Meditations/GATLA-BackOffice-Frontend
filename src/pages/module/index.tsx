@@ -81,6 +81,7 @@ const Module = ({showToast}: WithToastProps) => {
                     title={'Descripción del módulo:'}
                 />
             </Box>
+            <Button onClick={handleSave} variant={'primary'}>Guardar</Button>
             <Box>
                 <h3>Actividades:</h3>
                 <Box className={styles.moduleContainer}>
@@ -92,7 +93,6 @@ const Module = ({showToast}: WithToastProps) => {
                 </Box>
                 <Button onClick={handleAddActivity} variant={'green'}>Agregar actividad</Button>
             </Box>
-            <Button onClick={handleSave} variant={'primary'}>Guardar</Button>
         </Box>
     );
 }
