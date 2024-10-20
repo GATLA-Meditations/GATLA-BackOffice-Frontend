@@ -58,13 +58,13 @@ export interface User {
     id: string;
     patient_code: string;
     password: string;
-    meditationType: string;
+    treatments: Treatment[];
 }
 
 export interface UpdateUserInput {
     patient_code: string;
     password: string;
-    meditationType: string;
+    treatment: { id: string };
 }
 
 export interface ModuleAux {

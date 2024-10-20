@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ModuleAux, UpdateUserInput, Activity, ShopItem, ActivityContent } from '../types';
+import { ModuleAux, UpdateUserInput, Activity, ShopItem, ActivityContent, SimplifiedUser } from '../types';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
@@ -204,3 +204,8 @@ export const useCreateNewActivity = () => {
         },
     });
 };
+
+export const getUserById = async (id: string): Promise<SimplifiedUser> => {
+    const response = await api.get(`/admin/user/${id}`);
+    return response.data;
+}

@@ -60,7 +60,7 @@ export const Router = createBrowserRouter([
                     element: <CreateUser/>
                 },
                 {
-                    path: '/user/modify',
+                    path: '/user/modify/:id',
                     element: <ModifyUser/>
                 },
                 {

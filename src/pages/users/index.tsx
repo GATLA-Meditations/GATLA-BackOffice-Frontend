@@ -7,7 +7,7 @@ import {useAppDispatch} from "../../redux/hooks";
 import {setUser} from "../../redux/userSlice";
 import SearchBar from "../../components/SearchBar";
 import {useEffect, useState} from "react";
-import {useGetUsers} from "../../service/api.ts";
+import {useGetUsers, getUserById} from "../../service/api.ts";
 import Button from "../../components/Button";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
 import Loader from '../../components/Loader';
@@ -19,10 +19,15 @@ const UsersPage = () => {
     const nav = useNavigate();
     const dispatch = useAppDispatch();
 
-    const handleClickUser = (user: User) => {
-        dispatch(setUser(user));
-        dispatch(updateRoutePath({name:user.patient_code, route:'/user/modify'}))
-        nav("/user/modify");
+    const handleClickUser = async (userId: string) => {
+        try {
+            const user = await getUserById(userId);
+            dispatch(setUser(user));
+            dispatch(updateRoutePath({name: user.patient_code, route: `/user/modify/${user.id}`}));
+            nav(`/user/modify/${user.id}`);
+        } catch (error) {
+            console.error("Failed to fetch user:", error);
+        }
     };
 
     const handleSearch = (value: string) => {
@@ -74,7 +79,7 @@ const UsersPage = () => {
                         <Box
                             key={user.id}
                             className={"item"}
-                            onClick={() => handleClickUser(user)}
+                            onClick={() => handleClickUser(user.id)}
                         >
                             <h4>{user.patient_code}</h4>
                             <RightArrowIcon/>
