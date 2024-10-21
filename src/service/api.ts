@@ -255,3 +255,37 @@ export const useCreateNewActivity = () => {
         },
     });
 };
+
+const deleteContent = async (id: string, contentId: string) => {
+    const response = await api.delete(`/admin/activity/${id}/diconect-content/${contentId}`);
+    return response.data;
+}
+
+export const useDeleteContent = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { id: string; contentId: string }) =>
+            deleteContent(data.id, data.contentId),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["activities", "activity"]).then();
+        },
+    });
+}
+
+const addContent = async (id: string, contents: ActivityContent[]) => {
+    const response = await api.put(`/admin/activity/${id}/update-content`, contents);
+    return response.data;
+}
+
+export const useAddContent = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { id: string; contents: ActivityContent[] }) =>
+            addContent(data.id, data.contents),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["activities", "activity"]).then();
+        },
+    });
+};
