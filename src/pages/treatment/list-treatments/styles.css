@@ -1,0 +1,22 @@
+.create-treatment-modal {
+    display: flex;
+    flex-direction: column;
+
+    .input-container {
+
+        input {
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 10px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .MuiInput-underline:before,
+        .MuiInput-underline:hover:not(.Mui-disabled):before,
+        .MuiInput-underline:after {
+            border-bottom: none;
+        }
+    }
+}
