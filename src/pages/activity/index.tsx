@@ -190,6 +190,7 @@ const ActivityEdit = ({showToast}: WithToastProps) => {
                                 onChange={(e) => setContent(e.target.value)}
                                 placeholder={'Contenido'}
                                 className={styles.contentInput}
+                                disableUnderline
                             />
                         </Box>
                     </Box>
