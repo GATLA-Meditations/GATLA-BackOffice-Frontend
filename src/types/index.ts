@@ -13,6 +13,13 @@ export interface Treatment {
     questionnaires: Questionnaire[];
 }
 
+export interface TreatmentInput {
+    name: string;
+    description: string;
+    modules: ModuleInput[];
+    questionnaires: string[];
+}
+
 export interface Module {
     type: string;
     id: string;
@@ -22,10 +29,26 @@ export interface Module {
     progress: number | null;
 }
 
+export interface ModuleInput {
+    name: string;
+    description: string;
+    activities: ActivityInput[];
+}
+
 export interface Activity {
     id: string;
     name: string;
     completed: boolean;
+}
+
+export interface ActivityInput {
+    name: string;
+    contents: ContentInput[];
+}
+
+export interface ContentInput {
+    type: string;
+    content: string;
 }
 
 export interface Questionnaire {
