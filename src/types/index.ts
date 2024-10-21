@@ -82,9 +82,10 @@ export interface ActivityPreview {
 }
 
 export interface ActivityContent {
-    id:string;
+    id?: string;
     type: string;
     content:string;
+    order: number;
 }
 
 export interface Activity {
