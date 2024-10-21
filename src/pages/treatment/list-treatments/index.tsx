@@ -89,6 +89,7 @@ const TreatmentsPage = ({showToast}: WithToastProps) => {
                             value={treatmentName}
                             onChange={(e) => setTreatmentName(e.target.value)}
                             placeholder={'Nombre del tratamiento'}
+                            disableUnderline
                         />
                     </Box>
                     <Box className='input-container'>
@@ -97,6 +98,7 @@ const TreatmentsPage = ({showToast}: WithToastProps) => {
                             value={treatmentDescription}
                             onChange={(e) => setTreatmentDescription(e.target.value)}
                             placeholder={'Descripción del tratamiento'}
+                            disableUnderline
                         />
                     </Box>
                 </Box>
