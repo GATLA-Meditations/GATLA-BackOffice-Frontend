@@ -9,7 +9,7 @@ import {useAppDispatch} from "../../../redux/hooks.ts";
 import {updateRoutePath} from "../../../redux/routeSlice.ts";
 import {
     useAddQuestionnaireToTreatment,
-    useCreateNewModule,
+    useCreateNewModule, useDisconnectQuestionnaire,
     useGetAllQuestionnaires,
     useGetTreatmentById,
     useUpdateTreatment,
@@ -18,6 +18,7 @@ import Loader from '../../../components/Loader';
 import Button from '../../../components/Button';
 import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
 import GenericModal from '../../../components/GenericModal';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EditTreatment = ({showToast}: WithToastProps) => {
     const id = useParams().id;
@@ -34,6 +35,7 @@ const EditTreatment = ({showToast}: WithToastProps) => {
     const {data: questionnaires} = useGetAllQuestionnaires();
     const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<string>('');
     const {mutate: addQuestionnaire, isSuccess: questionnaireAdded} = useAddQuestionnaireToTreatment();
+    const {mutate: disconnectQuestionnaire, isSuccess: questionnaireDisconnected} = useDisconnectQuestionnaire()
 
     const handleSelectQuestionnaire = (questionnaireId: string) => {
         setSelectedQuestionnaire(questionnaireId);
@@ -49,6 +51,11 @@ const EditTreatment = ({showToast}: WithToastProps) => {
     const handleCancelAddQuestionnaire = () => {
         setSelectedQuestionnaire('');
         setIsEditingQuestionnaire(false);
+    }
+
+    const handleDisconnectQuestionnaire = (questionnaireId: string) => {
+        disconnectQuestionnaire({ treatmentId: id as string, questionnaireId })
+        setTreatmentQuestionnaires(treatmentQuestionnaires.filter(questionnaire => questionnaire.id !== questionnaireId));
     }
 
     const handleClickModule = (module: Module) => {
@@ -101,6 +108,12 @@ const EditTreatment = ({showToast}: WithToastProps) => {
         }
     }, [questionnaireAdded]);
 
+    useEffect(() => {
+        if (questionnaireDisconnected) {
+            showToast('Cuestionario eliminado', 'success')
+        }
+    }, [questionnaireDisconnected]);
+
     if (isLoading) {
         return <Loader />;
     }
@@ -131,8 +144,9 @@ const EditTreatment = ({showToast}: WithToastProps) => {
             <Box>
                 <h3>Cuestionario:</h3>
                 {treatmentQuestionnaires.length > 0 ? treatmentQuestionnaires.map((questionnaire: Questionnaire) => (
-                    <Box key={questionnaire.id}>
+                    <Box key={questionnaire.id} sx={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                         <h4>- {questionnaire.name}</h4>
+                        <DeleteIcon className='icon' onClick={() => handleDisconnectQuestionnaire(questionnaire.id)}/>
                     </Box>
                     ))
                     : <h4>No hay cuestionarios asignados a este tratamiento</h4>

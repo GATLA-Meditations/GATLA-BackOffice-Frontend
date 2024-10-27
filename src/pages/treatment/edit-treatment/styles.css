@@ -1,3 +1,9 @@
 .questionnaire-selector {
     max-width: 200px;
 }
+
+.icon {
+    cursor: pointer;
+    border: 1px solid #888;
+    border-radius: 4px;
+}
