@@ -41,8 +41,8 @@ api.interceptors.response.use(
     }
 );
 
-const getUsers = async () => {
-  const response = await api.get("/admin/user/");
+const getUsers = async (pageNumber: string) => {
+  const response = await api.get(`/admin/users-paginated/?page=${pageNumber}&size=10`);
   return response.data;
 };
 
@@ -58,8 +58,8 @@ const updateUser = async (id: string, data: UpdateUserInput) => {
   return response.data;
 };
 
-export const useGetUsers = () => {
-  return useQuery("users", getUsers);
+export const useGetUsers = (pageNumber: number) => {
+    return useQuery(["users", pageNumber], () => getUsers(pageNumber.toString()));
 };
 
 
