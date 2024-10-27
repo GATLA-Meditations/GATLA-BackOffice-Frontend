@@ -323,3 +323,20 @@ export const useDisconnectQuestionnaire = () => {
         },
     });
 };
+
+const deleteTreatment = async (id: string) => {
+    const response = await api.delete(`/treatment/${id}`);
+    return response.data;
+}
+
+export const useDeleteTreatment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteTreatment(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["treatments"]).then();
+        },
+    });
+};
