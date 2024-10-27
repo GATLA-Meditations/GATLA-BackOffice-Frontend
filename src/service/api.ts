@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ModuleAux, UpdateUserInput, Activity, ShopItem, ActivityContent } from '../types';
+import { ModuleAux, UpdateUserInput, Activity, ShopItem, ActivityContent, TreatmentInput } from '../types';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
@@ -41,8 +41,8 @@ api.interceptors.response.use(
     }
 );
 
-const getUsers = async () => {
-  const response = await api.get("/admin/user/");
+const getUsers = async (pageNumber: string) => {
+  const response = await api.get(`/admin/users-paginated/?page=${pageNumber}&size=10`);
   return response.data;
 };
 
@@ -58,8 +58,8 @@ const updateUser = async (id: string, data: UpdateUserInput) => {
   return response.data;
 };
 
-export const useGetUsers = () => {
-  return useQuery("users", getUsers);
+export const useGetUsers = (pageNumber: number) => {
+    return useQuery(["users", pageNumber], () => getUsers(pageNumber.toString()));
 };
 
 
@@ -252,6 +252,23 @@ export const useCreateNewActivity = () => {
             createNewActivity(id),
         onSuccess: () => {
             queryClient.invalidateQueries(["activities", "module"]).then();
+        },
+    });
+};
+
+const createTreatment = async (data: TreatmentInput) => {
+    const response = await api.post("/admin/treatment/create", data);
+    return response.data;
+}
+
+export const useCreateTreatment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: TreatmentInput) =>
+            createTreatment(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["treatments"]).then();
         },
     });
 };

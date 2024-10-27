@@ -36,3 +36,11 @@
         gap: 16px;
     }
 }
+
+.border-1px{
+    border: 1px solid black;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

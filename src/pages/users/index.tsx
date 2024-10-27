@@ -1,6 +1,7 @@
 import {User} from "../../types";
 import {Box} from "@mui/material";
 import "../../common/globals.css";
+import "./styles.css";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../redux/hooks";
@@ -11,9 +12,11 @@ import {useGetUsers} from "../../service/api.ts";
 import Button from "../../components/Button";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
 import Loader from '../../components/Loader';
+import {ArrowBack, ArrowForward} from "@mui/icons-material";
 
 const UsersPage = () => {
-    const {data: users, isLoading} = useGetUsers();
+    const [page, setCurrentPage] = useState(1);
+    const {data: users, isLoading} = useGetUsers(page);
     const [userSearch, setUserSearch] = useState<string>("");
     const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
     const nav = useNavigate();
@@ -21,7 +24,7 @@ const UsersPage = () => {
 
     const handleClickUser = (user: User) => {
         dispatch(setUser(user));
-        dispatch(updateRoutePath({name:user.patient_code, route:'/user/modify'}))
+        dispatch(updateRoutePath({name: user.patient_code, route: '/user/modify'}))
         nav("/user/modify");
     };
 
@@ -68,21 +71,33 @@ const UsersPage = () => {
                 </Button>
             </Box>
 
-            <Box className={"items"}>
-                {filteredUsers && filteredUsers.length > 0 ? (
-                    filteredUsers.map((user: User) => (
-                        <Box
-                            key={user.id}
-                            className={"item"}
-                            onClick={() => handleClickUser(user)}
-                        >
-                            <h4>{user.patient_code}</h4>
-                            <RightArrowIcon/>
-                        </Box>
-                    ))
-                ) : (
-                    <h4>No se encontraron usuarios</h4>
-                )}
+            <Box className={'users-list-container'}>
+                <Box className={"items border-1px"}>
+                    {filteredUsers && filteredUsers.length > 0 ? (
+                        filteredUsers.map((user: User) => (
+                            <Box
+                                key={user.id}
+                                className={"item"}
+                                onClick={() => handleClickUser(user)}
+                            >
+                                <h4>{user.patient_code}</h4>
+                                <RightArrowIcon/>
+                            </Box>
+                        ))
+                    ) : (
+                        <h4>No se encontraron usuarios</h4>
+                    )}
+                </Box>
+                <Box className={'users-footer-container'}>
+                    <Box className={'users-amount-container'}>
+                        {users.length + '/' + '10'}
+                    </Box>
+                    <Box className={'users-arrows-container'} display={'flex'}>
+                        <ArrowBack className={'cursor-pointer'} onClick={() => setCurrentPage(page - 1)}/>
+                        {page}
+                        <ArrowForward className={'cursor-pointer'} onClick={() => setCurrentPage(page + 1)}/>
+                    </Box>
+                </Box>
             </Box>
         </Box>
     );
