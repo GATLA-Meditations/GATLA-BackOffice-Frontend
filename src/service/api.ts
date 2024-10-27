@@ -306,3 +306,20 @@ export const useAddContent = () => {
         },
     });
 };
+
+const disconnectQuestionnaire = async (treatmentId: string, questionnaireId: string) => {
+    const response = await api.delete(`/admin/treatment/${treatmentId}/questionnaire/${questionnaireId}`);
+    return response.data;
+}
+
+export const useDisconnectQuestionnaire = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { treatmentId: string; questionnaireId: string }) =>
+            disconnectQuestionnaire(data.treatmentId, data.questionnaireId),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["treatments", "treatment"]).then();
+        },
+    });
+};
