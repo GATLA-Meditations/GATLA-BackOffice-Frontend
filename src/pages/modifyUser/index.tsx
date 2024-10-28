@@ -44,7 +44,9 @@ const ModifyUser = () => {
 
     const handleDeleteUser = async () => {
         try {
-            await deleteUser(selectedUser.patient_code.trim())
+            await deleteUser(selectedUser.patient_code.trim()).then(() => {
+                nav("/users");
+            })
         } catch (error) {
             console.error(error);
         }

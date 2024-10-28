@@ -6,10 +6,10 @@ import {RightArrowIcon} from "../../../assets/Icons/RightArrowIcon";
 import EditableInput from "../../../components/EditableInput";
 import { useEffect, useState } from 'react';
 import {useAppDispatch} from "../../../redux/hooks.ts";
-import {updateRoutePath} from "../../../redux/routeSlice.ts";
+import { removeRoutePath, updateRoutePath } from '../../../redux/routeSlice.ts';
 import {
     useAddQuestionnaireToTreatment,
-    useCreateNewModule, useDisconnectQuestionnaire,
+    useCreateNewModule, useDeleteTreatment, useDisconnectQuestionnaire,
     useGetAllQuestionnaires,
     useGetTreatmentById,
     useUpdateTreatment,
@@ -19,12 +19,18 @@ import Button from '../../../components/Button';
 import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
 import GenericModal from '../../../components/GenericModal';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteTreatmentModal from '../deleteTreatment';
 
 const EditTreatment = ({showToast}: WithToastProps) => {
     const id = useParams().id;
     const nav = useNavigate();
     const dispatch = useAppDispatch();
     const {data: treatment, isLoading} = useGetTreatmentById(id as string);
+    const [deleteTreatmentModal, setDeleteTreatmentModal] = useState<boolean>(false);
+    const {
+        mutate: deleteTreatment,
+        isSuccess: deletedTreatmentSuccess,
+        isError: deletedTreatmentError} = useDeleteTreatment();
     const [treatmentName, setTreatmentName] = useState<string>(''); // treatment name will be used in case of update treatment integration
     const [treatmentDescription, setTreatmentDescription] = useState<string>(''); // same as treatment name
     const [treatmentQuestionnaires, setTreatmentQuestionnaires] = useState<Questionnaire[]>([]);
@@ -36,6 +42,23 @@ const EditTreatment = ({showToast}: WithToastProps) => {
     const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<string>('');
     const {mutate: addQuestionnaire, isSuccess: questionnaireAdded} = useAddQuestionnaireToTreatment();
     const {mutate: disconnectQuestionnaire, isSuccess: questionnaireDisconnected} = useDisconnectQuestionnaire()
+
+    const handleDeleteTreatment = () => {
+        deleteTreatment(id as string);
+    }
+
+    useEffect(() => {
+        if (deletedTreatmentSuccess) {
+            dispatch(removeRoutePath());
+            nav('/treatments');
+        }
+    }, [deletedTreatmentSuccess]);
+
+    useEffect(() => {
+        if (deletedTreatmentError) {
+            showToast('Error al eliminar el tratamiento', 'error');
+        }
+    }, [deletedTreatmentError]);
 
     const handleSelectQuestionnaire = (questionnaireId: string) => {
         setSelectedQuestionnaire(questionnaireId);
@@ -120,6 +143,13 @@ const EditTreatment = ({showToast}: WithToastProps) => {
 
     return (
         <Box className='display-items-page'>
+            <Button onClick={() => setDeleteTreatmentModal(true)} variant={'red'}>Eliminar tratamiento</Button>
+            <DeleteTreatmentModal
+                open={deleteTreatmentModal}
+                onClose={() => setDeleteTreatmentModal(false)}
+                onDelete={handleDeleteTreatment}
+                treatmentName={treatment.name}
+            />
             <Box>
                 <EditableInput
                     text={treatmentName}
