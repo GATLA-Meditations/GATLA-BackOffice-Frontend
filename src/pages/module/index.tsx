@@ -4,7 +4,7 @@ import {Box} from "@mui/material";
 import OptionComponent from "../../components/OptionComponent";
 import styles from './styles.module.css'
 import {useAppDispatch} from "../../redux/hooks.ts";
-import {updateRoutePath} from "../../redux/routeSlice.ts";
+import { removeRoutePath, updateRoutePath } from '../../redux/routeSlice.ts';
 import { ActivityPreview } from '../../types';
 import Loader from '../../components/Loader';
 import EditableInput from '../../components/EditableInput';
@@ -40,8 +40,9 @@ const Module = ({showToast}: WithToastProps) => {
 
     useEffect(() => {
         if(deleteModuleSuccess){
-            // fix navigate to treatment info page
-            navigate(-1)
+            const treatmentId = localStorage.getItem('treatmentId');
+            dispatch(removeRoutePath());
+            navigate(`/treatments/${treatmentId}`, {replace: true});
         }
     }, [deleteModuleSuccess]);
 
