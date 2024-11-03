@@ -14,13 +14,15 @@ import EditTreatment from "../../pages/treatment/edit-treatment";
 import EditQuestionnaire from '../../pages/questionnaire/edit-questionnaire';
 import QuestionnairesPage from '../../pages/questionnaire/list-questionnaires';
 import UploadContent from "../../pages/uploadContent";
+import PrivateRoute from "../PrivateRoute";
 
 
 const WithSideBarAndStepper = () => {
     return (
         <Box display={'flex'} flexDirection={'row'} height={'100vh'} width={'100%'}>
             <SideBar/>
-            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'} style={{overflowX:'scroll'}}>
+            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'}
+                 style={{overflowX: 'scroll'}}>
                 <Box height={'100px'} width={'100%'}>
                     <Stepper/>
                 </Box>
@@ -37,53 +39,58 @@ export const Router = createBrowserRouter([
             element: <Login/>
         },
         {
-            element: <WithSideBarAndStepper/>,
+            element: <PrivateRoute/>,
             children: [
                 {
-                    path: '/',
-                    element: <Home/>
-                },
-                {
-                    path: '/module/:id',
-                    element: <Module/>
-                },
-                {
-                    path: '/activity/:id',
-                    element: <Activity/>
-                },
-                {
-                    path: '/users/',
-                    element: <UsersPage/>
-                },
-                {
-                    path: '/user/create',
-                    element: <CreateUser/>
-                },
-                {
-                    path: '/user/modify',
-                    element: <ModifyUser/>
-                },
-                {
-                    path: '/treatments',
-                    element: <TreatmentsPage/>
-                },
-                {
-                    path: '/treatments/:id',
-                    element: <EditTreatment/>
-                },
-                {
-                    path: '/questionnaire',
-                    element: <QuestionnairesPage/>
-                },
-                {
-                    path: '/questionnaire/:id',
-                    element: <EditQuestionnaire/>
-                },
-                {
-                    path: '/upload/content',
-                    element: <UploadContent/>
+                    element: <WithSideBarAndStepper/>,
+                    children: [
+                        {
+                            path: '/',
+                            element: <Home/>
+                        },
+                        {
+                            path: '/module/:id',
+                            element: <Module/>
+                        },
+                        {
+                            path: '/activity/:id',
+                            element: <Activity/>
+                        },
+                        {
+                            path: '/users/',
+                            element: <UsersPage/>
+                        },
+                        {
+                            path: '/user/create',
+                            element: <CreateUser/>
+                        },
+                        {
+                            path: '/user/modify',
+                            element: <ModifyUser/>
+                        },
+                        {
+                            path: '/treatments',
+                            element: <TreatmentsPage/>
+                        },
+                        {
+                            path: '/treatments/:id',
+                            element: <EditTreatment/>
+                        },
+                        {
+                            path: '/questionnaire',
+                            element: <QuestionnairesPage/>
+                        },
+                        {
+                            path: '/questionnaire/:id',
+                            element: <EditQuestionnaire/>
+                        },
+                        {
+                            path: '/upload/content',
+                            element: <UploadContent/>
+                        }
+                    ]
                 }
             ]
-        }
+        },
     ]
 )
