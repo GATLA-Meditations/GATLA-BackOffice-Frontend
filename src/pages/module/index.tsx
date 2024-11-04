@@ -1,27 +1,34 @@
-import { useCreateNewActivity, useGetModule, useUpdateModule } from '../../service/api.ts';
+import { useCreateNewActivity, useDeleteModule, useGetModule, useUpdateModule } from '../../service/api.ts';
 import {useNavigate, useParams} from "react-router-dom";
 import {Box} from "@mui/material";
 import OptionComponent from "../../components/OptionComponent";
 import styles from './styles.module.css'
 import {useAppDispatch} from "../../redux/hooks.ts";
-import {updateRoutePath} from "../../redux/routeSlice.ts";
+import { removeRoutePath, updateRoutePath } from '../../redux/routeSlice.ts';
 import { ActivityPreview } from '../../types';
 import Loader from '../../components/Loader';
 import EditableInput from '../../components/EditableInput';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import withToast, { WithToastProps } from '../../hoc/withToast.tsx';
+import DeleteModuleModal from './deleteModule';
 
 const Module = ({showToast}: WithToastProps) => {
     const moduleId = useParams().id;
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { data, isLoading } = useGetModule(moduleId as string);
+    const [deleteModuleModal, setDeleteModuleModal] = useState<boolean>(false);
+    const {mutate: deleteModule, isSuccess: deleteModuleSuccess} = useDeleteModule();
     const [moduleName, setModuleName] = useState('');
     const [moduleDescription, setModuleDescription] = useState('');
     const [activities, setActivities] = useState<ActivityPreview[]>([]);
     const {mutate: updateModule, isSuccess: updateModuleSuccess} = useUpdateModule();
     const {mutate: createActivity, data: newActivity , isSuccess: createActivitySuccess} = useCreateNewActivity();
+
+    const handleDeleteModule = () => {
+        deleteModule(moduleId as string);
+    }
 
     useEffect(() => {
         if(data){
@@ -30,6 +37,14 @@ const Module = ({showToast}: WithToastProps) => {
             setActivities(data.activities);
         }
     }, [data]);
+
+    useEffect(() => {
+        if(deleteModuleSuccess){
+            const treatmentId = localStorage.getItem('treatmentId');
+            dispatch(removeRoutePath());
+            navigate(`/treatments/${treatmentId}`, {replace: true});
+        }
+    }, [deleteModuleSuccess]);
 
     useEffect(() => {
         if(updateModuleSuccess){
@@ -64,6 +79,14 @@ const Module = ({showToast}: WithToastProps) => {
     return(
         <Box className={styles.modulePage}>
             <Box className={'treatment-info-container'}>
+            <Button onClick={() => setDeleteModuleModal(true)} variant={'red'}>Eliminar módulo</Button>
+            <DeleteModuleModal
+                open={deleteModuleModal}
+                onClose={() => setDeleteModuleModal(false)}
+                onDelete={handleDeleteModule}
+                moduleName={data ? data.name : ''}
+            />
+            <Box>
                 <EditableInput
                     text={moduleName}
                     placeholder={'Nombre'}
