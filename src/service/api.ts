@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ModuleAux, UpdateUserInput, Activity, ShopItem, ActivityContent, TreatmentInput } from '../types';
+import { ModuleAux, UpdateUserInput, Activity, ShopItemInput, ActivityContent, TreatmentInput } from '../types';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
@@ -166,7 +166,7 @@ export const useGetQuestionnaireById = (id: string) => {
     return useQuery("questionnaire", () => getQuestionnaireById(id));
 }
 
-export const uploadContent = async (data: ShopItem) => {
+export const uploadContent = async (data: ShopItemInput) => {
     const response = await api.post('/shop/create-item', data)
     return response.status;
 }
@@ -357,3 +357,12 @@ export const useDeleteModule = () => {
         },
     });
 };
+
+const getShopItems = async () => {
+    const response = await api.get("/shop/all-items-user");
+    return response.data.items;
+}
+
+export const useGetShopItems = () => {
+    return useQuery("shopItems", getShopItems);
+}

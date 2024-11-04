@@ -1,0 +1,13 @@
+.itemsDisplay {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.shopItemsPage {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 16px;
+}

@@ -30,7 +30,7 @@ export const SideBar = () => {
         },
         {
             name: "Fondos y Perfiles",
-            redirect: '/upload/content',
+            redirect: '/shop-items',
             active:false,
         },
         {
@@ -73,7 +73,7 @@ export const SideBar = () => {
         }
 
     }
-    
+
 
 
     return (

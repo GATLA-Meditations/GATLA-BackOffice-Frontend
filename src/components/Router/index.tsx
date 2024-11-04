@@ -12,9 +12,9 @@ import TreatmentsPage from "../../pages/treatment/list-treatments";
 import EditTreatment from "../../pages/treatment/edit-treatment";
 import EditQuestionnaire from '../../pages/questionnaire/edit-questionnaire';
 import QuestionnairesPage from '../../pages/questionnaire/list-questionnaires';
-import UploadContent from "../../pages/uploadContent";
+import UploadContent from "../../pages/shopItems/uploadContent";
 import PrivateRoute from "../PrivateRoute";
-
+import ShopItemsPage from '../../pages/shopItems';
 
 const WithSideBarAndStepper = () => {
     return (
@@ -92,6 +92,10 @@ export const Router = createBrowserRouter([
                         {
                             path: '*',
                             element: <h1>¿Te confundiste? 🧐</h1>
+                        },
+                        {
+                            path: '/shop-items',
+                            element: <ShopItemsPage/>
                         }
                     ]
                 }
