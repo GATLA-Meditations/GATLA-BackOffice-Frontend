@@ -53,7 +53,7 @@ const UsersPage = () => {
     return (
         <Box className={"display-items-page"}>
             <Box className={'display-searchbar-button'}>
-                <form onSubmit={(event) => {event.preventDefault(); handleSearchQuery()}}>
+                <form style={{width:'100%'}} onSubmit={(event) => {event.preventDefault(); handleSearchQuery()}}>
                     <SearchBar
                         placeholder={"Buscar usuario"}
                         onChange={(value) => handleSearchInput(value)}
@@ -62,12 +62,12 @@ const UsersPage = () => {
                     />
                 </form>
                 <Button onClick={() => handleAddUserButton()} variant={'green'} size={'medium'}>
-                    <h3>Crear</h3>
+                    <p className={'body1'}>Crear</p>
                 </Button>
             </Box>
 
             <Box className={'users-list-container'}>
-                <Box className={"items border-1px"}>
+                <Box className={'items'}>
                     {users && users.length > 0 ? (
                         users.map((user: User) => (
                             <Box
@@ -75,7 +75,7 @@ const UsersPage = () => {
                                 className={"item"}
                                 onClick={() => handleClickUser(user)}
                             >
-                                <h4>{user.patient_code}</h4>
+                                <p className={'body1'}>{user.patient_code}</p>
                                 <RightArrowIcon/>
                             </Box>
                         ))
@@ -88,7 +88,7 @@ const UsersPage = () => {
                         {users.length + '/' + '10'}
                     </Box>
                     <Box className={'users-arrows-container'} display={'flex'}>
-                        <ArrowBack className={'cursor-pointer'} onClick={() => setCurrentPage(page - 1)}/>
+                        <ArrowBack className={'cursor-pointer'} onClick={() => page > 1 ? setCurrentPage(page - 1) : null}/>
                         {page}
                         <ArrowForward className={'cursor-pointer'} onClick={() => setCurrentPage(page + 1)}/>
                     </Box>

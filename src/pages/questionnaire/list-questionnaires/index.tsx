@@ -46,7 +46,7 @@ const QuestionnairesPage = () => {
                 {filteredQuestionnaires && filteredQuestionnaires.length > 0 ? (
                     filteredQuestionnaires.map((questionnaire: Questionnaire) => (
                         <Box key={questionnaire.id} className='item' onClick={() => handleClickQuestionnaire(questionnaire)}>
-                            <h4>{questionnaire.name}</h4>
+                            <p className={'body1'}>{questionnaire.name}</p>
                             <RightArrowIcon />
                         </Box>
                     ))

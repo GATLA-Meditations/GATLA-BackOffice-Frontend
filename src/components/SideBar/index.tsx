@@ -1,15 +1,17 @@
 import {Box} from "@mui/material";
-import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
 import {useState} from "react";
 import styles from './styles.module.css'
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {Route, sliceRoutePath, updateRoutePath} from "../../redux/routeSlice.ts";
 import {useNavigate} from "react-router-dom";
+import Button from "../Button";
+import {useLogOut} from "../../service/api.ts";
 
 export type OptionsType = {
     name: string;
-    redirect?: string; // Mark as optional since it's not required in all cases
+    redirect: string; // Mark as optional since it's not required in all cases
     children?: OptionsType[];
+    active: boolean;
 }
 
 export const SideBar = () => {
@@ -18,19 +20,23 @@ export const SideBar = () => {
     const optionsMock: OptionsType[] = [
         {
             name: "Usuarios",
-            redirect: '/users/'
+            redirect: '/users/',
+            active: false,
         },
         {
             name: "Tratamientos",
-            redirect: '/treatments'
+            redirect: '/treatments',
+            active:false,
         },
         {
             name: "Fondos y Perfiles",
-            redirect: '/upload/content'
+            redirect: '/upload/content',
+            active:false,
         },
         {
             name: "Cuestionarios",
-            redirect: '/questionnaire'
+            redirect: '/questionnaire',
+            active:false,
         }
     ];
 
@@ -39,11 +45,16 @@ export const SideBar = () => {
     const route: Route = useAppSelector((store) => store.route)
     const navigate = useNavigate()
 
+    const handleLogOut = () => {
+        useLogOut()
+        window.location.href = "/login"
+    }
+
 
 
     const handleSelectItem = (index: number) => {
         const updatedOptions = options.map((option, i) =>
-            i === index ? {...option} : option
+            i === index ? {...option, active: true} : {...option, active: false}
         );
         setOptions(updatedOptions)
         dispatchRoute(options[index])
@@ -62,15 +73,20 @@ export const SideBar = () => {
         }
 
     }
+    
 
 
     return (
         <Box className={styles.homeMenu}>
-            {options.map((option, index) => (
-                <Box className={styles.menuTextContainer} onClick={() => handleSelectItem(index)}>
-                    <h5>{option.name}</h5>
-                    <RightArrowIcon width="16" height="16"/>
-                </Box>))}
+            <Box className={styles.sidebarItems}>
+                {options.map((option, index) => (
+                    <Box className={`${styles.menuTextContainer} ${option.active || window.location.pathname.includes(option.redirect) ? styles.active : ''}`} onClick={() => handleSelectItem(index)}>
+                        <p className={'body1'}>{option.name}</p>
+                    </Box>))}
+            </Box>
+            <Button onClick={() => handleLogOut()} variant={'red'} size={'medium'}>
+                <p className={'body1'}>Cerrar Sesión</p>
+            </Button>
         </Box>
     )
 

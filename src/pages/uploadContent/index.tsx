@@ -1,5 +1,6 @@
 import {Box, FormControl, MenuItem, Select} from "@mui/material";
 import styles from "../activity/styles.module.css";
+import '../home/styles.css';
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 import {useState} from "react";
@@ -33,23 +34,23 @@ const UploadContent = ({showToast}: WithToastProps) => {
 
     return (
         <Box className={"home-display"}>
-            <h3>Tipo de contenido</h3>
+            <p className={'h6'}>Tipo de contenido</p>
             <FormControl>
                 <Select value={content.type} onChange={(e) => handleChange('type', e.target.value)}>
                     <MenuItem value="FONDO">Fondo</MenuItem>
                     <MenuItem value="ICONO">Icono</MenuItem>
                 </Select>
             </FormControl>
-            <h4>{disclaimerText}</h4>
+            <p className={'h6 bold'}>{disclaimerText}</p>
             <Box className={styles.activityContainer}>
                 <InputField title={'Precio del contenido'} text={content.price}
-                            placeholder={'Precio del contenido'}
+                            placeholder={'Escribe aquí el precio del contenido'}
                             name={'UserCode'}
                             handleChange={(e) => handleChange('price', e.target.value)}/>
                 <InputField title={'Link del contenido'} text={content.content_url}
-                            placeholder={'Link del contenido'}
+                            placeholder={'Escribe aquí el link del contenido'}
                             name={'UserPass'} handleChange={(e) => handleChange('content_url', e.target.value)}/>
-                <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Crear</Button>
+                <Button onClick={() => handleSubmit()} variant={'green'} size={'medium'}>Crear</Button>
             </Box>
         </Box>
     );

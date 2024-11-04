@@ -143,14 +143,13 @@ const EditTreatment = ({showToast}: WithToastProps) => {
 
     return (
         <Box className='display-items-page'>
-            <Button onClick={() => setDeleteTreatmentModal(true)} variant={'red'}>Eliminar tratamiento</Button>
             <DeleteTreatmentModal
                 open={deleteTreatmentModal}
                 onClose={() => setDeleteTreatmentModal(false)}
                 onDelete={handleDeleteTreatment}
                 treatmentName={treatment.name}
             />
-            <Box>
+            <Box className={'treatment-info-container'}>
                 <EditableInput
                     text={treatmentName}
                     placeholder={'Nombre'}
@@ -168,20 +167,23 @@ const EditTreatment = ({showToast}: WithToastProps) => {
                     title={'Descripción del tratamiento:'}
                 />
             </Box>
+            <Box className={'buttons-container'}>
             <Button variant="primary" onClick={handleSave}>
                 Guardar
             </Button>
+            <Button onClick={() => setDeleteTreatmentModal(true)} variant={'red'} size={'medium'}>Eliminar</Button>
+            </Box>
             <Box>
-                <h3>Cuestionario:</h3>
+                <p className={'h6 bold'}>Cuestionario/s:</p>
                 {treatmentQuestionnaires.length > 0 ? treatmentQuestionnaires.map((questionnaire: Questionnaire) => (
                     <Box key={questionnaire.id} sx={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                        <h4>- {questionnaire.name}</h4>
-                        <DeleteIcon className='icon' onClick={() => handleDisconnectQuestionnaire(questionnaire.id)}/>
+                        <p className={'body1'}>- {questionnaire.name}</p>
+                        <DeleteIcon className='icon delete-icon' onClick={() => handleDisconnectQuestionnaire(questionnaire.id)}/>
                     </Box>
                     ))
-                    : <h4>No hay cuestionarios asignados a este tratamiento</h4>
+                    : <p className={'body1bold'}>No hay cuestionarios asignados a este tratamiento</p>
                 }
-                <Button onClick={() => {setIsEditingQuestionnaire(true)}} variant={'green'}>Agregar cuestionario</Button>
+                <Button onClick={() => {setIsEditingQuestionnaire(true)}} variant={'green'} size={'medium'}>Agregar</Button>
                 {isEditingQuestionnaire && (
                     <GenericModal
                         open={isEditingQuestionnaire}
@@ -214,21 +216,21 @@ const EditTreatment = ({showToast}: WithToastProps) => {
                 )}
             </Box>
             <Box>
-                <h3>Módulos:</h3>
+                <p className={'h6 bold'}>Módulos:</p>
                 <Box className='items'>
                     {treatmentModules.length > 0 ? treatmentModules.map((module: Module) => (
                         <Box key={module.id} className='item' onClick={() => handleClickModule(module)}>
                             <Box>
-                                <h4>{module.name}</h4>
-                                <p>{module.description}</p>
+                                <p className={'body1 bold'}>{module.name}</p>
+                                <p className={'body2 '}>{module.description}</p>
                             </Box>
                             <RightArrowIcon/>
                         </Box>
                     ))
-                        : <h4>No hay módulos</h4>
+                        : <p className={'body1 bold'}>No hay módulos</p>
                     }
                 </Box>
-                <Button onClick={handleAddModule} variant={'green'}>Agregar módulo</Button>
+                <Button onClick={handleAddModule} variant={'green'}>Agregar</Button>
             </Box>
         </Box>
     );

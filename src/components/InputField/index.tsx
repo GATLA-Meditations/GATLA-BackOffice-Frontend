@@ -13,8 +13,8 @@ interface InputFieldProps {
 const InputField = (props: InputFieldProps) => {
 
   return (
-    <Box>
-      <h3>{props.title}</h3>
+    <Box className={'input-main-container'}>
+      <p className={'h6'}>{props.title}</p>
       <Box className={"input-container"}>
         <input
           name={props.name}
