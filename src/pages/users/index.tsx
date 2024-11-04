@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../redux/hooks";
 import {setUser} from "../../redux/userSlice";
 import SearchBar from "../../components/SearchBar";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useGetUsers} from "../../service/api.ts";
 import Button from "../../components/Button";
 import {updateRoutePath} from "../../redux/routeSlice.ts";
@@ -16,9 +16,12 @@ import {ArrowBack, ArrowForward} from "@mui/icons-material";
 
 const UsersPage = () => {
     const [page, setCurrentPage] = useState(1);
-    const {data: users, isLoading} = useGetUsers(page);
-    const [userSearch, setUserSearch] = useState<string>("");
-    const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
+    const [userSearch, setUserSearch] = useState<{searchInput: string, searchQuery:string}>({
+        searchInput: '',
+        searchQuery: ''
+    });
+    // The userSearch is divided in two states to avoid the searchQuery to be updated every time the user types
+    const {data: users, isLoading} = useGetUsers(page, userSearch.searchQuery);
     const nav = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -28,29 +31,19 @@ const UsersPage = () => {
         nav("/user/modify");
     };
 
-    const handleSearch = (value: string) => {
-        setUserSearch(value);
-        const filtered = users.filter((user: User) =>
-            user.patient_code.toLowerCase().includes(value.toLowerCase())
-        );
-        setFilteredUsers(filtered);
-    };
+    const handleSearchInput = (value: string) => {
+        setUserSearch((prevState) => ({ ...prevState, searchInput: value }));};
 
-    useEffect(() => {
-        if (users) {
-            setFilteredUsers(users);
-        }
-    }, [users]);
+    const handleSearchQuery = ()=>  {
+        setUserSearch((prevState) => ({ ...prevState, searchQuery: prevState.searchInput }));
+    }
 
     const handleDeleteInput = () => {
-        setUserSearch("");
-        setFilteredUsers(users);
-    };
+        setUserSearch({searchQuery : '', searchInput: '' });    };
 
     const handleAddUserButton = () => {
         dispatch(updateRoutePath({name: 'Agregar usuario', route: '/user/create'}))
         nav("/user/create")
-
     }
 
     if (isLoading) {
@@ -60,23 +53,23 @@ const UsersPage = () => {
     return (
         <Box className={"display-items-page"}>
             <Box className={'display-searchbar-button'}>
-                <Box width={'100%'}>
+                <form onSubmit={(event) => {event.preventDefault(); handleSearchQuery()}}>
                     <SearchBar
                         placeholder={"Buscar usuario"}
-                        onChange={handleSearch}
-                        value={userSearch}
+                        onChange={(value) => handleSearchInput(value)}
+                        value={userSearch.searchInput}
                         onDeleteInput={handleDeleteInput}
                     />
-                </Box>
+                </form>
                 <Button onClick={() => handleAddUserButton()} variant={'green'} size={'medium'}>
                     <p className={'body1'}>Crear</p>
                 </Button>
             </Box>
 
             <Box className={'users-list-container'}>
-                <Box className={"items"}>
-                    {filteredUsers && filteredUsers.length > 0 ? (
-                        filteredUsers.map((user: User) => (
+                <Box className={"items border-1px"}>
+                    {users && users.length > 0 ? (
+                        users.map((user: User) => (
                             <Box
                                 key={user.id}
                                 className={"item"}
