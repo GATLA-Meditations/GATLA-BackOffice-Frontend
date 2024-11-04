@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {removeRoutePath, Route, sliceRoutePath} from "../../redux/routeSlice.ts";
 import {StepperItem} from "../../types";
 import {useEffect} from "react";
+import logo from '../../assets/Logo/logo.png';
 
 
 export const Stepper = () => {
@@ -34,14 +35,19 @@ export const Stepper = () => {
 
     return (
         <Box className={styles.routeContainer}>
-            {route.path.map((item) =>
-                (
-                    <Box className={styles.routeItem}>
-                        <p className={styles.routeItemText} onClick={() => handleItemOnClick(item)}>{item.name}</p>
-                        <RightArrowIcon width="14" height="14"/>
-                    </Box>
-                )
-            )}
+            <Box className={styles.routeItemsContainer}>
+                {route.path.map((item) =>
+                    (
+                        <Box className={styles.routeItem}>
+                            <p className={styles.routeItemText} onClick={() => handleItemOnClick(item)}>{item.name}</p>
+                            <RightArrowIcon width="14" height="14"/>
+                        </Box>
+                    )
+                )}
+            </Box>
+            <Box>
+                <img src={logo} alt="logo" width={40} height={60}/>
+            </Box>
         </Box>
 
     )

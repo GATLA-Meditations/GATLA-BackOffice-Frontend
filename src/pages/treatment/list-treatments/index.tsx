@@ -72,8 +72,20 @@ const TreatmentsPage = ({showToast}: WithToastProps) => {
             <Box className={'display-searchbar-button'}>
                 <SearchBar placeholder={"Buscar tratamiento"} value={search} onChange={(value) => handleSearch(value)} />
                 <Button onClick={() => setCreateTreatmentModal(true)} variant={'green'} size={'medium'}>
-                    Crear tratamiento
+                    <p className={'body1'}>Crear</p>
                 </Button>
+            </Box>
+            <Box className='items'>
+                {filteredTreatments && filteredTreatments.length > 0 ? (
+                    filteredTreatments.map((treatment: Treatment) => (
+                        <Box key={treatment.id} className='item' onClick={() => handleClickTreatment(treatment)}>
+                            <p className={'body1'}>{treatment.name}</p>
+                            <RightArrowIcon />
+                        </Box>
+                    ))
+                ) : (
+                    <h4>No hay tratamientos</h4>
+                )}
             </Box>
             <GenericModal
                 open={createTreatmentModal}
@@ -103,18 +115,6 @@ const TreatmentsPage = ({showToast}: WithToastProps) => {
                     </Box>
                 </Box>
             </GenericModal>
-            <Box className='items'>
-                {filteredTreatments && filteredTreatments.length > 0 ? (
-                    filteredTreatments.map((treatment: Treatment) => (
-                        <Box key={treatment.id} className='item' onClick={() => handleClickTreatment(treatment)}>
-                            <h4>{treatment.name}</h4>
-                            <RightArrowIcon />
-                        </Box>
-                    ))
-                ) : (
-                    <h4>No hay tratamientos</h4>
-                )}
-            </Box>
         </Box>
     );
 };

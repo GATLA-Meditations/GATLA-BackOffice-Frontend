@@ -27,7 +27,7 @@ const LoginPage = ({showToast}: WithToastProps) => {
         try {
             const token = await login(adminData);
             setToken(token);
-            navigate('/');
+            navigate('/users/');
         } catch (error) {
             console.log(error);
             showToast('Error al iniciar sesión', 'error');

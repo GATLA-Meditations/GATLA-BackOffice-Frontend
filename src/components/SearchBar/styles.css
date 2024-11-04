@@ -1,22 +1,26 @@
 .custom-search-bar .MuiOutlinedInput-root {
   border-radius: 30px;
-  width: 65vh;
+  width: 100%;
 }
 
+
+.MuiFormControl-root{
+    width: 100%;
+}
 .custom-search-bar .MuiOutlinedInput-notchedOutline {
-  border-color: black !important;
+  border-color: var(--grey-300) !important;
 }
 
 .custom-search-bar
   .MuiOutlinedInput-root:hover
   .MuiOutlinedInput-notchedOutline {
-  border-color: black !important;
+  border-color: var(--grey-300) !important;
 }
 
 .custom-search-bar
   .MuiOutlinedInput-root.Mui-focused
   .MuiOutlinedInput-notchedOutline {
-  border-color: black !important;
+  border-color: var(--grey-300) !important;
 }
 
 .custom-search-bar .MuiInputBase-input {

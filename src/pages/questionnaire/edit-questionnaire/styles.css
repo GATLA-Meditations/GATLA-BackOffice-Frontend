@@ -3,7 +3,6 @@
   flex-direction: column;
   gap: 16px;
   width: 100%;
-  padding-left: 30px;
 }
 
 .questionnaire-header {
@@ -17,11 +16,13 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  gap: 16px;
 }
 
 .question {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .question-type-selector {
@@ -31,5 +32,10 @@
 .button-container {
   display: flex;
   justify-content: space-evenly;
-  background-color: white;
+}
+
+.form-control{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

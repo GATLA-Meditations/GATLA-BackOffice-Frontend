@@ -63,7 +63,7 @@ const Module = ({showToast}: WithToastProps) => {
 
     return(
         <Box className={styles.modulePage}>
-            <Box>
+            <Box className={'treatment-info-container'}>
                 <EditableInput
                     text={moduleName}
                     placeholder={'Nombre'}
@@ -82,13 +82,15 @@ const Module = ({showToast}: WithToastProps) => {
                 />
             </Box>
             <Button onClick={handleSave} variant={'primary'}>Guardar</Button>
-            <Box>
-                <h3>Actividades:</h3>
-                <Box className={styles.moduleContainer}>
+
+            <Box className={'display-items-page'}>
+
+                <Box className={'items'}>
+                    <p className={'h6 bold'}>Actividades:</p>
                     {activities.length > 0 ? activities.map((activity) => (
-                        <OptionComponent title={activity.name} onClick={() => handleActivityOnClick(activity)}/>
-                    )) :
-                        <h4>No hay actividades asignadas a este módulo</h4>
+                            <OptionComponent title={activity.name} onClick={() => handleActivityOnClick(activity)}/>
+                        )) :
+                        <p className={'body1 bold'}>No hay actividades asignadas a este módulo</p>
                     }
                 </Box>
                 <Button onClick={handleAddActivity} variant={'green'}>Agregar actividad</Button>

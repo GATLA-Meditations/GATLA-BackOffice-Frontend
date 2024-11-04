@@ -1,9 +1,18 @@
 .homeMenu {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #888;
+    justify-content: space-between;
+    border-right: 1px solid var(--grey-200);
     height: 100vh;
-    width: 20vh;
+    width: 32vh;
+    padding: 16px;
+    background-color: var(--primary-100);
+}
+
+.sidebarItems{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .menuOption {
@@ -30,11 +39,16 @@
 
 .menuTextContainer{
     display: flex;
+    padding: 12px;
+    border-radius: 12px;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
     cursor: pointer;
     &:hover{
-        background-color: #f0f0f0;
+        background-color: var(--secondary-200);
     }
+}
+
+.active{
+    background-color: var(--secondary-200);
 }

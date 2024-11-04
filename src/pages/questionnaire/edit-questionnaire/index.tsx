@@ -115,8 +115,8 @@ const EditQuestionnaire = () => {
               onDelete={() => handleDeleteQuestion(index)}
               isDeletaable={true}
             />
-            <FormControl>
-              <h5>Tipo de pregunta:</h5>
+            <FormControl className={'form-control'}>
+              <p className={'body2'}>Tipo de pregunta:</p>
               <Select
                   variant={'outlined'}
                   className={'question-type-selector'}

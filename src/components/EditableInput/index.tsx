@@ -20,8 +20,8 @@ const EditableInput = (props: EditableInputProps) => {
   const [isEditing, setIsEditing] = React.useState(false);
 
   return (
-    <Box>
-      <h3>{props.title}</h3>
+    <Box className={'input-main-container'}>
+      <p className={'h6 bold'}>{props.title}</p>
       <Box className={"input-container"}>
         <input
           name={props.name}
@@ -33,14 +33,14 @@ const EditableInput = (props: EditableInputProps) => {
           disabled={!isEditing}
         />
         {!isEditing ? (
-          <EditIcon className="icon" onClick={() => setIsEditing(!isEditing)} />
+          <EditIcon className="icon edit-icon" onClick={() => setIsEditing(!isEditing)} />
         ) : (
           <CheckIcon
             className="icon"
             onClick={() => setIsEditing(!isEditing)}
           />
         )}
-        {!isEditing && props.isDeletaable && <DeleteIcon className="icon" onClick={props.onDelete} />}
+        {!isEditing && props.isDeletaable && <DeleteIcon className="icon delete-icon" onClick={props.onDelete} />}
       </Box>
     </Box>
   );

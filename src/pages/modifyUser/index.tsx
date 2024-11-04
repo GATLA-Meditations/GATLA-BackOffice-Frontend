@@ -73,7 +73,7 @@ const ModifyUser = () => {
                     handleChange={(e) => handleChange("password", e.target.value)}
                 />
 
-                <h3>Tipo de meditación</h3>
+                <p className={'h6'}>Tipo de meditación</p>
                 <FormControl>
                     <Select
                         value={selectedUser.meditationType}
@@ -83,12 +83,14 @@ const ModifyUser = () => {
                         <MenuItem value={"No cristiana"}>No cristiana</MenuItem>
                     </Select>
                 </FormControl>
-                <Button onClick={handleSubmit} variant={"primary"} size={"medium"}>
-                    Guardar
-                </Button>
-                <Button onClick={() => handleOpenDeleteModal()} variant={"red"} size={"medium"}>
-                    Eliminar
-                </Button>
+                <Box className={styles.buttonsContainer}>
+                    <Button onClick={handleSubmit} variant={"primary"} size={"medium"}>
+                        Guardar
+                    </Button>
+                    <Button onClick={() => handleOpenDeleteModal()} variant={"red"} size={"medium"}>
+                        Eliminar
+                    </Button>
+                </Box>
                 {isDeleteModalOpen && (
                     <DeleteUserModal open={isDeleteModalOpen} deleteUserFunction={() => handleDeleteUser()}
                                      closeModal={() => handleOpenDeleteModal()} userCode={selectedUser.patient_code}/>

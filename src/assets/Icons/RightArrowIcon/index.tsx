@@ -18,7 +18,7 @@ export const RightArrowIcon = (props: IconProps) => {
       >
         <path
           d="M9 18L15 12L9 6"
-          stroke={props.color ?? "black"}
+          stroke={props.color ?? "var(--grey-600)"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"

@@ -1,7 +1,5 @@
-import {Box, Typography} from "@mui/material";
+import {Box} from "@mui/material";
 import {RightArrowIcon} from "../../assets/Icons/RightArrowIcon";
-import styles from './styles.module.css'
-
 export interface OptionsComponentProps {
     title: string;
     onClick: () => void;
@@ -12,13 +10,11 @@ export interface OptionsComponentProps {
 const OptionComponent = ({title, onClick}: OptionsComponentProps) => {
 
     return (
-        <Box className={styles.container} onClick={onClick}>
-            <Typography fontSize={'18px'}>
+        <Box className={'item'} onClick={onClick}>
+            <p className={'body1'}>
                 {title}
-            </Typography>
-            <Box className={styles.arrowContainer}>
-                <RightArrowIcon/>
-            </Box>
+            </p>
+            <RightArrowIcon/>
         </Box>
     )
 

@@ -1,25 +1,37 @@
-.input-container {
+.input-container{
   display: flex;
   align-items: center;
+  gap: 8px;
+  flex-direction: row;
+}
+
+.input-main-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 8px;
 }
 
 .editable-input {
   display: flex;
   align-items: center;
-  width: 500px;
-  height: 20px;
+  width: 100%;
+  padding: 8px;
   border-radius: 4px;
   font-size: 14px;
-  padding: 4px;
+  border: 0.5px solid var(--grey-300);
+  box-shadow: none;
+  background-color: var(--primary-100);
+  &:focus-visible{
+    outline: none;
+  }
   &:disabled {
-    background-color: #f0f0f0;
+    background-color: #e7e7f6;
     cursor: not-allowed;
   }
 }
 
 .icon {
   cursor: pointer;
-  border: 1px solid #888;
-  border-radius: 4px;
 }
+

@@ -195,8 +195,10 @@ const ActivityEdit = ({showToast}: WithToastProps) => {
                         </Box>
                     </Box>
                 </GenericModal>
+                <Box className={'buttons-container'}>
                 <Button onClick={() => setCreateContentModalOpen(true)} variant={'green'} size={'medium'}>Agregar Contenido</Button>
                 <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Guardar</Button>
+                </Box>
             </Box>
         )
     }

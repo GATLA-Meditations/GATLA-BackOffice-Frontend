@@ -27,9 +27,14 @@
     align-items: center;
     border-radius: 4px;
     font-size: 18px;
-    padding: 4px;
+    padding: 8px;
     height: 35px;
     width: 500px;
+    border: 0.5px solid gray;
+
+    &:focus-visible{
+        outline: none;
+    }
 }
 
 .title {
@@ -67,6 +72,8 @@
 .togglePasswordButton {
     position: absolute;
     right: 10px;
+    bottom: 0;
+    padding: 0;
     background: none;
     border: none;
     cursor: pointer;

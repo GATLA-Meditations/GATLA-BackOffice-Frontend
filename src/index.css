@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -6,9 +8,137 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /*colors*/
+
+  --black: #0c1012;
+  --white: #ffffff;
+  --light-white: #fdfdfd;
+  --bg-color: #f3edf7;
+
+  --complementary: #47ba84;
+  --complementary-700: #0a4b2d;
+  --complementary-200: #9ce8c4;
+
+  --primary-base: #6964e9;
+  --primary-100: rgb(232, 231, 252);
+  --primary-200: #bdbcf6;
+  --primary-300: #9390f0;
+  --primary-400: #6964e9;
+  --primary-500: #3e34dc;
+  --primary-600: #221a93;
+  --primary-700: #0c0849;
+
+  --secondary-base: #ab64e9;
+  --secondary-100: #f4eefd;
+  --secondary-200: #decaf7;
+  --secondary-300: #c399f1;
+  --secondary-400: #ab64e9;
+  --secondary-500: #8b34c9;
+  --secondary-600: #5d2088;
+  --secondary-700: #330e4d;
+
+  --tertiary-base: #64a2e9;
+  --tertiary-100: #e7eefb;
+  --tertiary-200: #abc7f2;
+  --tertiary-300: #64a2e9;
+  --tertiary-400: #437dba;
+  --tertiary-500: #2e5986;
+  --tertiary-600: #1a3756;
+  --tertiary-700: #09192a;
+
+  --grey-100: #e9e9ea;
+  --grey-200: #c1c1c4;
+  --grey-300: #9a9aa0;
+  --grey-400: #75757d;
+  --grey-500: #52525b;
+  --grey-600: #323238;
+  --grey-700: #141418;
+
+  --red: #e85353;
 }
 #root {
   width: 100%;
+}
+
+*{
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+.h1 {
+  font-size: 56px !important;
+  font-weight: 400 !important;
+}
+
+.h2 {
+  font-size: 38px !important;
+  font-weight: 400 !important;
+}
+
+.h3 {
+  font-size: 32px !important;
+  font-weight: 400 !important;
+}
+
+.h4 {
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
+
+.h5 {
+  font-size: 24px !important;
+  font-weight: 500 !important;
+}
+
+.h6 {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+}
+
+.body1 {
+  font-size: 16px !important;
+}
+
+.body1bold {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.body2 {
+  font-size: 14px !important;
+}
+
+.body2bold {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.body3 {
+  font-size: 12px !important;
+}
+
+.body3bold {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.body4 {
+  font-size: 10px !important;
+}
+
+.body4bold {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
+
+.light-bold {
+  font-weight: 550 !important;
 }
 
 a {
@@ -26,7 +156,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  width: 100vw;;
+  width: 100vw;
 }
 
 h1 {

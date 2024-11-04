@@ -1,5 +1,4 @@
-import {createBrowserRouter, Outlet} from "react-router-dom";
-import Home from "../../pages/home";
+import {createBrowserRouter, Navigate, Outlet} from "react-router-dom";
 import Activity from "../../pages/activity";
 import SideBar from "../SideBar";
 import Stepper from "../Stepper";
@@ -21,12 +20,14 @@ const WithSideBarAndStepper = () => {
     return (
         <Box display={'flex'} flexDirection={'row'} height={'100vh'} width={'100%'}>
             <SideBar/>
-            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} margin={'0 16px'} width={'100%'}
-                 style={{overflowX: 'scroll'}}>
+            <Box flexDirection={'column'} display={'flex'} alignItems={'start'} padding={'0 16px'} width={'100%'}
+                 style={{overflowX: 'scroll', backgroundColor: 'var(--secondary-100)'}}>
                 <Box height={'100px'} width={'100%'}>
                     <Stepper/>
                 </Box>
-                <Outlet/>
+                <Box display={'flex'} justifyContent={'center'} margin={'24px 0'} width={'100%'} padding={'0 100px'} >
+                    <Outlet/>
+                </Box>
             </Box>
         </Box>
 
@@ -45,8 +46,12 @@ export const Router = createBrowserRouter([
                     element: <WithSideBarAndStepper/>,
                     children: [
                         {
-                            path: '/',
-                            element: <Home/>
+                            path:'/',
+                            element: <Navigate to={'/users/'}/>
+                        },
+                        {
+                            path: '/users/',
+                            element: <UsersPage/>
                         },
                         {
                             path: '/module/:id',
@@ -55,10 +60,6 @@ export const Router = createBrowserRouter([
                         {
                             path: '/activity/:id',
                             element: <Activity/>
-                        },
-                        {
-                            path: '/users/',
-                            element: <UsersPage/>
                         },
                         {
                             path: '/user/create',
@@ -87,6 +88,10 @@ export const Router = createBrowserRouter([
                         {
                             path: '/upload/content',
                             element: <UploadContent/>
+                        },
+                        {
+                            path: '*',
+                            element: <h1>¿Te confundiste? 🧐</h1>
                         }
                     ]
                 }

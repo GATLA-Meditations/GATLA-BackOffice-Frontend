@@ -1,28 +1,24 @@
 .display-items-page {
     display: flex;
     flex-direction: column;
-    padding: 20px;
     gap: 20px;
+    width: 100%;
 
     .items {
         display: flex;
-        align-items: center;
         flex-direction: column;
-        padding: 20px;
+        padding: 20px 0;
         gap: 10px;
-        width: 70vh;
 
         .item {
             display: flex;
-            align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding-left: 10px;
-            padding-right: 10px;
-            border: 1px solid black;
+            padding: 16px;
+            border: 0.5px solid var(--grey-300);
             border-radius: 8px;
             &:hover {
-                background-color: #f0f0f0;
+                background-color: var(--primary-100);
                 cursor: pointer;
             }
         }
@@ -30,8 +26,9 @@
 
     .display-searchbar-button{
         display: flex;
+        width: 100%;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         gap: 16px;
     }
@@ -43,4 +40,36 @@
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+.edit-icon{
+    color: var(--tertiary-400);
+}
+
+.delete-icon{
+    color: var(--red);
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.treatment-info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.MuiSelect-select{
+    padding: 12px !important;
+    border: 0.5px solid var(--grey-300) !important;
+    &:hover{
+        border: none !important;
+    }
+}
+
+.Mui-focused{
+    outline: none !important;
 }

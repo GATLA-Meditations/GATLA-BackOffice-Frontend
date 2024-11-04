@@ -59,7 +59,7 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
       <>
         {props.questionType === "NUMERIC" ? (
             <Box className="edit-circles-container">
-              <h5>Cantidad de posibles respuestas (circulitos):</h5>
+              <p className={'body2'}>Cantidad de posibles respuestas (circulitos):</p>
               <Box className="edit-circles">
                 <Box className="circles">
                   {[...Array(metadata.max)].map((_, index) => (
@@ -80,14 +80,9 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
             </Box>
         ) :
         props.questionType === "SINGLE_CHOICE" ? (
-            <Box>
+            <Box className={'single-choice-container'}>
               <Box className={'options-title'}>
-            <h5>Opciones:</h5>
-            <Button
-                className="add-option"
-                onClick={handleAddOption}
-                variant={'green'}
-            >Agregar opción</Button>
+                  <p className={'body1'}>Opciones:</p>
               </Box>
               {metadata.options.map((option: string, index: number) => (
                   <EditableInput
@@ -100,10 +95,16 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
                       handleChange={handleOptionChange}
                   />
                 ))}
+              <Button
+                  className="add-option"
+                  onClick={handleAddOption}
+                  variant={'green'}
+                  size={'medium'}
+              >Agregar opción</Button>
             </Box>
         ) : props.questionType === "NOT_A_QUESTION" ? (
             <Box>
-              <h5>Comentario:</h5>
+              <p className={'body1'}>Comentario:</p>
               <EditableInput
                   text={metadata.comment}
                   placeholder={'Escribe un comentario'}
