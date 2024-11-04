@@ -53,7 +53,7 @@ const UsersPage = () => {
     return (
         <Box className={"display-items-page"}>
             <Box className={'display-searchbar-button'}>
-                <form onSubmit={(event) => {event.preventDefault(); handleSearchQuery()}}>
+                <form style={{width:'100%'}} onSubmit={(event) => {event.preventDefault(); handleSearchQuery()}}>
                     <SearchBar
                         placeholder={"Buscar usuario"}
                         onChange={(value) => handleSearchInput(value)}
@@ -67,7 +67,7 @@ const UsersPage = () => {
             </Box>
 
             <Box className={'users-list-container'}>
-                <Box className={"items border-1px"}>
+                <Box className={'items'}>
                     {users && users.length > 0 ? (
                         users.map((user: User) => (
                             <Box

@@ -92,8 +92,8 @@ const Module = ({showToast}: WithToastProps) => {
                         )) :
                         <p className={'body1 bold'}>No hay actividades asignadas a este módulo</p>
                     }
+                    <Button onClick={handleAddActivity} variant={'green'}>Agregar actividad</Button>
                 </Box>
-                <Button onClick={handleAddActivity} variant={'green'}>Agregar actividad</Button>
             </Box>
         </Box>
     );

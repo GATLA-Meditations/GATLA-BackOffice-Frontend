@@ -50,7 +50,7 @@ const UploadContent = ({showToast}: WithToastProps) => {
                 <InputField title={'Link del contenido'} text={content.content_url}
                             placeholder={'Escribe aquí el link del contenido'}
                             name={'UserPass'} handleChange={(e) => handleChange('content_url', e.target.value)}/>
-                <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Crear</Button>
+                <Button onClick={() => handleSubmit()} variant={'green'} size={'medium'}>Crear</Button>
             </Box>
         </Box>
     );
