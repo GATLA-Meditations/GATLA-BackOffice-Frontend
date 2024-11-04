@@ -1,6 +1,6 @@
 import "./styles.css";
 import { MagnifierIcon } from "../../assets/Icons/Magnifier";
-import { TextField } from "@mui/material";
+import {TextField} from "@mui/material";
 import CloseIcon from "../../assets/Icons/CloseIcon";
 
 interface SearchBarProps {
