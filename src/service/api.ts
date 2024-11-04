@@ -340,3 +340,20 @@ export const useDeleteTreatment = () => {
         },
     });
 };
+
+const deleteModule = async (id: string) => {
+    const response = await api.delete(`/module/${id}`);
+    return response.data;
+}
+
+export const useDeleteModule = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteModule(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["modules", "treatment, treatments"]).then();
+        },
+    });
+};

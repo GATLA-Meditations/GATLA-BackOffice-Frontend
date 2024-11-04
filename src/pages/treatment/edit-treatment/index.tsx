@@ -82,6 +82,7 @@ const EditTreatment = ({showToast}: WithToastProps) => {
     }
 
     const handleClickModule = (module: Module) => {
+        localStorage.setItem('treatmentId', id as string);
         dispatch(updateRoutePath({name: module.name, route: `/module/${module.id}`}));
         nav(`/module/${module.id}`);
         console.log(treatmentName);
