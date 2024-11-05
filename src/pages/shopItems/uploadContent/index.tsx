@@ -36,7 +36,6 @@ const UploadContent = ({showToast}: WithToastProps) => {
             setDisclaimerText(newValue === "FONDO" ? 'PARA FONDOS SUBIR IMAGEN EN 1080x1920' : 'PARA ICONOS SUBIR IMAGEN EN 512x512');
         }
         setContent((prevState) => ({...prevState, [attribute]: newValue}))
-        console.log(attribute, newValue)
     }
 
     return (

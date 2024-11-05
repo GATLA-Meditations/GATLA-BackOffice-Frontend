@@ -3,6 +3,7 @@
     flex-direction: row;
     gap: 8px;
     overflow-x: auto;
+    padding-bottom: 20px;
 }
 
 .shopItemsPage {

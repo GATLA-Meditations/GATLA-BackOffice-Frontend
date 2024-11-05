@@ -6,10 +6,11 @@ import '../../common/globals.css'
 interface ShopItemContainerProps {
     type: string;
     url: string;
-    onDelete: (itemId: string) => void;
+    onDelete: () => void;
 }
 
-const ShopItemContainer = ({type, url}: ShopItemContainerProps) => {
+const ShopItemContainer = ({type, url, onDelete}: ShopItemContainerProps) => {
+
     return (
         <Box className={'shop-item'}>
             <Box className={`element-container-${type}`}>
@@ -23,7 +24,7 @@ const ShopItemContainer = ({type, url}: ShopItemContainerProps) => {
                     }}
                 />
             </Box>
-            <DeleteIcon className='icon delete-icon' />
+            <DeleteIcon onClick={onDelete} className='icon delete-icon' />
         </Box>
     );
 };

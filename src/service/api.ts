@@ -366,3 +366,20 @@ const getShopItems = async () => {
 export const useGetShopItems = () => {
     return useQuery("shopItems", getShopItems);
 }
+
+const deleteShopItem = async (id: string) => {
+    const response = await api.delete(`/shop/delete-item/${id}`);
+    return response.data;
+}
+
+export const useDeleteShopItem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteShopItem(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["shopItems"]).then();
+        },
+    });
+};
