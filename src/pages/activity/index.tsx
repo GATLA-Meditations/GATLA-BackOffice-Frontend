@@ -3,25 +3,39 @@ import { Box, FormControl, Input, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css'
 import Button from "../../components/Button";
-import { useParams } from 'react-router-dom';
-import { useAddContent, useDeleteContent, useGetActivity, useUpdateActivity } from '../../service/api.ts';
+import {useNavigate, useParams} from 'react-router-dom';
+import {
+    useAddContent,
+    useDeleteActivity,
+    useDeleteContent,
+    useGetActivity,
+    useUpdateActivity
+} from '../../service/api.ts';
 import { Activity, ActivityContent } from '../../types';
 import Loader from '../../components/Loader';
 import withToast, { WithToastProps } from '../../hoc/withToast.tsx';
 import GenericModal from '../../components/GenericModal';
+import {useAppDispatch} from "../../redux/hooks.ts";
+import {removeRoutePath} from "../../redux/routeSlice.ts";
 
-const ActivityEdit = ({showToast}: WithToastProps) => {
+
+
+const ActivityEdit = ({showToast}:WithToastProps) => {
 
     const activityId = useParams().id;
     const {data, isLoading} = useGetActivity(activityId as string);
+    const dispatch = useAppDispatch();
     const [activity, setActivity] = useState<Activity>();
     const [contents, setContents] = useState<ActivityContent[]>([]);
     const {mutate: updateActivity, isSuccess: updateActivitySuccess} = useUpdateActivity();
     const {mutate: deleteContent, isSuccess: deleteContentSuccess} = useDeleteContent();
+    const {mutate: deleteActivity, isSuccess: deleteActivitySuccess} = useDeleteActivity();
     const {data: updatedContents, mutate: addContent, isSuccess: addContentSuccess} = useAddContent();
     const [createContentModalOpen, setCreateContentModalOpen] = useState<boolean>(false);
     const [contentType, setContentType] = useState<string>('');
     const [content, setContent] = useState<string>('');
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+    const navigation = useNavigate();
 
     useEffect(() => {
         if(data){
@@ -48,6 +62,18 @@ const ActivityEdit = ({showToast}: WithToastProps) => {
             setContents(updatedContents)
         }
     }, [addContentSuccess]);
+
+    useEffect(() => {
+        if(deleteActivitySuccess){
+            setIsDeleteModalOpen(false)
+            showToast('Actividad eliminada', 'success')
+            const moduleId = localStorage.getItem('moduleId');
+            dispatch(removeRoutePath());
+            setTimeout(() => {
+                navigation(`/module/${moduleId}`)
+            }, 3000);
+        }
+    }, [deleteActivitySuccess]);
 
     const handleChange = (key: string, value: string, contentId?: string) => {
         if(activity){
@@ -123,83 +149,104 @@ const ActivityEdit = ({showToast}: WithToastProps) => {
         }
     }
 
+    const handleDelete = () => {
+        if (activity){
+            deleteActivity(activity.id)
+        }
+    };
+
     if(isLoading){
         return <Loader />;
     }
 
     if (activity && contents) {
         return (
-            <Box className={styles.activityContainer}>
-                <EditableInput title={'Título'} text={activity.name} placeholder={'Título'} type={'text'} name={'title'}
-                               handleChange={(e) => handleChange('name', e.target.value)}/>
-                {contents.map((content) => (
-                    <EditableInput
-                        key={content.id}
-                        text={content.content}
-                        placeholder={getContentPlaceholder(content.type)}
-                        type={'text'}
-                        name={content.type}
-                        title={getContentTitle(content.type)}
-                        handleChange={(e) => handleChange('content', e.target.value, content.id)}
-                        isDeletaable={!!content.id}
-                        onDelete={() => handleDeleteContent(content.id ? content.id : '')}
-                    />
-                ))}
-                <GenericModal
-                    open={createContentModalOpen}
-                    onClose={handleCloseModal}
-                    topButtonAction={handleAddContent}
-                    title={'Agregar Contenido'}
-                    description={'Agrega un nuevo contenido a la actividad'}
-                    topButtonText={'Agregar'}
-                    disabled={!contentType || !content}
-                >
-                    <Box className={styles.modalContainer}>
-                        <Box>
-                            <h4>Tipo:</h4>
-                            <FormControl>
-                                <Select
-                                    variant={'outlined'}
-                                    className={'questionnaire-selector'}
-                                    value={contentType || ''}
-                                    onChange={(event) => setContentType(event.target.value)}
-                                    displayEmpty
-                                >
-                                    <MenuItem key={0} value={''} disabled>
-                                        Elige un tipo
-                                    </MenuItem>
-                                    <MenuItem key={1} value={'TEXT'}>
-                                        Texto
-                                    </MenuItem>
-                                    <MenuItem key={2} value={'VIDEO'}>
-                                        Video
-                                    </MenuItem>
-                                    <MenuItem key={3} value={'MED_INTRO'}>
-                                        Video de introducción
-                                    </MenuItem>
-                                    <MenuItem key={4} value={'MED_VIDEO'}>
-                                        Video de meditación
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
+            <>
+                {
+                    isDeleteModalOpen && (
+                        <GenericModal
+                            open={isDeleteModalOpen}
+                            onClose={() => setIsDeleteModalOpen(false)}
+                            topButtonAction={handleDelete}
+                            title={'Eliminar actividad'}
+                            description={'¿Estás seguro que quieres eliminar esta actividad?'}
+                            topButtonText={'Eliminar'}
+                        />
+                    )
+                }
+                <Box className={styles.activityContainer}>
+                    <EditableInput title={'Título'} text={activity.name} placeholder={'Título'} type={'text'} name={'title'}
+                                   handleChange={(e) => handleChange('name', e.target.value)}/>
+                    {contents.map((content) => (
+                        <EditableInput
+                            key={content.id}
+                            text={content.content}
+                            placeholder={getContentPlaceholder(content.type)}
+                            type={'text'}
+                            name={content.type}
+                            title={getContentTitle(content.type)}
+                            handleChange={(e) => handleChange('content', e.target.value, content.id)}
+                            isDeletaable={!!content.id}
+                            onDelete={() => handleDeleteContent(content.id ? content.id : '')}
+                        />
+                    ))}
+                    <GenericModal
+                        open={createContentModalOpen}
+                        onClose={handleCloseModal}
+                        topButtonAction={handleAddContent}
+                        title={'Agregar Contenido'}
+                        description={'Agrega un nuevo contenido a la actividad'}
+                        topButtonText={'Agregar'}
+                        disabled={!contentType || !content}
+                    >
+                        <Box className={styles.modalContainer}>
+                            <Box>
+                                <h4>Tipo:</h4>
+                                <FormControl>
+                                    <Select
+                                        variant={'outlined'}
+                                        className={'questionnaire-selector'}
+                                        value={contentType || ''}
+                                        onChange={(event) => setContentType(event.target.value)}
+                                        displayEmpty
+                                    >
+                                        <MenuItem key={0} value={''} disabled>
+                                            Elige un tipo
+                                        </MenuItem>
+                                        <MenuItem key={1} value={'TEXT'}>
+                                            Texto
+                                        </MenuItem>
+                                        <MenuItem key={2} value={'VIDEO'}>
+                                            Video
+                                        </MenuItem>
+                                        <MenuItem key={3} value={'MED_INTRO'}>
+                                            Video de introducción
+                                        </MenuItem>
+                                        <MenuItem key={4} value={'MED_VIDEO'}>
+                                            Video de meditación
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            <Box>
+                                <h4>Contenido:</h4>
+                                <Input
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                    placeholder={'Contenido'}
+                                    className={styles.contentInput}
+                                    disableUnderline
+                                />
+                            </Box>
                         </Box>
-                        <Box>
-                            <h4>Contenido:</h4>
-                            <Input
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                                placeholder={'Contenido'}
-                                className={styles.contentInput}
-                                disableUnderline
-                            />
-                        </Box>
+                    </GenericModal>
+                    <Box className={'buttons-container'}>
+                    <Button onClick={() => setCreateContentModalOpen(true)} variant={'green'} size={'medium'}>Agregar Contenido</Button>
+                    <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Guardar</Button>
+                    <Button onClick={() => setIsDeleteModalOpen(true)} variant={'red'} size={'medium'}>Eliminar actividad</Button>
                     </Box>
-                </GenericModal>
-                <Box className={'buttons-container'}>
-                <Button onClick={() => setCreateContentModalOpen(true)} variant={'green'} size={'medium'}>Agregar Contenido</Button>
-                <Button onClick={() => handleSubmit()} variant={'primary'} size={'medium'}>Guardar</Button>
                 </Box>
-            </Box>
+            </>
         )
     }
 }

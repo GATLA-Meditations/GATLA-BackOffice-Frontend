@@ -37,6 +37,11 @@ export const SideBar = () => {
             name: "Cuestionarios",
             redirect: '/questionnaire',
             active:false,
+        },
+        {
+            name: "Exportar",
+            redirect: '/export',
+            active:false,
         }
     ];
 

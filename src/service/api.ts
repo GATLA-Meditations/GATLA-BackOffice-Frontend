@@ -346,6 +346,11 @@ const deleteModule = async (id: string) => {
     return response.data;
 }
 
+const deleteActivity = async (id: string) => {
+    const response = await api.delete(`/activity/${id}`);
+    return response.data;
+}
+
 export const useDeleteModule = () => {
     const queryClient = useQueryClient();
 
@@ -357,3 +362,22 @@ export const useDeleteModule = () => {
         },
     });
 };
+
+export const useDeleteActivity = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteActivity(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["activities", "module"]).then();
+        },
+    });
+}
+
+
+
+export const exportQuestionnaire = async (questionnaireId: string) => {
+    const response = await api.get(`/questionnaire/${questionnaireId}/export`, {responseType: 'blob'});
+    return response.data;
+}

@@ -14,6 +14,7 @@ import EditQuestionnaire from '../../pages/questionnaire/edit-questionnaire';
 import QuestionnairesPage from '../../pages/questionnaire/list-questionnaires';
 import UploadContent from "../../pages/uploadContent";
 import PrivateRoute from "../PrivateRoute";
+import Export from "../../pages/export";
 
 
 const WithSideBarAndStepper = () => {
@@ -88,6 +89,10 @@ export const Router = createBrowserRouter([
                         {
                             path: '/upload/content',
                             element: <UploadContent/>
+                        },
+                        {
+                            path: '/export',
+                            element: <Export/>
                         },
                         {
                             path: '*',

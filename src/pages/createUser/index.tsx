@@ -6,10 +6,11 @@ import InputField from "../../components/InputField";
 import {useEffect, useState} from "react";
 import {createUser, getAllTreatments} from "../../service/api";
 import {useNavigate} from "react-router-dom";
+import withToast, {WithToastProps} from "../../hoc/withToast.tsx";
 
 type attributeType = keyof typeof emptyUserMock;
 
-const CreateUser = () => {
+const CreateUser = ({showToast}: WithToastProps) => {
 
     const [user, setUser] = useState({patient_code: "", password: "", email:"",treatment: {id: "", delayed: false}});
     const [treatments, setTreatments] = useState([{id: "", name: ""}]);
@@ -31,13 +32,13 @@ const CreateUser = () => {
 
     const handleSubmit = async () => {
         if (user.patient_code === "" || user.password === "") {
-            alert("Por favor llena todos los campos");
+            showToast('Por favor llena todos los campos', 'error');
             return;
         }
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(user.email)) {
-            alert("Por favor ingresa un email válido");
+            showToast('Ingresa un email valido', 'error');
             return;
         }
 
@@ -48,8 +49,10 @@ const CreateUser = () => {
 
         try {
             await createUser(userToSubmit);
-            alert('El usuario fue creado correctamente')
-            nav('/users')
+            showToast('Usuario creado correctamente', 'success');
+            setTimeout(() => {
+                nav('/users');
+            }, 2000);
         } catch (error) {
             console.error(error);
         }
@@ -120,4 +123,4 @@ const CreateUser = () => {
     );
 };
 
-export default CreateUser;
+export default withToast(CreateUser);

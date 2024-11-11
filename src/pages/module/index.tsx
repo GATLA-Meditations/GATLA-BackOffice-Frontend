@@ -40,9 +40,12 @@ const Module = ({ showToast }: WithToastProps) => {
 
     useEffect(() => {
         if (deleteModuleSuccess) {
+            showToast('Módulo eliminado correctamente', 'success');
             const treatmentId = localStorage.getItem('treatmentId');
             dispatch(removeRoutePath());
-            navigate(`/treatments/${treatmentId}`, { replace: true });
+            setTimeout(() => {
+                navigate(`/treatments/${treatmentId}`, { replace: true })
+            }, 2000)
         }
     }, [deleteModuleSuccess]);
 
@@ -73,6 +76,7 @@ const Module = ({ showToast }: WithToastProps) => {
 
     const handleActivityOnClick = (activity: ActivityPreview) => {
         dispatch(updateRoutePath({ id: activity.id, name: activity.name, route: `/activity/${activity.id}` }));
+        localStorage.setItem('moduleId', moduleId as string);
         navigate(`/activity/${activity.id}`);
     };
 

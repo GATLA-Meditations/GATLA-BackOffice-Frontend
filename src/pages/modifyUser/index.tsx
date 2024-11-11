@@ -1,22 +1,25 @@
 import {useState} from "react";
-import {Box, FormControl, MenuItem, Select} from "@mui/material";
+import {Box} from "@mui/material";
 import styles from "../activity/styles.module.css";
 import EditableInput from "../../components/EditableInput";
 import Button from "../../components/Button";
 import "./styles.css";
 import {useNavigate} from "react-router-dom";
-import {useAppSelector} from "../../redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 import {deleteUser, useUpdateUser} from "../../service/api";
 import {User} from "../../types";
 import DeleteUserModal from "../deleteUser";
+import withToast, {WithToastProps} from "../../hoc/withToast.tsx";
+import {removeRoutePath} from "../../redux/routeSlice.ts";
 
 type attributeType = keyof User;
 
-const ModifyUser = () => {
+const ModifyUser = ({showToast}: WithToastProps) => {
     const nav = useNavigate();
     const {user} = useAppSelector((state) => state.user);
-    const [selectedUser, setSelectedUser] = useState(user);
+    const [selectedUser, setSelectedUser] = useState({...user, password:''});
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const dispatch = useAppDispatch();
     const updateUser = useUpdateUser();
 
     const handleChange = (attribute: attributeType, newValue: string) => {
@@ -31,8 +34,12 @@ const ModifyUser = () => {
             meditationType: selectedUser.meditationType,
         };
         try {
+            showToast('Usuario modificado correctamente', 'success');
+            dispatch(removeRoutePath());
             updateUser.mutate({id: selectedUser.id, data});
-            nav("/users");
+            setTimeout(() => {
+                nav('/users');
+            }, 2000)
         } catch (error) {
             console.log(error);
         }
@@ -44,9 +51,12 @@ const ModifyUser = () => {
 
     const handleDeleteUser = async () => {
         try {
-            await deleteUser(selectedUser.patient_code.trim()).then(() => {
-                nav("/users");
-            })
+            showToast('Usuario eliminado correctamente', 'success');
+            await deleteUser(selectedUser.patient_code.trim())
+            dispatch(removeRoutePath());
+            setTimeout(() => {
+                nav('/users');
+            }, 2000)
         } catch (error) {
             console.error(error);
         }
@@ -72,17 +82,6 @@ const ModifyUser = () => {
                     name={"UserPassword"}
                     handleChange={(e) => handleChange("password", e.target.value)}
                 />
-
-                <p className={'h6'}>Tipo de meditación</p>
-                <FormControl>
-                    <Select
-                        value={selectedUser.meditationType}
-                        onChange={(e) => handleChange("meditationType", e.target.value)}
-                    >
-                        <MenuItem value={"Cristiana"}>Cristiana</MenuItem>
-                        <MenuItem value={"No cristiana"}>No cristiana</MenuItem>
-                    </Select>
-                </FormControl>
                 <Box className={styles.buttonsContainer}>
                     <Button onClick={handleSubmit} variant={"primary"} size={"medium"}>
                         Guardar
@@ -100,4 +99,4 @@ const ModifyUser = () => {
     );
 };
 
-export default ModifyUser;
+export default withToast(ModifyUser);
