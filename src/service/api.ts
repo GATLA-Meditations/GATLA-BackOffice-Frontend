@@ -1,5 +1,13 @@
 import axios from "axios";
-import { ModuleAux, UpdateUserInput, Activity, ShopItemInput, ActivityContent, TreatmentInput } from '../types';
+import {
+    ModuleAux,
+    UpdateUserInput,
+    Activity,
+    ShopItemInput,
+    ActivityContent,
+    TreatmentInput,
+    QuestionInput,
+} from '../types';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {getToken} from "./store.ts";
 
@@ -358,6 +366,56 @@ export const useDeleteModule = () => {
     });
 };
 
+const updateQuestionnaire = async (id: string, data: { name: string; questions: QuestionInput[]; treatmentId: string[] }) => {
+    const response = await api.put(`/admin/questionnaire/update/${id}`, data);
+    return response.data;
+}
+
+export const useUpdateQuestionnaire = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { id: string; data: { name: string; questions: QuestionInput[]; treatmentId: string[] } }) =>
+            updateQuestionnaire(data.id, data.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["questionnaires", "questionnaire"]).then();
+        },
+    });
+};
+
+const createQuestionnaire = async (data: { name: string; questions: QuestionInput[]; treatmentId: string[] }) => {
+    const response = await api.post("/admin/questionnaire/create", data);
+    return response.data;
+}
+
+export const useCreateQuestionnaire = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { name: string; questions: QuestionInput[]; treatmentId: string[] }) =>
+            createQuestionnaire(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["questionnaires"]).then();
+        },
+    });
+};
+
+const deleteQuestionnaire = async (id: string) => {
+    const response = await api.delete(`/admin/questionnaire/delete/${id}`);
+    return response.data;
+}
+
+export const useDeleteQuestionnaire = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteQuestionnaire(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["questionnaires"]).then();
+        },
+    });
+};
 const getShopItems = async () => {
     const response = await api.get("/shop/all-items-user");
     return response.data.items;

@@ -1,20 +1,27 @@
-import { useGetAllQuestionnaires } from '../../../service/api.ts';
+import { useCreateQuestionnaire, useGetAllQuestionnaires } from '../../../service/api.ts';
 import { Questionnaire } from '../../../types';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../redux/hooks.ts';
 import { updateRoutePath } from '../../../redux/routeSlice.ts';
 import SearchBar from '../../../components/SearchBar';
-import { Box } from '@mui/material';
+import { Box, Input } from '@mui/material';
 import { RightArrowIcon } from '../../../assets/Icons/RightArrowIcon';
 import Loader from '../../../components/Loader';
+import GenericModal from '../../../components/GenericModal';
+import Button from '../../../components/Button';
+import './styles.css';
+import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
 
-const QuestionnairesPage = () => {
+const QuestionnairesPage = ({ showToast }: WithToastProps) => {
     const {data: questionnaires, isLoading} = useGetAllQuestionnaires();
     const [filteredQuestionnaires, setFilteredQuestionnaires] = useState<Questionnaire[]>(questionnaires);
     const [search, setSearch] = useState<string>('');
     const nav = useNavigate();
     const dispatch = useAppDispatch();
+    const { mutate: createQuestionnaire, data: newQuestionnaire, isSuccess: createQuestionnaireSuccess } = useCreateQuestionnaire();
+    const [isCreateQuestionnaireOpen, setIsCreateQuestionnaireOpen] = useState<boolean>(false);
+    const [questionnaireName, setQuestionnaireName] = useState<string>('');
 
     const handleSearch = (value: string) => {
         setSearch(value);
@@ -29,11 +36,28 @@ const QuestionnairesPage = () => {
         nav(`/questionnaire/${questionnaire.id}`);
     }
 
+    const handleCreateQuestionnaire = () => {
+        createQuestionnaire({name: questionnaireName, questions: [], treatmentId: []});
+        setIsCreateQuestionnaireOpen(false);
+    }
+
+    const handleCloseCreateQuestionnaire = () => {
+        setIsCreateQuestionnaireOpen(false);
+        setQuestionnaireName('');
+    }
+
     useEffect(() => {
         if (questionnaires) {
             setFilteredQuestionnaires(questionnaires);
         }
     }, [questionnaires]);
+
+    useEffect(() => {
+        if (createQuestionnaireSuccess) {
+            setFilteredQuestionnaires([...filteredQuestionnaires, newQuestionnaire]);
+            showToast('Cuestionario creado exitosamente', 'success');
+        }
+    }, [createQuestionnaireSuccess]);
 
     if (isLoading) {
         return <Loader />;
@@ -41,7 +65,27 @@ const QuestionnairesPage = () => {
 
     return (
         <Box className='display-items-page'>
-            <SearchBar placeholder={"Buscar cuestionario"} value={search} onChange={(value) => handleSearch(value)} />
+            <GenericModal
+                open={isCreateQuestionnaireOpen}
+                onClose={handleCloseCreateQuestionnaire}
+                topButtonAction={handleCreateQuestionnaire}
+                title={'Crear cuestionario'}
+                topButtonText={'Crear'}
+                disabled={!questionnaireName}
+            >
+                <Box className='input-container'>
+                    <Input
+                        value={questionnaireName}
+                        onChange={(e) => setQuestionnaireName(e.target.value)}
+                        placeholder={'Nombre del cuestionario'}
+                        disableUnderline
+                    />
+                </Box>
+            </GenericModal>
+            <Box className='display-searchbar-button'>
+                <SearchBar placeholder={"Buscar cuestionario"} value={search} onChange={(value) => handleSearch(value)} />
+                <Button onClick={() => setIsCreateQuestionnaireOpen(true)} variant={'green'}>Crear</Button>
+            </Box>
             <Box className='items'>
                 {filteredQuestionnaires && filteredQuestionnaires.length > 0 ? (
                     filteredQuestionnaires.map((questionnaire: Questionnaire) => (
@@ -58,4 +102,4 @@ const QuestionnairesPage = () => {
     );
 };
 
-export default QuestionnairesPage;
+export default withToast(QuestionnairesPage);

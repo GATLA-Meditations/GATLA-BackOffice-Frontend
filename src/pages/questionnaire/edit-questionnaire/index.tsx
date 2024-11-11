@@ -1,20 +1,28 @@
 import React, { useEffect } from 'react';
 import './styles.css';
-import { Question, QuestionType } from '../../../types';
+import { QuestionInput, QuestionType } from '../../../types';
 import { Box, FormControl, MenuItem, Select } from '@mui/material';
 import Button from '../../../components/Button';
 import EditableInput from '../../../components/EditableInput';
-import { generateRandomId } from '../../../util';
-import { useParams } from 'react-router-dom';
-import { useGetQuestionnaireById } from '../../../service/api.ts';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDeleteQuestionnaire, useGetQuestionnaireById, useUpdateQuestionnaire } from '../../../service/api.ts';
 import EditableQuestionOptions from '../../../components/EditableQuestionOptions';
 import Loader from '../../../components/Loader';
+import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
+import GenericModal from '../../../components/GenericModal';
+import { useAppDispatch } from '../../../redux/hooks.ts';
+import { removeRoutePath } from '../../../redux/routeSlice.ts';
 
-const EditQuestionnaire = () => {
+const EditQuestionnaire = ({ showToast }: WithToastProps) => {
   const questionnaireId = useParams().id;
   const {data: questionnaire, isLoading} = useGetQuestionnaireById(questionnaireId as string);
   const [name, setName] = React.useState('');
-  const [questions, setQuestions] = React.useState<Question[]>([]);
+  const [questions, setQuestions] = React.useState<QuestionInput[]>([]);
+  const { mutate: updateQuestionnaire, isSuccess: updateSuccess } = useUpdateQuestionnaire();
+  const { mutate: deleteQuestionnaire, isSuccess: deleteSuccess } = useDeleteQuestionnaire();
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const nav = useNavigate();
 
   useEffect(() => {
     if (questionnaire) {
@@ -22,6 +30,23 @@ const EditQuestionnaire = () => {
       setQuestions(questionnaire.questions);
     }
   }, [questionnaire]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      showToast('Cuestionario actualizado exitosamente', 'success');
+    }
+  }, [updateSuccess]);
+  
+  const handleDeleteQuestionnaire = () => {
+    deleteQuestionnaire(questionnaireId as string);
+  }
+
+  useEffect(() => {
+    if (deleteSuccess) {
+      dispatch(removeRoutePath());
+      nav('/questionnaire', { replace: true });
+    }
+  }, [deleteSuccess]);
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -39,12 +64,10 @@ const EditQuestionnaire = () => {
   };
 
   const handleAddQuestion = () => {
-    const newQuestion: Question = {
-      id: generateRandomId(),
+    const newQuestion: QuestionInput = {
       name: "",
       type: QuestionType.NUMERIC,
       metadata: '{ "min": 1, "max": 7 }',
-      questionnaireId: questionnaire.id,
     };
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
   };
@@ -81,8 +104,9 @@ const EditQuestionnaire = () => {
     const values = {
       name,
       questions,
+      treatmentId: [],
     };
-    console.log(values);
+    updateQuestionnaire({ id: questionnaireId as string, data: { ...values } });
   };
 
   if (isLoading) {
@@ -91,6 +115,15 @@ const EditQuestionnaire = () => {
 
   return (
     <Box className={"questionnaire-container"}>
+      <Button onClick={() => setDeleteModalOpen(true)} variant={'red'}>Eliminar</Button>
+      <GenericModal
+          open={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          topButtonAction={handleDeleteQuestionnaire}
+          title={'Eliminar cuestionario'}
+          description={'¿Estás seguro que deseas eliminar este cuestionario?'}
+          topButtonText={'Eliminar'}
+        />
       <Box className={"questions"}>
         <EditableInput
           title="Nombre del cuestionario:"
@@ -162,4 +195,4 @@ const EditQuestionnaire = () => {
   );
 };
 
-export default EditQuestionnaire;
+export default withToast(EditQuestionnaire);
