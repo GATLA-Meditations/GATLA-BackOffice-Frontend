@@ -124,8 +124,13 @@ export interface Activity {
     contents: ActivityContent[]
 }
 
-export interface ShopItem {
+export interface ShopItemInput {
     type:string,
     price:number,
     content_url: string
+}
+
+export interface ShopItem extends ShopItemInput {
+    owns: boolean;
+    itemId: string;
 }

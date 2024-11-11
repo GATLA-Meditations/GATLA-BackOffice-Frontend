@@ -1,18 +1,23 @@
 import {Box, FormControl, MenuItem, Select} from "@mui/material";
-import styles from "../activity/styles.module.css";
-import '../home/styles.css';
-import Button from "../../components/Button";
-import InputField from "../../components/InputField";
+import styles from "../../activity/styles.module.css";
+import '../../home/styles.css';
+import Button from "../../../components/Button";
+import InputField from "../../../components/InputField";
 import {useState} from "react";
-import {uploadContent} from "../../service/api.ts";
-import {parseShopItemsName} from "../../util";
-import withToast, {WithToastProps} from "../../hoc/withToast.tsx";
+import {uploadContent} from "../../../service/api.ts";
+import {parseShopItemsName} from "../../../util";
+import withToast, {WithToastProps} from "../../../hoc/withToast.tsx";
+import { useAppDispatch } from '../../../redux/hooks.ts';
+import { removeRoutePath } from '../../../redux/routeSlice.ts';
+import { useNavigate } from 'react-router-dom';
 
 
 const UploadContent = ({showToast}: WithToastProps) => {
 
     const [disclaimerText, setDisclaimerText] = useState('PARA FONDOS SUBIR IMAGEN EN 1080x1920');
     const [content, setContent] = useState({price: 1, type: "FONDO", content_url: ""});
+    const dispatch = useAppDispatch();
+    const nav = useNavigate();
 
     const handleSubmit = async () => {
         try {
@@ -22,6 +27,8 @@ const UploadContent = ({showToast}: WithToastProps) => {
             console.error(error)
         } finally {
             showToast('El contenido ha sido creado correctamente', 'success')
+            dispatch(removeRoutePath());
+            nav('/shop-items');
         }
     };
     const handleChange = (attribute: 'price' | 'type' | 'content_url', newValue: string) => {
@@ -29,7 +36,6 @@ const UploadContent = ({showToast}: WithToastProps) => {
             setDisclaimerText(newValue === "FONDO" ? 'PARA FONDOS SUBIR IMAGEN EN 1080x1920' : 'PARA ICONOS SUBIR IMAGEN EN 512x512');
         }
         setContent((prevState) => ({...prevState, [attribute]: newValue}))
-        console.log(attribute, newValue)
     }
 
     return (

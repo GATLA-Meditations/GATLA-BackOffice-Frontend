@@ -3,7 +3,7 @@ import {
     ModuleAux,
     UpdateUserInput,
     Activity,
-    ShopItem,
+    ShopItemInput,
     ActivityContent,
     TreatmentInput,
     QuestionInput,
@@ -174,7 +174,7 @@ export const useGetQuestionnaireById = (id: string) => {
     return useQuery("questionnaire", () => getQuestionnaireById(id));
 }
 
-export const uploadContent = async (data: ShopItem) => {
+export const uploadContent = async (data: ShopItemInput) => {
     const response = await api.post('/shop/create-item', data)
     return response.status;
 }
@@ -413,6 +413,31 @@ export const useDeleteQuestionnaire = () => {
             deleteQuestionnaire(id),
         onSuccess: () => {
             queryClient.invalidateQueries(["questionnaires"]).then();
+        },
+    });
+};
+const getShopItems = async () => {
+    const response = await api.get("/shop/all-items-user");
+    return response.data.items;
+}
+
+export const useGetShopItems = () => {
+    return useQuery("shopItems", getShopItems);
+}
+
+const deleteShopItem = async (id: string) => {
+    const response = await api.delete(`/shop/delete-item/${id}`);
+    return response.data;
+}
+
+export const useDeleteShopItem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) =>
+            deleteShopItem(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["shopItems"]).then();
         },
     });
 };
