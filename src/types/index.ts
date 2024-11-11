@@ -62,6 +62,13 @@ export interface QuestionnaireInfo {
     questions: Question[];
 }
 
+export interface QuestionInput {
+    id?: string;
+    type: QuestionType;
+    name: string;
+    metadata: string;
+}
+
 export interface Question {
     id: string;
     type: QuestionType;
