@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+# Renacentia WEB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Requirements
 
-Currently, two official plugins are available:
+- **Node.js 20 or later**
+    - *Tip:* Install [nvm](https://github.com/nvm-sh/nvm) to easily manage Node.js versions.
+    - After installing nvm, type `nvm install 20` in the terminal to install the correct Node.js version
+    - Then type `nvm use 20` to switch to the correct version.
+- A `.env` file with the necessary configuration variables (ask someone to provide it).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
+2. **Add the environment file:**
+   Place the provided `.env` file in the root of the project.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+5. **Open the application:**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Additional Commands
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Build for production:**
+  ```bash
+  npm run build
+  ```
+- **Run the production server:**
+  ```bash
+  npm start
+  ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Troubleshooting
+
+- **Node.js version issues:**  
+  Ensure you are using Node.js 20 or later by running:
+  ```bash
+  nvm current
+  ```
+- **Environment configuration:**  
+  Double-check that all variables in the `.env` file are correctly set.
