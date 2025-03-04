@@ -67,6 +67,9 @@ export interface QuestionInput {
     type: QuestionType;
     name: string;
     metadata: string;
+    metadataValues: number[];
+    measuredVariable: string;
+    isInverted?: boolean;
 }
 
 export interface Question {
@@ -74,7 +77,10 @@ export interface Question {
     type: QuestionType;
     name: string;
     metadata: string;
+    metadataValues: number[];
     questionnaireId: string;
+    measuredVariable: string;
+    isInverted?: boolean;
 }
 
 export enum QuestionType {

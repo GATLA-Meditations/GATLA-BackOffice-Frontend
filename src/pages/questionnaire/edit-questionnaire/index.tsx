@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './styles.css';
 import { QuestionInput, QuestionType } from '../../../types';
-import { Box, FormControl, MenuItem, Select } from '@mui/material';
+import {Box, Checkbox, FormControl, MenuItem, Select} from '@mui/material';
 import Button from '../../../components/Button';
 import EditableInput from '../../../components/EditableInput';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -52,15 +52,23 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
     setName(event.target.value);
   };
 
-  const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const questionIndex = parseInt(event.target.name.split("-")[1]);
     const newQuestions = questions.map((question, index) => {
       if (index === questionIndex) {
-        return { ...question, name: event.target.value };
+        return { ...question, [field]: event.target.value };
       }
       return question;
     });
     setQuestions(newQuestions);
+  };
+
+  const handleQuestionNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleQuestionChange(event, 'name');
+  };
+
+  const handleQuestionVariableChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleQuestionChange(event, 'measuredVariable');
   };
 
   const handleAddQuestion = () => {
@@ -68,6 +76,8 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
       name: "",
       type: QuestionType.NUMERIC,
       metadata: '{ "min": 1, "max": 7 }',
+      metadataValues: [0],
+      measuredVariable: "",
     };
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
   };
@@ -144,7 +154,7 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
               placeholder={"Escribe la pregunta"}
               type={"text"}
               name={`question-${index}`}
-              handleChange={handleQuestionChange}
+              handleChange={handleQuestionNameChange}
               onDelete={() => handleDeleteQuestion(index)}
               isDeletaable={true}
             />
@@ -161,9 +171,47 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
                 <MenuItem key={3} value={"NOT_A_QUESTION"}>Comentario</MenuItem>
                 {/*<MenuItem key={4} value={"MULTIPLE_CHOICE"}>Opción múltiple</MenuItem>*/}
               </Select>
+              {question.type !== QuestionType.NOT_A_QUESTION && <>
+                <p className={'body1'}>Variable que mide:</p>
+                <EditableInput
+                    key={index}
+                    text={question.measuredVariable}
+                    placeholder={"Escribe la variable"}
+                    type={"text"}
+                    name={`question-${index}`}
+                    handleChange={handleQuestionVariableChange}
+                />
+              </>}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <h3>Tipo de punteo invertido</h3>
+                <Checkbox
+                    checked={question.isInverted}
+                    onChange={(e) => {
+                        const newQuestions = questions.map((q, i) => {
+                            if (i === index) {
+                            return { ...q, isInverted: e.target.checked };
+                            }
+                            return q;
+                        });
+                        setQuestions(newQuestions);
+                    }}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
+                />
+              </Box>
             </FormControl>
             <EditableQuestionOptions
               metadata={question.metadata}
+              metadataValues={question.metadataValues}
+              setMetadataValues={(metadataValues: number[]) => {
+                const newQuestions = questions.map((q, i) => {
+                  if (i === index) {
+                    return { ...q, metadataValues: metadataValues };
+                  }
+                  return q;
+                });
+                setQuestions(newQuestions);
+                }
+              }
               questionType={question.type}
               handleEdit={(metadata: string) => {
                 const newQuestions = questions.map((q, i) => {
