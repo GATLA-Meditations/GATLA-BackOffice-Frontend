@@ -8,9 +8,8 @@ import Button from '../Button';
 interface QuestionOptionsProps {
   metadata: string;
   metadataValues: number[];
-  setMetadataValues: (metadataValues: number[]) => void;
   questionType: string;
-  handleEdit: (metadata: string) => void;
+  handleEdit: (metadata?: string, metadataValues?: number[]) => void;
 }
 
 const EditableQuestionOptions = (props: QuestionOptionsProps) => {
@@ -49,25 +48,23 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
       newValues[index] = newValue;
     }
 
-    props.setMetadataValues(newValues);
+    props.handleEdit(undefined, newValues);
   }
 
   const handleAddOption = () => {
     const newOptions = [...metadata.options, ""];
     const newMetadata = { ...metadata, options: newOptions };
-    props.handleEdit(JSON.stringify(newMetadata));
-
     const newMetadataValues = [...props.metadataValues, 0];
-    props.setMetadataValues(newMetadataValues);
+
+    props.handleEdit(JSON.stringify(newMetadata), newMetadataValues);
   }
 
   const handleDeleteOption = (index: number) => {
     const newOptions = metadata.options.filter((_option: any, i: number) => i !== index);
     const newMetadata = { ...metadata, options: newOptions };
-    props.handleEdit(JSON.stringify(newMetadata));
-
     const newMetadataValues = props.metadataValues.filter((_value, i) => i !== index);
-    props.setMetadataValues(newMetadataValues);
+
+    props.handleEdit(JSON.stringify(newMetadata), newMetadataValues);
   }
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {

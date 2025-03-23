@@ -202,21 +202,11 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
             <EditableQuestionOptions
               metadata={question.metadata}
               metadataValues={question.metadataValues}
-              setMetadataValues={(metadataValues: number[]) => {
-                const newQuestions = questions.map((q, i) => {
-                  if (i === index) {
-                    return { ...q, metadataValues: metadataValues };
-                  }
-                  return q;
-                });
-                setQuestions(newQuestions);
-                }
-              }
               questionType={question.type}
-              handleEdit={(metadata: string) => {
+              handleEdit={(metadata?: string, metadataValues?: number[]) => {
                 const newQuestions = questions.map((q, i) => {
                   if (i === index) {
-                    return { ...q, metadata: metadata };
+                    return { ...q, metadata: metadata ?? q.metadata, metadataValues: metadataValues ?? q.metadataValues };
                   }
                   return q;
                 });
