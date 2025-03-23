@@ -5,13 +5,19 @@ import {Box, Checkbox, FormControl, MenuItem, Select} from '@mui/material';
 import Button from '../../../components/Button';
 import EditableInput from '../../../components/EditableInput';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDeleteQuestionnaire, useGetQuestionnaireById, useUpdateQuestionnaire } from '../../../service/api.ts';
+import {
+  getQuestionnaireAnswersCsvById,
+  useDeleteQuestionnaire,
+  useGetQuestionnaireById,
+  useUpdateQuestionnaire
+} from '../../../service/api.ts';
 import EditableQuestionOptions from '../../../components/EditableQuestionOptions';
 import Loader from '../../../components/Loader';
 import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
 import GenericModal from '../../../components/GenericModal';
 import { useAppDispatch } from '../../../redux/hooks.ts';
 import { removeRoutePath } from '../../../redux/routeSlice.ts';
+import * as XLSX from 'xlsx';
 
 const EditQuestionnaire = ({ showToast }: WithToastProps) => {
   const questionnaireId = useParams().id;
@@ -123,9 +129,27 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
     return <Loader />;
   }
 
+  const handleDownloadQuestionnaireAnswers = () => {
+    getQuestionnaireAnswersCsvById(questionnaireId as string).then(async (res) => {
+      const csvContent = res.data; // Assuming res.data contains the CSV content
+      const workbook = XLSX.read(csvContent, { type: 'string' });
+      // const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const xlsxContent = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([xlsxContent], { type: 'application/octet-stream' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${questionnaireId}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    })
+  }
+
   return (
     <Box className={"questionnaire-container"}>
       <Button onClick={() => setDeleteModalOpen(true)} variant={'red'}>Eliminar</Button>
+      <Button onClick={handleDownloadQuestionnaireAnswers} variant={'primary'} size={'large'}>Descargar respuestas</Button>
       <GenericModal
           open={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
