@@ -1,8 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
 import "./styles.css";
-import EditIcon from "@mui/icons-material/Edit";
-import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface EditableInputProps {
@@ -17,7 +15,7 @@ interface EditableInputProps {
 }
 
 const EditableInput = (props: EditableInputProps) => {
-  const [isEditing, setIsEditing] = React.useState(false);
+  // const [isEditing, setIsEditing] = React.useState(false);
 
   return (
     <Box className={'input-main-container'}>
@@ -30,17 +28,16 @@ const EditableInput = (props: EditableInputProps) => {
           value={props.text}
           placeholder={props.placeholder}
           onChange={props.handleChange}
-          disabled={!isEditing}
         />
-        {!isEditing ? (
-          <EditIcon className="icon edit-icon" onClick={() => setIsEditing(!isEditing)} />
-        ) : (
-          <CheckIcon
-            className="icon"
-            onClick={() => setIsEditing(!isEditing)}
-          />
-        )}
-        {!isEditing && props.isDeletaable && <DeleteIcon className="icon delete-icon" onClick={props.onDelete} />}
+        {/*{!isEditing ? (*/}
+        {/*  <EditIcon className="icon edit-icon" onClick={() => setIsEditing(!isEditing)} />*/}
+        {/*) : (*/}
+        {/*  <CheckIcon*/}
+        {/*    className="icon"*/}
+        {/*    onClick={() => setIsEditing(!isEditing)}*/}
+        {/*  />*/}
+        {/*)}*/}
+        {props.isDeletaable && <DeleteIcon className="icon delete-icon" onClick={props.onDelete} />}
       </Box>
     </Box>
   );

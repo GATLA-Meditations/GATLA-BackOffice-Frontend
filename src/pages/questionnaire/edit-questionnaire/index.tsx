@@ -82,7 +82,7 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
       name: "",
       type: QuestionType.NUMERIC,
       metadata: '{ "min": 1, "max": 7 }',
-      metadataValues: [0],
+      metadataValues: [1],
       measuredVariable: "",
     };
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
@@ -211,13 +211,17 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
                 <Checkbox
                     checked={question.isInverted}
                     onChange={(e) => {
-                        const newQuestions = questions.map((q, i) => {
-                            if (i === index) {
-                            return { ...q, isInverted: e.target.checked };
-                            }
-                            return q;
-                        });
-                        setQuestions(newQuestions);
+                      const newQuestions = questions.map((q, i) => {
+                        if (i === index) {
+                          return {
+                            ...q,
+                            isInverted: e.target.checked,
+                            metadataValues: e.target.checked ? [...q.metadataValues].reverse() : [...q.metadataValues].reverse()
+                          };
+                        }
+                        return q;
+                      });
+                      setQuestions(newQuestions);
                     }}
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
                 />

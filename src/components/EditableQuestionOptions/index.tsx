@@ -54,7 +54,7 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
   const handleAddOption = () => {
     const newOptions = [...metadata.options, ""];
     const newMetadata = { ...metadata, options: newOptions };
-    const newMetadataValues = [...props.metadataValues, 0];
+    const newMetadataValues = [...props.metadataValues, props.metadataValues.length + 1];
 
     props.handleEdit(JSON.stringify(newMetadata), newMetadataValues);
   }
@@ -102,7 +102,7 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
                   <p className={'body1'}>Opciones:</p>
               </Box>
               {metadata.options.map((option: string, index: number) => (
-                  <Box style={{ display: 'flex', alignItems: 'center' }} key={index}>
+                  <Box style={{ display: 'flex', alignItems: 'center', gap: '12px' }} key={index}>
                     <EditableInput
                         text={option}
                         placeholder={'Escribe una opción'}
