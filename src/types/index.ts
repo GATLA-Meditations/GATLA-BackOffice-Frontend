@@ -96,6 +96,7 @@ export interface User {
     password: string;
     meditationType: string;
     treatments: Treatment[];
+    sendQuestionnaire: boolean;
 }
 
 export interface UpdateUserInput {

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Box, FormControl, MenuItem, Select} from "@mui/material";
+import {Box, Checkbox, FormControl, MenuItem, Select} from "@mui/material";
 import styles from "../activity/styles.module.css";
 import EditableInput from "../../components/EditableInput";
 import Button from "../../components/Button";
@@ -43,6 +43,7 @@ const ModifyUser = () => {
             password: selectedUser.password,
             meditationType: selectedUser.meditationType,
             treatmentId: selectedUser.treatments[0].id,
+            sendQuestionnaire: selectedUser.sendQuestionnaire,
         };
         try {
             updateUser.mutate({id: selectedUser.id, data});
@@ -115,7 +116,7 @@ const ModifyUser = () => {
                 <h3>Tratamiento</h3>
                 <FormControl>
                     <Select
-                        value={selectedUser.treatments[0].id}
+                        value={selectedUser.treatments[0] ? selectedUser.treatments[0].id : ''}
                         onChange={(e) => handleTreatmentIdChange(e.target.value)}
                     >
                         {treatments.map((treatment) => (
@@ -125,6 +126,20 @@ const ModifyUser = () => {
                         ))}
                     </Select>
                 </FormControl>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <h3>Enviar cuestionario</h3>
+                    <Checkbox
+                        checked={selectedUser.sendQuestionnaire}
+                        onChange={() => {
+                            setSelectedUser((prevState) => ({
+                                ...prevState,
+                                sendQuestionnaire: !prevState.sendQuestionnaire
+                            }));
+                        }}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
+                    />
+                </Box>
 
                 <Box className={styles.buttonsContainer}>
                     <Button onClick={handleSubmit} variant={"primary"} size={"medium"}>
