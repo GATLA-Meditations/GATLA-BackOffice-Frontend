@@ -95,12 +95,14 @@ export interface User {
     patient_code: string;
     password: string;
     meditationType: string;
+    treatments: Treatment[];
 }
 
 export interface UpdateUserInput {
     patient_code: string;
     password: string;
     meditationType: string;
+    treatmentId: string;
 }
 
 export interface ModuleAux {
