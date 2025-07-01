@@ -1,17 +1,23 @@
 import React, { useEffect } from 'react';
 import './styles.css';
 import { QuestionInput, QuestionType } from '../../../types';
-import { Box, FormControl, MenuItem, Select } from '@mui/material';
+import {Box, Checkbox, FormControl, MenuItem, Select} from '@mui/material';
 import Button from '../../../components/Button';
 import EditableInput from '../../../components/EditableInput';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDeleteQuestionnaire, useGetQuestionnaireById, useUpdateQuestionnaire } from '../../../service/api.ts';
+import {
+  getQuestionnaireAnswersCsvById,
+  useDeleteQuestionnaire,
+  useGetQuestionnaireById,
+  useUpdateQuestionnaire
+} from '../../../service/api.ts';
 import EditableQuestionOptions from '../../../components/EditableQuestionOptions';
 import Loader from '../../../components/Loader';
 import withToast, { WithToastProps } from '../../../hoc/withToast.tsx';
 import GenericModal from '../../../components/GenericModal';
 import { useAppDispatch } from '../../../redux/hooks.ts';
 import { removeRoutePath } from '../../../redux/routeSlice.ts';
+import * as XLSX from 'xlsx';
 
 const EditQuestionnaire = ({ showToast }: WithToastProps) => {
   const questionnaireId = useParams().id;
@@ -52,15 +58,23 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
     setName(event.target.value);
   };
 
-  const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const questionIndex = parseInt(event.target.name.split("-")[1]);
     const newQuestions = questions.map((question, index) => {
       if (index === questionIndex) {
-        return { ...question, name: event.target.value };
+        return { ...question, [field]: event.target.value };
       }
       return question;
     });
     setQuestions(newQuestions);
+  };
+
+  const handleQuestionNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleQuestionChange(event, 'name');
+  };
+
+  const handleQuestionVariableChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleQuestionChange(event, 'measuredVariable');
   };
 
   const handleAddQuestion = () => {
@@ -68,6 +82,8 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
       name: "",
       type: QuestionType.NUMERIC,
       metadata: '{ "min": 1, "max": 7 }',
+      metadataValues: [1],
+      measuredVariable: "",
     };
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
   };
@@ -113,9 +129,27 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
     return <Loader />;
   }
 
+  const handleDownloadQuestionnaireAnswers = () => {
+    getQuestionnaireAnswersCsvById(questionnaireId as string).then(async (res) => {
+      const csvContent = res.data; // Assuming res.data contains the CSV content
+      const workbook = XLSX.read(csvContent, { type: 'string' });
+      // const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const xlsxContent = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([xlsxContent], { type: 'application/octet-stream' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${questionnaireId}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    })
+  }
+
   return (
     <Box className={"questionnaire-container"}>
       <Button onClick={() => setDeleteModalOpen(true)} variant={'red'}>Eliminar</Button>
+      <Button onClick={handleDownloadQuestionnaireAnswers} variant={'primary'} size={'large'}>Descargar respuestas</Button>
       <GenericModal
           open={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
@@ -144,7 +178,7 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
               placeholder={"Escribe la pregunta"}
               type={"text"}
               name={`question-${index}`}
-              handleChange={handleQuestionChange}
+              handleChange={handleQuestionNameChange}
               onDelete={() => handleDeleteQuestion(index)}
               isDeletaable={true}
             />
@@ -161,14 +195,46 @@ const EditQuestionnaire = ({ showToast }: WithToastProps) => {
                 <MenuItem key={3} value={"NOT_A_QUESTION"}>Comentario</MenuItem>
                 {/*<MenuItem key={4} value={"MULTIPLE_CHOICE"}>Opción múltiple</MenuItem>*/}
               </Select>
+              {question.type !== QuestionType.NOT_A_QUESTION && <>
+                <p className={'body1'}>Variable que mide:</p>
+                <EditableInput
+                    key={index}
+                    text={question.measuredVariable}
+                    placeholder={"Escribe la variable"}
+                    type={"text"}
+                    name={`question-${index}`}
+                    handleChange={handleQuestionVariableChange}
+                />
+              </>}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <h3>Tipo de punteo invertido</h3>
+                <Checkbox
+                    checked={question.isInverted}
+                    onChange={(e) => {
+                      const newQuestions = questions.map((q, i) => {
+                        if (i === index) {
+                          return {
+                            ...q,
+                            isInverted: e.target.checked,
+                            metadataValues: e.target.checked ? [...q.metadataValues].reverse() : [...q.metadataValues].reverse()
+                          };
+                        }
+                        return q;
+                      });
+                      setQuestions(newQuestions);
+                    }}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
+                />
+              </Box>
             </FormControl>
             <EditableQuestionOptions
               metadata={question.metadata}
+              metadataValues={question.metadataValues}
               questionType={question.type}
-              handleEdit={(metadata: string) => {
+              handleEdit={(metadata?: string, metadataValues?: number[]) => {
                 const newQuestions = questions.map((q, i) => {
                   if (i === index) {
-                    return { ...q, metadata: metadata };
+                    return { ...q, metadata: metadata ?? q.metadata, metadataValues: metadataValues ?? q.metadataValues };
                   }
                   return q;
                 });

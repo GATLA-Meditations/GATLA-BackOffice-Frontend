@@ -11,7 +11,7 @@ type attributeType = keyof typeof emptyUserMock;
 
 const CreateUser = () => {
 
-    const [user, setUser] = useState({patient_code: "", password: "", email:"",treatment: {id: "", delayed: false}});
+    const [user, setUser] = useState({patient_code: "", password: "", email:"",treatment: {id: "", delayed: false}, sendQuestionnaire: true});
     const [treatments, setTreatments] = useState([{id: "", name: ""}]);
     const nav = useNavigate()
 
@@ -59,15 +59,15 @@ const CreateUser = () => {
         setUser((prevState) => ({...prevState , [attribute]: newValue}))
     }
 
-    const handleDelayedChange = (newValue: boolean) => {
-        setUser((prevState) => ({
-            ...prevState,
-            treatment: {
-                ...prevState.treatment,
-                delayed: newValue
-            }
-        }));
-    };
+    // const handleDelayedChange = (newValue: boolean) => {
+    //     setUser((prevState) => ({
+    //         ...prevState,
+    //         treatment: {
+    //             ...prevState.treatment,
+    //             delayed: newValue
+    //         }
+    //     }));
+    // };
 
     const handleTreatmentIdChange = (newId: string) => {
         setUser((prevState) => ({
@@ -102,11 +102,24 @@ const CreateUser = () => {
                         ))}
                     </Select>
                 </FormControl>
+                {/*<Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>*/}
+                {/*    <h3>Paciente control</h3>*/}
+                {/*    <Checkbox*/}
+                {/*        checked={user.treatment.delayed}*/}
+                {/*        onChange={(e) => handleDelayedChange(e.target.checked)}*/}
+                {/*        sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}*/}
+                {/*    />*/}
+                {/*</Box>*/}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                    <h3>Paciente control</h3>
+                    <h3>No enviar cuestionario</h3>
                     <Checkbox
-                        checked={user.treatment.delayed}
-                        onChange={(e) => handleDelayedChange(e.target.checked)}
+                        checked={!user.sendQuestionnaire}
+                        onChange={() => {
+                            setUser((prevState) => ({
+                                ...prevState,
+                                sendQuestionnaire: !prevState.sendQuestionnaire
+                            }));
+                        }}
                         sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
                     />
                 </Box>

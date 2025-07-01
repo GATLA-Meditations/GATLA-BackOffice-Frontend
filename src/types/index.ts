@@ -67,6 +67,9 @@ export interface QuestionInput {
     type: QuestionType;
     name: string;
     metadata: string;
+    metadataValues: number[];
+    measuredVariable: string;
+    isInverted?: boolean;
 }
 
 export interface Question {
@@ -74,7 +77,10 @@ export interface Question {
     type: QuestionType;
     name: string;
     metadata: string;
+    metadataValues: number[];
     questionnaireId: string;
+    measuredVariable: string;
+    isInverted?: boolean;
 }
 
 export enum QuestionType {
@@ -89,12 +95,15 @@ export interface User {
     patient_code: string;
     password: string;
     meditationType: string;
+    treatments: Treatment[];
+    sendQuestionnaire: boolean;
 }
 
 export interface UpdateUserInput {
     patient_code: string;
     password: string;
     meditationType: string;
+    treatmentId: string;
 }
 
 export interface ModuleAux {

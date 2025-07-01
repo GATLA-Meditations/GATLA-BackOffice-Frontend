@@ -7,8 +7,9 @@ import Button from '../Button';
 
 interface QuestionOptionsProps {
   metadata: string;
+  metadataValues: number[];
   questionType: string;
-  handleEdit: (metadata: string) => void;
+  handleEdit: (metadata?: string, metadataValues?: number[]) => void;
 }
 
 const EditableQuestionOptions = (props: QuestionOptionsProps) => {
@@ -36,18 +37,34 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
     props.handleEdit(JSON.stringify(newMetadata));
   }
 
+  const handleOptionValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const index = parseInt(event.target.name.split("-")[1]);
+    const newValue = parseInt(event.target.value);
+    let newValues = [...props.metadataValues];
+
+    if (index >= newValues.length) {
+      newValues = [...newValues, ...Array(index - newValues.length).fill(0), newValue];
+    } else {
+      newValues[index] = newValue;
+    }
+
+    props.handleEdit(undefined, newValues);
+  }
+
   const handleAddOption = () => {
     const newOptions = [...metadata.options, ""];
     const newMetadata = { ...metadata, options: newOptions };
-    props.handleEdit(JSON.stringify(newMetadata));
+    const newMetadataValues = [...props.metadataValues, props.metadataValues.length + 1];
+
+    props.handleEdit(JSON.stringify(newMetadata), newMetadataValues);
   }
 
   const handleDeleteOption = (index: number) => {
-    const newOptions = metadata.options.filter((_option: any, i: number) => {
-      return i !== index;
-    });
+    const newOptions = metadata.options.filter((_option: any, i: number) => i !== index);
     const newMetadata = { ...metadata, options: newOptions };
-    props.handleEdit(JSON.stringify(newMetadata));
+    const newMetadataValues = props.metadataValues.filter((_value, i) => i !== index);
+
+    props.handleEdit(JSON.stringify(newMetadata), newMetadataValues);
   }
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,15 +102,24 @@ const EditableQuestionOptions = (props: QuestionOptionsProps) => {
                   <p className={'body1'}>Opciones:</p>
               </Box>
               {metadata.options.map((option: string, index: number) => (
-                  <EditableInput
-                      text={option}
-                      placeholder={'Escribe una opción'}
-                      type={'text'}
-                      name={`option-${index}`}
-                      isDeletaable={true}
-                      onDelete={() => handleDeleteOption(index)}
-                      handleChange={handleOptionChange}
-                  />
+                  <Box style={{ display: 'flex', alignItems: 'center', gap: '12px' }} key={index}>
+                    <EditableInput
+                        text={option}
+                        placeholder={'Escribe una opción'}
+                        type={'text'}
+                        name={`option-${index}`}
+                        handleChange={handleOptionChange}
+                    />
+                    <EditableInput
+                        text={props.metadataValues[index].toString()}
+                        placeholder={'Valor'}
+                        type={'number'}
+                        name={`option-${index}`}
+                        isDeletaable={true}
+                        onDelete={() => handleDeleteOption(index)}
+                        handleChange={handleOptionValueChange}
+                    />
+                  </Box>
                 ))}
               <Button
                   className="add-option"

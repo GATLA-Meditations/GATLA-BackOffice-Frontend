@@ -174,6 +174,10 @@ export const useGetQuestionnaireById = (id: string) => {
     return useQuery("questionnaire", () => getQuestionnaireById(id));
 }
 
+export const getQuestionnaireAnswersCsvById = async (id: string) => {
+    return await api.get(`/questionnaire/${id}/export`);
+}
+
 export const uploadContent = async (data: ShopItemInput) => {
     const response = await api.post('/shop/create-item', data)
     return response.status;

@@ -1,12 +1,12 @@
-import {useState} from "react";
-import {Box, FormControl, MenuItem, Select} from "@mui/material";
+import {useEffect, useState} from "react";
+import {Box, Checkbox, FormControl, MenuItem, Select} from "@mui/material";
 import styles from "../activity/styles.module.css";
 import EditableInput from "../../components/EditableInput";
 import Button from "../../components/Button";
 import "./styles.css";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../redux/hooks";
-import {deleteUser, useUpdateUser} from "../../service/api";
+import {deleteUser, getAllTreatments, useUpdateUser} from "../../service/api";
 import {User} from "../../types";
 import DeleteUserModal from "../deleteUser";
 
@@ -18,17 +18,32 @@ const ModifyUser = () => {
     const [selectedUser, setSelectedUser] = useState(user);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const updateUser = useUpdateUser();
+    const [treatments, setTreatments] = useState([{id: "", name: ""}]);
+
+    useEffect(() => {
+        const fetchTreatments = async () => {
+            try {
+                const response = await getAllTreatments();
+                setTreatments(response);
+            } catch (error) {
+                console.error("Error fetching treatments:", error);
+            }
+        };
+
+        fetchTreatments();
+    }, []);
 
     const handleChange = (attribute: attributeType, newValue: string) => {
         setSelectedUser({...selectedUser, [attribute]: newValue});
     };
 
     const handleSubmit = () => {
-        // First would be the post to the backend then the dispatch
         const data = {
             patient_code: selectedUser.patient_code,
             password: selectedUser.password,
             meditationType: selectedUser.meditationType,
+            treatmentId: selectedUser.treatments[0].id,
+            sendQuestionnaire: selectedUser.sendQuestionnaire,
         };
         try {
             updateUser.mutate({id: selectedUser.id, data});
@@ -52,6 +67,20 @@ const ModifyUser = () => {
         }
         setIsDeleteModalOpen(false);
     }
+
+    const handleTreatmentIdChange = (newId: string) => {
+        setSelectedUser((prevState) => ({
+            ...prevState,
+            treatments: [
+                {
+                    ...prevState.treatments[0],
+                    id: newId
+                },
+                ...prevState.treatments.slice(1)
+            ]
+        }));
+
+    };
 
     return (
         <Box className={"home-display"}>
@@ -83,6 +112,35 @@ const ModifyUser = () => {
                         <MenuItem value={"No cristiana"}>No cristiana</MenuItem>
                     </Select>
                 </FormControl>
+
+                <h3>Tratamiento</h3>
+                <FormControl>
+                    <Select
+                        value={selectedUser.treatments[0] ? selectedUser.treatments[0].id : ''}
+                        onChange={(e) => handleTreatmentIdChange(e.target.value)}
+                    >
+                        {treatments.map((treatment) => (
+                            <MenuItem key={treatment.id} value={treatment.id}>
+                                {treatment.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <h3>Enviar cuestionario</h3>
+                    <Checkbox
+                        checked={selectedUser.sendQuestionnaire}
+                        onChange={() => {
+                            setSelectedUser((prevState) => ({
+                                ...prevState,
+                                sendQuestionnaire: !prevState.sendQuestionnaire
+                            }));
+                        }}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
+                    />
+                </Box>
+
                 <Box className={styles.buttonsContainer}>
                     <Button onClick={handleSubmit} variant={"primary"} size={"medium"}>
                         Guardar
